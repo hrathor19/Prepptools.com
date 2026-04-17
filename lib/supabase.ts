@@ -17,7 +17,8 @@ export function getSupabase() {
 // Convenience alias — drop-in replacement for the old `supabase` export.
 export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
   get(_, prop) {
-    return (getSupabase() as Record<string | symbol, unknown>)[prop];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (getSupabase() as any)[prop];
   },
 });
 
