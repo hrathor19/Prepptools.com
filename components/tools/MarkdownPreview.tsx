@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 
@@ -44,7 +44,12 @@ export default function MarkdownPreview() {
   const [markdownText, setMarkdownText] = useState(DEFAULT_MARKDOWN);
   const [copyLabel, setCopyLabel] = useState("Copy HTML");
 
-  const sanitizedHtml = DOMPurify.sanitize(marked(markdownText) as string);
+  const sanitizedHtml = useMemo(() => {
+    const html = marked(markdownText) as string;
+    // DOMPurify requires a browser DOM — skip sanitization during SSR
+    if (typeof window === "undefined") return html;
+    return DOMPurify.sanitize(html);
+  }, [markdownText]);
 
   const wordCount = markdownText.trim()
     ? markdownText.trim().split(/\s+/).length
