@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, PenSquare, LogOut, ExternalLink } from "lucide-react";
+import { LayoutDashboard, PenSquare, LogOut, ExternalLink, MessageCircle } from "lucide-react";
 
 export default function AdminNav() {
   const pathname = usePathname();
@@ -17,6 +17,7 @@ export default function AdminNav() {
   const links = [
     { href: "/admin", label: "All Posts", icon: LayoutDashboard },
     { href: "/admin/posts/new", label: "New Post", icon: PenSquare },
+    { href: "/admin/qa", label: "Q&A", icon: MessageCircle },
   ];
 
   return (

@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
-          <div>
+          <div className="md:col-span-1">
             <Link href="/" className="flex items-center mb-3">
               <Image src="/logo.png" alt="PreppTools" width={150} height={0} className="w-[150px] h-auto" />
             </Link>
@@ -20,13 +20,32 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Categories */}
+          {/* Categories col 1 */}
           <div>
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
               Categories
             </h3>
             <ul className="space-y-2">
-              {categories.slice(0, 5).map((cat) => (
+              {categories.slice(0, Math.ceil(categories.length / 2)).map((cat) => (
+                <li key={cat.id}>
+                  <Link
+                    href={`/tools?category=${cat.id}`}
+                    className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Categories col 2 */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide opacity-0 select-none">
+              &nbsp;
+            </h3>
+            <ul className="space-y-2">
+              {categories.slice(Math.ceil(categories.length / 2)).map((cat) => (
                 <li key={cat.id}>
                   <Link
                     href={`/tools?category=${cat.id}`}
@@ -45,22 +64,21 @@ export default function Footer() {
               More
             </h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/tools"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  All Tools
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  Blog
-                </Link>
-              </li>
+              {[
+                { href: "/tools", label: "All Tools" },
+                { href: "/blog", label: "Blog" },
+                { href: "/qa", label: "Q&A" },
+                { href: "/about", label: "About Us" },
+              ].map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

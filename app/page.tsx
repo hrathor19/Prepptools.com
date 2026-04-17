@@ -181,7 +181,7 @@ export default async function HomePage() {
       <section className="bg-blue-600 dark:bg-blue-700 py-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            All tools are 100% free, forever.
+            All tools are 100% free.
           </h2>
           <p className="text-blue-100 mb-8">
             No sign-up. No credit card. No limits. Just open and use.

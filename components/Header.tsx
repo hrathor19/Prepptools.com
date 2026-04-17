@@ -6,17 +6,18 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
+import ToolsDropdown from "./ToolsDropdown";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/tools", label: "All Tools" },
   { href: "/blog", label: "Blog" },
+  { href: "/qa", label: "Q&A" },
   { href: "/about", label: "About Us" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const isToolsActive = pathname.startsWith("/tools");
 
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm">
@@ -29,11 +30,21 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
+            <Link
+              href="/"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                pathname === "/"
+                  ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400"
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
+              }`}
+            >
+              Home
+            </Link>
+
+            <ToolsDropdown isActive={isToolsActive} />
+
             {navLinks.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+              const isActive = pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.href}
@@ -70,11 +81,8 @@ export default function Header() {
       {/* Mobile Nav */}
       {menuOpen && (
         <div className="md:hidden border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 space-y-1">
-          {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
+          {[{ href: "/", label: "Home" }, { href: "/tools", label: "All Tools" }, ...navLinks].map((link) => {
+            const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}

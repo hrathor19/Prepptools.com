@@ -15,7 +15,7 @@ export const metadata = {
   },
 };
 
-const POSTS_PER_PAGE = 4;
+const POSTS_PER_PAGE = 6;
 
 export default async function BlogPage({
   searchParams,
