@@ -2,9 +2,15 @@ import { Suspense } from "react";
 import ToolsPageContent from "./ToolsPageContent";
 
 export const metadata = {
-  title: "All Tools",
+  title: "All Free Online Tools",
   description:
-    "Browse all free online tools — text, math, health, finance, developer tools, and more. No sign-up required.",
+    "Browse 100+ free online tools — word counter, BMI calculator, PDF merger, unit converter, QR code generator, and more. No sign-up required.",
+  alternates: { canonical: "https://www.prepptools.com/tools" },
+  openGraph: {
+    title: "All Free Online Tools — PreppTools",
+    description: "Browse 100+ free online tools. No sign-up required.",
+    url: "https://www.prepptools.com/tools",
+  },
 };
 
 export default function ToolsPage() {

@@ -73,9 +73,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const tool = getToolBySlug(slug);
   if (!tool) return { title: "Tool Not Found" };
+  const url = `https://www.prepptools.com/tools/${slug}`;
   return {
-    title: tool.name,
+    title: `${tool.name} — Free Online Tool`,
     description: tool.description,
+    keywords: [...tool.tags, tool.name, "free online", "PreppTools"],
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${tool.name} — Free Online Tool`,
+      description: tool.description,
+      url,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: `${tool.name} — Free Online Tool`,
+      description: tool.description,
+    },
   };
 }
 
@@ -89,8 +103,24 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
     .filter((t) => t.slug !== tool.slug)
     .slice(0, 3);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: tool.name,
+    description: tool.description,
+    url: `https://www.prepptools.com/tools/${slug}`,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    provider: { "@type": "Organization", name: "PreppTools", url: "https://www.prepptools.com" },
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-sm text-gray-400 mb-6">
         <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>

@@ -4,7 +4,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 
+const BASE_URL = "https://www.prepptools.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -17,14 +20,35 @@ export const metadata: Metadata = {
   description:
     "PreppTools — Free, fast online tools for text, math, health, finance, PDF, and more. No sign-up, no ads, no cost. Just tools that work.",
   keywords: [
-    "free online tools",
-    "word counter",
-    "BMI calculator",
-    "unit converter",
-    "password generator",
-    "JSON formatter",
-    "life tools",
+    "free online tools", "word counter", "BMI calculator", "unit converter",
+    "password generator", "JSON formatter", "merge PDF", "compress image",
+    "ATS score checker", "QR code generator", "PreppTools",
   ],
+  authors: [{ name: "PreppTools", url: BASE_URL }],
+  creator: "PreppTools",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: BASE_URL,
+    siteName: "PreppTools",
+    title: "PreppTools — Free Online Tools for Everyone",
+    description:
+      "Free, fast online tools for text, math, health, finance, PDF, and more. No sign-up required.",
+    images: [{ url: "/logo.png", width: 1200, height: 630, alt: "PreppTools" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PreppTools — Free Online Tools for Everyone",
+    description:
+      "Free, fast online tools for text, math, health, finance, PDF, and more. No sign-up required.",
+    images: ["/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" },
+  },
+  alternates: { canonical: BASE_URL },
 };
 
 export default function RootLayout({

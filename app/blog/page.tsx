@@ -5,8 +5,14 @@ import { getAllBlogPosts } from "@/lib/blog-data";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Articles",
-  description: "Tips, guides, and useful reads on productivity, health, finance, and everyday tools.",
+  title: "Blog — Tips, Guides & How-Tos",
+  description: "Tips, guides, and how-tos on productivity, health, finance, PDF tools, and everyday tools from PreppTools.",
+  alternates: { canonical: "https://www.prepptools.com/blog" },
+  openGraph: {
+    title: "Blog — PreppTools",
+    description: "Tips, guides, and how-tos on productivity, health, finance, and everyday tools.",
+    url: "https://www.prepptools.com/blog",
+  },
 };
 
 const POSTS_PER_PAGE = 4;
