@@ -36,6 +36,13 @@ export default function RootLayout({
             __html: `try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}`,
           }}
         />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC16LZSHH1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GC16LZSHH1');`,
+          }}
+        />
       </head>
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-900 antialiased" suppressHydrationWarning>
         <ThemeProvider>
