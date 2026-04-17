@@ -7,36 +7,42 @@ function sha256(str: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const { password } = await request.json();
+  try {
+    const { password } = await request.json();
 
-  if (!password) {
-    return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    if (!password) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+
+    const supabase = getAdminClient();
+    const { data, error } = await supabase
+      .from("admin_credentials")
+      .select("password_hash")
+      .eq("id", 1)
+      .single();
+
+    if (error || !data) {
+      console.error("Supabase error:", error?.message);
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+
+    const inputHash = sha256(password);
+    if (inputHash !== data.password_hash) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+
+    const secret = process.env.ADMIN_SECRET ?? "fallback-secret-change-me";
+    const response = NextResponse.json({ ok: true });
+    response.cookies.set("admin_token", secret, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+    });
+    return response;
+  } catch (err) {
+    console.error("Login route error:", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-
-  const supabase = getAdminClient();
-  const { data, error } = await supabase
-    .from("admin_credentials")
-    .select("password_hash")
-    .eq("id", 1)
-    .single();
-
-  if (error || !data) {
-    return NextResponse.json({ error: "Invalid password" }, { status: 401 });
-  }
-
-  const inputHash = sha256(password);
-  if (inputHash !== data.password_hash) {
-    return NextResponse.json({ error: "Invalid password" }, { status: 401 });
-  }
-
-  const secret = process.env.ADMIN_SECRET ?? "fallback-secret-change-me";
-  const response = NextResponse.json({ ok: true });
-  response.cookies.set("admin_token", secret, {
-    httpOnly: true,
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
-    path: "/",
-    secure: process.env.NODE_ENV === "production",
-  });
-  return response;
 }

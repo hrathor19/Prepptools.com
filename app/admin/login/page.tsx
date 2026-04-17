@@ -18,18 +18,24 @@ function LoginForm() {
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
 
-    if (res.ok) {
-      const from = searchParams.get("from") || "/admin";
-      router.push(from);
-      router.refresh();
-    } else {
-      setError("Wrong password. Try again.");
+      if (res.ok) {
+        const from = searchParams.get("from") || "/admin";
+        router.push(from);
+        router.refresh();
+      } else {
+        const body = await res.json().catch(() => ({}));
+        setError(body?.error === "Server error" ? "Server error. Check Supabase setup." : "Wrong password. Try again.");
+        setLoading(false);
+      }
+    } catch {
+      setError("Network error. Please try again.");
       setLoading(false);
     }
   }
