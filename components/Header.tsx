@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Zap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
@@ -21,13 +22,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
-              Life<span className="text-blue-600">Tools</span>
-            </span>
+          <Link href="/" className="flex items-center shrink-0">
+            <Image src="/logo.png" alt="PreppTools" width={160} height={40} priority className="h-9 w-auto" />
           </Link>
 
           {/* Desktop Nav */}

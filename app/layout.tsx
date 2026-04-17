@@ -5,12 +5,17 @@ import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   title: {
-    default: "LifeTools — Free Online Tools for Everyone",
-    template: "%s | LifeTools",
+    default: "PreppTools — Free Online Tools for Everyone",
+    template: "%s | PreppTools",
   },
   description:
-    "Free, fast online tools for text, math, health, finance, and more. No sign-up, no ads, no cost. Just tools that work.",
+    "PreppTools — Free, fast online tools for text, math, health, finance, PDF, and more. No sign-up, no ads, no cost. Just tools that work.",
   keywords: [
     "free online tools",
     "word counter",
