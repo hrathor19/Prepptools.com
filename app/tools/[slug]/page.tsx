@@ -13,6 +13,7 @@ import {
   FlipHorizontal, Keyboard,
 } from "lucide-react";
 import { getToolBySlug, getCategoryById, getToolsByCategory, tools } from "@/lib/tools-data";
+import { toolDescriptions } from "@/lib/tool-descriptions";
 import ToolCard from "@/components/ToolCard";
 import ToolRunner from "./ToolRunner";
 
@@ -161,6 +162,20 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 mb-10">
         <ToolRunner slug={slug} />
       </div>
+
+      {/* SEO Description */}
+      {toolDescriptions[slug] && (
+        <div className="bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 mb-10 space-y-5">
+          <div>
+            <h2 className="text-base font-bold text-gray-900 dark:text-white mb-2">How it works</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{toolDescriptions[slug].howItWorks}</p>
+          </div>
+          <div>
+            <h2 className="text-base font-bold text-gray-900 dark:text-white mb-2">Why use this tool?</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{toolDescriptions[slug].whyUse}</p>
+          </div>
+        </div>
+      )}
 
       {/* Back link */}
       <Link href="/tools" className="inline-flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-10">
