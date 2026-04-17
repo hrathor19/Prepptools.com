@@ -41,6 +41,8 @@ export default function RootLayout({
             __html: `try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}`,
           }}
         />
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650947460011910" crossOrigin="anonymous" />
         {/* Microsoft Clarity */}
         <script
           dangerouslySetInnerHTML={{
