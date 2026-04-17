@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Type, Calculator, ArrowLeftRight, TrendingUp,
   Heart, Code2, Palette, Clock, ArrowRight, BookOpen,
@@ -142,8 +143,12 @@ export default async function HomePage() {
               href={`/blog/${post.slug}`}
               className="group block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200"
             >
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center h-32 text-5xl border-b border-gray-100 dark:border-gray-700">
-                {post.coverEmoji}
+              <div className="relative h-40 border-b border-gray-100 dark:border-gray-700 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
+                {post.coverImageUrl ? (
+                  <Image src={post.coverImageUrl} alt={post.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-5xl">{post.coverEmoji}</div>
+                )}
               </div>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-3">

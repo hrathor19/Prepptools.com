@@ -98,6 +98,11 @@ export const toolComponents: Record<string, React.ComponentType> = {
   "readability-score":     dynamic(() => import("./ReadabilityScore")),
   "number-base-converter": dynamic(() => import("./NumberBaseConverter")),
   "epoch-converter":       dynamic(() => import("./EpochConverter")),
+  // New trending tools
+  "ai-prompt-generator":   dynamic(() => import("./AIPromptGenerator")),
+  "grammar-checker":       dynamic(() => import("./GrammarChecker")),
+  "plagiarism-checker":    dynamic(() => import("./PlagiarismChecker")),
+  "tax-regime-calculator": dynamic(() => import("./TaxRegimeCalculator")),
   // PDF Extended Tools
   "sign-pdf": dynamic(() => import("./SignPDF")),
   "unlock-pdf": dynamic(() => import("./UnlockPDF")),

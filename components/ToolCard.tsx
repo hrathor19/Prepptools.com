@@ -15,6 +15,7 @@ import {
   Hash, FilePen, ListOrdered, AlignVerticalSpaceBetween, Layers, Circle,
   FileOutput, FileType2, Table2, Sheet, FileSpreadsheet, FileSearch,
   FileInput, Lock, FileSearch2, FileBox, Keyboard,
+  Wand2, SpellCheck, ScanText, IndianRupee,
 } from "lucide-react";
 import type { Tool } from "@/lib/tools-data";
 import { categories } from "@/lib/tools-data";
@@ -108,6 +109,10 @@ const iconMap: Record<string, React.ReactNode> = {
   FileSearch2: <FileSearch2 className="w-5 h-5" />,
   FileBox: <FileBox className="w-5 h-5" />,
   Keyboard: <Keyboard className="w-5 h-5" />,
+  Wand2: <Wand2 className="w-5 h-5" />,
+  SpellCheck: <SpellCheck className="w-5 h-5" />,
+  ScanText: <ScanText className="w-5 h-5" />,
+  IndianRupee: <IndianRupee className="w-5 h-5" />,
 };
 
 export default function ToolCard({ tool }: { tool: Tool }) {

@@ -585,4 +585,28 @@ export const toolDescriptions: Record<string, { howItWorks: string; whyUse: stri
     whyUse:
       "Developers working with APIs, databases, and log files frequently encounter Unix timestamps. This free epoch converter is faster than writing a quick script and works instantly in the browser.",
   },
+  "ai-prompt-generator": {
+    howItWorks:
+      "Select your AI platform (ChatGPT, Claude, Gemini, Midjourney, DALL·E, or Stable Diffusion), enter your topic or scene description, choose tone, format, and length, then click Generate. The tool builds a structured, optimized prompt tailored to each AI model's best practices.",
+    whyUse:
+      "Writing effective AI prompts is a skill — the right prompt gets dramatically better results from ChatGPT, Midjourney, and other AI tools. This free AI prompt generator helps beginners and experts alike craft precise, high-quality prompts in seconds without prompt engineering expertise.",
+  },
+  "grammar-checker": {
+    howItWorks:
+      "Paste or type your text, click Check Grammar, and the tool instantly scans for grammar errors, repeated words, missing punctuation spacing, sentences starting in lowercase, passive voice, weak filler words, and common spelling mistakes. Each issue is flagged with a severity level and a clear explanation.",
+    whyUse:
+      "Poor grammar hurts your credibility in emails, essays, job applications, and blog posts. This free grammar checker — a Grammarly alternative with no sign-up — helps students, writers, and professionals improve writing quality and clarity before hitting send.",
+  },
+  "plagiarism-checker": {
+    howItWorks:
+      "Paste an original reference text and the text you want to check into the two panels, then click Check Similarity. The tool computes word-level Jaccard similarity, identifies matching sentence pairs, and shows an overall similarity percentage with highlighted matches.",
+    whyUse:
+      "Teachers use it to compare student submissions against source material. Writers use it to ensure paraphrased content is sufficiently original. It's a fast, private, client-side plagiarism similarity tool with no uploads to third-party servers.",
+  },
+  "tax-regime-calculator": {
+    howItWorks:
+      "Enter your gross annual income, indicate whether you're salaried, and fill in your Old Regime deductions (80C, HRA, 80D, other). The calculator computes your taxable income and final tax liability under both regimes using FY 2025-26 slabs, including the Budget 2025 update where no tax is levied up to ₹12 lakh under the New Regime.",
+    whyUse:
+      "Every salaried Indian must choose between the Old and New Tax Regime at the start of each financial year. This free Old vs New Tax Regime calculator shows exactly which regime saves you more money, with a side-by-side breakdown of taxable income, deductions, and final tax payable.",
+  },
 };

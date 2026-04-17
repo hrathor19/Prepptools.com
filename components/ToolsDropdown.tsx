@@ -20,7 +20,7 @@ import {
   Globe2, RectangleHorizontal, BarChart2, Clock3, PenLine, LockOpen,
   Hash, FilePen, ListOrdered, AlignVerticalSpaceBetween, Layers, Circle,
   FileOutput, FileType2, Table2, Sheet, FileSpreadsheet, FileSearch,
-  FileInput, Lock, FileSearch2, Keyboard,
+  FileInput, Lock, FileSearch2, Keyboard, Wand2, SpellCheck, ScanText, IndianRupee,
 } from "lucide-react";
 import { categories, getToolsByCategory } from "@/lib/tools-data";
 
@@ -129,6 +129,10 @@ const toolIconMap: Record<string, React.ReactNode> = {
   FileSearch2: <FileSearch2 className="w-4 h-4" />,
   Keyboard: <Keyboard className="w-4 h-4" />,
   PresentationIcon: <FileText className="w-4 h-4" />,
+  Wand2: <Wand2 className="w-4 h-4" />,
+  SpellCheck: <SpellCheck className="w-4 h-4" />,
+  ScanText: <ScanText className="w-4 h-4" />,
+  IndianRupee: <IndianRupee className="w-4 h-4" />,
 };
 
 export default function ToolsDropdown({ isActive }: { isActive: boolean }) {

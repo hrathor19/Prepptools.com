@@ -984,6 +984,43 @@ export const tools: Tool[] = [
     featured: true,
     tags: ["epoch", "unix timestamp", "timestamp converter", "epoch to date"],
   },
+  // New trending tools
+  {
+    slug: "ai-prompt-generator",
+    name: "AI Prompt Generator",
+    description: "Generate powerful prompts for ChatGPT, Claude, Midjourney, DALL·E, and more with custom tone, format, and style.",
+    category: "productivity",
+    icon: "Wand2",
+    featured: true,
+    tags: ["ai prompt", "chatgpt prompt", "midjourney prompt", "prompt generator", "ai prompt writer"],
+  },
+  {
+    slug: "grammar-checker",
+    name: "Grammar Checker",
+    description: "Check your text for grammar errors, passive voice, weak words, and style issues — free, no sign-up.",
+    category: "text",
+    icon: "SpellCheck",
+    featured: true,
+    tags: ["grammar checker", "grammar check", "spell check", "grammar tool", "free grammar checker", "grammarly alternative"],
+  },
+  {
+    slug: "plagiarism-checker",
+    name: "Plagiarism Checker",
+    description: "Compare two texts and detect similarity, matching sentences, and shared content percentage instantly.",
+    category: "text",
+    icon: "ScanText",
+    featured: true,
+    tags: ["plagiarism checker", "similarity checker", "plagiarism detector", "text similarity", "duplicate content checker"],
+  },
+  {
+    slug: "tax-regime-calculator",
+    name: "Old vs New Tax Regime Calculator",
+    description: "Compare Old and New Income Tax Regime for FY 2025-26. See which regime saves you more tax with a detailed breakdown.",
+    category: "finance",
+    icon: "IndianRupee",
+    featured: true,
+    tags: ["tax regime calculator", "old vs new tax regime", "income tax calculator india", "tax calculator 2025-26", "new tax regime", "tax saving"],
+  },
 ];
 
 export function getCategoryById(id: string): Category | undefined {

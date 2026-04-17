@@ -69,6 +69,7 @@ export default function Footer() {
                 { href: "/blog", label: "Blog" },
                 { href: "/qa", label: "Q&A" },
                 { href: "/about", label: "About Us" },
+                { href: "/privacy-policy", label: "Privacy Policy" },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link
@@ -87,9 +88,13 @@ export default function Footer() {
           <p className="text-sm text-gray-400 dark:text-gray-500">
             © {currentYear} PreppTools. All rights reserved.
           </p>
-          <p className="text-sm text-gray-400 dark:text-gray-500">
-            Free forever · No sign-up required · Privacy friendly
-          </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy-policy" className="text-sm text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="text-gray-300 dark:text-gray-600">·</span>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Free forever · No sign-up required</p>
+          </div>
         </div>
       </div>
     </footer>

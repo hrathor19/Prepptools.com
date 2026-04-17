@@ -10,7 +10,7 @@ import {
   // PDF & Image
   ImageDown, FilePlus2, Scissors, PackageOpen, RotateCw,
   FileX, Stamp, FileImage, Minimize2, Maximize2, RefreshCw,
-  FlipHorizontal, Keyboard,
+  FlipHorizontal, Keyboard, Wand2, SpellCheck, ScanText, IndianRupee,
 } from "lucide-react";
 import { getToolBySlug, getCategoryById, getToolsByCategory, tools } from "@/lib/tools-data";
 import { toolDescriptions } from "@/lib/tool-descriptions";
@@ -51,6 +51,10 @@ const iconMap: Record<string, React.ReactNode> = {
   RefreshCw: <RefreshCw className="w-7 h-7" />,
   FlipHorizontal: <FlipHorizontal className="w-7 h-7" />,
   Keyboard: <Keyboard className="w-7 h-7" />,
+  Wand2: <Wand2 className="w-7 h-7" />,
+  SpellCheck: <SpellCheck className="w-7 h-7" />,
+  ScanText: <ScanText className="w-7 h-7" />,
+  IndianRupee: <IndianRupee className="w-7 h-7" />,
 };
 
 const categoryIconMap: Record<string, React.ReactNode> = {
