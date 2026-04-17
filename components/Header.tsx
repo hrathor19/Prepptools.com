@@ -23,7 +23,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
-            <Image src="/logo.png" alt="PreppTools" width={160} height={40} priority className="h-9 w-auto" />
+            <Image src="/logo.png" alt="PreppTools" width={150} height={0} priority className="w-[150px] h-auto" />
           </Link>
 
           {/* Desktop Nav */}

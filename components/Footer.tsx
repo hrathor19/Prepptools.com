@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap } from "lucide-react";
+import Image from "next/image";
 import { categories } from "@/lib/tools-data";
 
 export default function Footer() {
@@ -11,13 +11,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" strokeWidth={2.5} />
-              </div>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                Life<span className="text-blue-600">Tools</span>
-              </span>
+            <Link href="/" className="flex items-center mb-3">
+              <Image src="/logo.png" alt="PreppTools" width={150} height={0} className="w-[150px] h-auto" />
             </Link>
             <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
               Free, fast, and privacy-friendly tools for everyday tasks.
@@ -72,7 +67,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-200 dark:border-gray-700 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-gray-400 dark:text-gray-500">
-            © {currentYear} LifeTools. All rights reserved.
+            © {currentYear} PreppTools. All rights reserved.
           </p>
           <p className="text-sm text-gray-400 dark:text-gray-500">
             Free forever · No sign-up required · Privacy friendly
