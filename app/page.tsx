@@ -203,9 +203,9 @@ export default async function HomePage() {
             <Link
               key={cat.id}
               href={`/tools?category=${cat.id}`}
-              className={`group flex flex-col gap-3 p-5 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200`}
+              className={`group flex flex-col gap-3 p-5 rounded-2xl border ${cat.borderColor} ${cat.bgColor} dark:bg-gray-800 dark:border-gray-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200`}
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${cat.bgColor} border ${cat.borderColor} ${cat.color}`}>
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${cat.bgColor} dark:bg-gray-700 border ${cat.borderColor} dark:border-gray-600 ${cat.color}`}>
                 {categoryIconMap[cat.icon] ?? <Calculator className="w-5 h-5" />}
               </div>
               <div>
