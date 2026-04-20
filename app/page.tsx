@@ -14,6 +14,7 @@ import ToolCard from "@/components/ToolCard";
 import RecentTools from "@/components/RecentTools";
 import FavoriteTools from "@/components/FavoriteTools";
 import ToolOfTheDay from "@/components/ToolOfTheDay";
+import TipOfTheDay from "@/components/TipOfTheDay";
 import { categories, getPopularTools } from "@/lib/tools-data";
 import { getRecentPosts } from "@/lib/blog-data";
 
@@ -176,6 +177,9 @@ export default async function HomePage() {
 
       {/* ── TOOL OF THE DAY ──────────────────────────────────────── */}
       <ToolOfTheDay />
+
+      {/* ── TIP OF THE DAY ───────────────────────────────────────── */}
+      <TipOfTheDay />
 
       {/* ── FEATURES STRIP ───────────────────────────────────────── */}
       <section className="border-b border-gray-100 dark:border-gray-700">

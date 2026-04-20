@@ -1,0 +1,111 @@
+export type FAQ = { q: string; a: string };
+export const faqData: Record<string, FAQ[]> = {
+  "word-counter": [
+    { q: "Is this word counter free?", a: "Yes, completely free with no sign-up required. It works entirely in your browser." },
+    { q: "Does it count characters with or without spaces?", a: "Both. The tool shows character count with spaces and without spaces simultaneously." },
+    { q: "Can I use it for SEO meta descriptions?", a: "Yes. Meta descriptions should be under 160 characters. The character counter helps you stay within that limit." },
+    { q: "Does my text get stored anywhere?", a: "No. Everything you type is processed locally in your browser and never sent to any server." },
+  ],
+  "grammar-checker": [
+    { q: "Is this grammar checker free?", a: "Yes, entirely free with no account needed. It's powered by LanguageTool, the same open-source engine used by millions." },
+    { q: "Which languages does it support?", a: "English (US, UK, AU) and auto-detect. More languages are supported by the underlying LanguageTool engine." },
+    { q: "Is it better than Grammarly?", a: "For free usage, it checks grammar, spelling, punctuation, and style without any word limits or paywalls — making it a strong free alternative." },
+    { q: "Does it save my text?", a: "No. Your text is sent only to the LanguageTool public API for checking and is not stored by PreppTools." },
+  ],
+  "plagiarism-checker": [
+    { q: "How does this plagiarism checker work?", a: "It compares two texts using sentence-level similarity analysis and Jaccard similarity scoring to detect shared content." },
+    { q: "Is it free?", a: "Yes, 100% free with no sign-up. It runs entirely in your browser." },
+    { q: "Can it check against the internet?", a: "This tool compares two texts you provide. It's ideal for comparing a student submission against a source or checking for self-plagiarism." },
+    { q: "What similarity score is considered plagiarism?", a: "Generally, above 30% similarity warrants review. Above 50% is considered high similarity. Context matters — some overlap is natural in academic fields." },
+  ],
+  "merge-pdf": [
+    { q: "Is this PDF merger free?", a: "Yes, completely free with no file size limits imposed by PreppTools." },
+    { q: "How many PDFs can I merge at once?", a: "You can merge multiple PDF files in a single operation. Simply add all files and arrange them in the order you want." },
+    { q: "Is my PDF data private?", a: "Yes. PDF processing happens in your browser using PDF-lib. Your files are never uploaded to any server." },
+    { q: "Can I reorder pages before merging?", a: "You can reorder the files before merging. For page-level reordering within a single PDF, use the Reorder PDF Pages tool." },
+  ],
+  "compress-pdf": [
+    { q: "How much does PDF compression reduce file size?", a: "Reduction varies by content. PDFs with many images typically compress by 40–70%. Text-only PDFs see smaller reductions." },
+    { q: "Will compression affect quality?", a: "The tool optimises internal streams and structure. For most documents the visual quality remains the same." },
+    { q: "Is there a file size limit?", a: "No hard limit is imposed by PreppTools. Very large files may take longer to process depending on your device." },
+    { q: "Is this free?", a: "Yes, completely free. No watermarks, no sign-up, no subscription required." },
+  ],
+  "bmi-calculator": [
+    { q: "What is a healthy BMI range?", a: "According to WHO: Under 18.5 is underweight, 18.5–24.9 is normal, 25–29.9 is overweight, and 30 or above is obese." },
+    { q: "Is BMI accurate?", a: "BMI is a useful screening tool but doesn't account for muscle mass, bone density, or fat distribution. Athletes may have high BMI despite low body fat." },
+    { q: "Does this BMI calculator use metric or imperial?", a: "Both. You can enter height in cm or feet/inches, and weight in kg or pounds." },
+    { q: "Is BMI different for children?", a: "Yes. For people under 18, BMI is interpreted using age and gender-specific growth charts, not the standard adult ranges." },
+  ],
+  "loan-calculator": [
+    { q: "What is EMI?", a: "EMI (Equated Monthly Instalment) is the fixed monthly amount you pay to repay a loan, comprising both principal and interest." },
+    { q: "How is EMI calculated?", a: "EMI = [P × r × (1+r)^n] / [(1+r)^n – 1], where P is the principal, r is the monthly interest rate, and n is the number of months." },
+    { q: "Does prepayment reduce EMI or tenure?", a: "Most lenders offer both options. Reducing tenure saves more interest overall. This calculator shows the standard EMI without prepayment." },
+    { q: "Is this free to use?", a: "Yes, completely free with no sign-up. Results are instant and all calculations happen in your browser." },
+  ],
+  "currency-converter": [
+    { q: "Are the exchange rates live?", a: "Yes. Rates are fetched from a live exchange rate API and updated regularly throughout the day." },
+    { q: "How many currencies are supported?", a: "30+ major world currencies including USD, EUR, GBP, INR, JPY, AED, SGD, and more." },
+    { q: "Is this currency converter free?", a: "Yes, completely free with no account needed." },
+    { q: "Can I convert INR to USD?", a: "Yes. Select INR as the source currency and USD as the target, enter the amount, and get the live converted value." },
+  ],
+  "tax-regime-calculator": [
+    { q: "Which tax regime is better for me?", a: "It depends on your deductions. If you claim HRA, 80C, 80D and other deductions totalling more than ₹3.75 lakh, the old regime is usually better. Otherwise the new regime tends to save more tax." },
+    { q: "What is the 87A rebate?", a: "Section 87A provides a tax rebate of up to ₹12,500 under the old regime (for income up to ₹5L) and up to ₹25,000 under the new regime (for income up to ₹12L)." },
+    { q: "Does this calculator include cess?", a: "Yes. A 4% health and education cess is applied on the calculated tax in both regimes." },
+    { q: "Is this for FY 2025-26?", a: "Yes, the slabs and rebates are updated for FY 2025-26 (AY 2026-27) as per the latest Union Budget." },
+  ],
+  "ats-score": [
+    { q: "What is an ATS score?", a: "An ATS (Applicant Tracking System) score measures how well your resume matches a job description based on keyword alignment, formatting, and structure." },
+    { q: "What score should I aim for?", a: "Aim for 70% or above. Most companies' ATS systems filter out resumes scoring below 60–70% before a human ever sees them." },
+    { q: "Why does ATS matter?", a: "Over 95% of Fortune 500 companies use ATS software. If your resume doesn't pass the scan, it won't reach a recruiter regardless of your qualifications." },
+    { q: "Is this tool free?", a: "Yes, completely free. Upload your resume and paste any job description to get an instant compatibility score." },
+  ],
+  "password-generator": [
+    { q: "Are the generated passwords stored anywhere?", a: "No. Passwords are generated entirely in your browser using the Web Crypto API and are never transmitted to any server." },
+    { q: "What makes a strong password?", a: "A strong password is at least 12 characters long and includes a mix of uppercase, lowercase, numbers, and symbols. Avoid dictionary words and personal information." },
+    { q: "Should I use a different password for every site?", a: "Absolutely. If one site is breached and you reuse passwords, all your accounts are at risk. Use a password manager to store unique passwords." },
+    { q: "Is 16 characters enough?", a: "A random 16-character password would take billions of years to brute-force with current technology. Yes, it's more than enough." },
+  ],
+  "json-formatter": [
+    { q: "What does JSON formatting do?", a: "It takes minified or messy JSON and adds proper indentation and line breaks, making it easy to read and debug." },
+    { q: "Can it validate JSON?", a: "Yes. If your JSON has syntax errors (missing commas, unquoted keys, etc.) the formatter will highlight the error." },
+    { q: "Is my JSON data private?", a: "Yes. All formatting happens in your browser. Your JSON is never sent to any server." },
+    { q: "Can it minify JSON too?", a: "Yes. Minifying removes all whitespace to produce the smallest possible JSON string, ideal for APIs and storage." },
+  ],
+  "qr-code-generator": [
+    { q: "What can I generate a QR code for?", a: "URLs, plain text, email addresses, phone numbers, SMS messages, and Wi-Fi credentials — all supported." },
+    { q: "Can I download the QR code?", a: "Yes. Download as a PNG image suitable for print or digital use." },
+    { q: "Do QR codes expire?", a: "Static QR codes (like the ones generated here) never expire. They always point to the URL or text you encoded." },
+    { q: "Is this free?", a: "Yes, completely free with no watermark on the downloaded image." },
+  ],
+  "age-calculator": [
+    { q: "How accurate is this age calculator?", a: "It calculates your exact age in years, months, days, hours, and minutes based on your date of birth and the current date and time." },
+    { q: "Can I calculate the age between two specific dates?", a: "Yes. You can set any start and end date to find the exact duration between them." },
+    { q: "Does it account for leap years?", a: "Yes, leap years are fully accounted for in the calculation." },
+    { q: "Is this free?", a: "Yes, completely free. No sign-up required." },
+  ],
+  "sip-calculator": [
+    { q: "What is SIP?", a: "SIP (Systematic Investment Plan) is a method of investing a fixed amount regularly (monthly) in a mutual fund. It benefits from rupee cost averaging and compounding." },
+    { q: "What return rate should I use?", a: "Historical long-term average for equity mutual funds in India is around 12% annually. Use 10–12% for conservative estimates." },
+    { q: "Is the return guaranteed?", a: "No. Mutual fund returns are market-linked and not guaranteed. The calculator shows estimates based on an assumed rate of return." },
+    { q: "Is this calculator free?", a: "Yes, free to use with no sign-up required." },
+  ],
+  "ai-prompt-generator": [
+    { q: "What AI platforms does this support?", a: "ChatGPT, Claude, Gemini, Midjourney, DALL·E, and Stable Diffusion — each with platform-specific optimisations." },
+    { q: "Can I customise the tone and format?", a: "Yes. For text AI platforms you can select tone (professional, casual, friendly, etc.) and output format (bullet points, essay, table, etc.)." },
+    { q: "Is this free?", a: "Yes, completely free with no API key or sign-up required." },
+    { q: "What makes a good AI prompt?", a: "Be specific about context, format, tone, and length. The more details you provide, the better the AI output. This tool helps structure those details automatically." },
+  ],
+  "compress-image": [
+    { q: "How much can images be compressed?", a: "JPEG images can typically be compressed by 50–80% with minimal visible quality loss. PNG files vary more depending on content." },
+    { q: "Does compression affect image quality?", a: "The tool lets you control the quality level. Lower quality = smaller file. At 80% quality, most images are visually indistinguishable from the original." },
+    { q: "Is my image uploaded to a server?", a: "No. Image compression runs entirely in your browser. Your images never leave your device." },
+    { q: "What formats are supported?", a: "JPEG and PNG. For WebP conversion, use the Convert Image Format tool." },
+  ],
+  "invoice-generator": [
+    { q: "Can I add my company logo?", a: "Yes, you can upload a logo and it will appear on the generated invoice PDF." },
+    { q: "Is the invoice legally valid?", a: "The invoice contains all standard fields. However, legal requirements vary by country. Add your GST number and other statutory details as needed." },
+    { q: "Can I save invoices for later?", a: "You can download each invoice as a PDF. For recurring invoices, save your template details and re-fill as needed." },
+    { q: "Is this free?", a: "Yes, completely free. No watermark on the downloaded PDF and no subscription required." },
+  ],
+};
