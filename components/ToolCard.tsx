@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import FavoriteButton from "./FavoriteButton";
 import {
   AlignLeft, CaseSensitive, FileText, Repeat,
   Percent, Receipt, Calculator, Ruler, Thermometer, Scale,
@@ -121,15 +124,20 @@ export default function ToolCard({ tool }: { tool: Tool }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200"
+      className="group relative block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200"
     >
+      {/* Favorite button */}
+      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        <FavoriteButton slug={tool.slug} />
+      </div>
+
       <div className="flex items-start gap-4">
         <div
           className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${category?.bgColor ?? "bg-blue-50"} ${category?.color ?? "text-blue-600"}`}
         >
           {iconMap[tool.icon] ?? <Calculator className="w-5 h-5" />}
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 pr-6">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-1">
             {tool.name}
             <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1 group-hover:translate-x-0 transform duration-200" />

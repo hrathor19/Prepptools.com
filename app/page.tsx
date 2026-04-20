@@ -12,6 +12,8 @@ import {
 import SearchBar from "@/components/SearchBar";
 import ToolCard from "@/components/ToolCard";
 import RecentTools from "@/components/RecentTools";
+import FavoriteTools from "@/components/FavoriteTools";
+import ToolOfTheDay from "@/components/ToolOfTheDay";
 import { categories, getPopularTools } from "@/lib/tools-data";
 import { getRecentPosts } from "@/lib/blog-data";
 
@@ -45,7 +47,7 @@ const heroTools = [
 const stats = [
   { value: "100+", label: "Free Tools" },
   { value: "13",   label: "Categories" },
-  { value: "0",    label: "Sign-ups Needed" },
+  { value: "No",   label: "Sign-ups Needed" },
   { value: "100%", label: "Browser-based" },
 ];
 
@@ -166,6 +168,14 @@ export default async function HomePage() {
       <div className="border-b border-gray-100 dark:border-gray-700/50">
         <RecentTools />
       </div>
+
+      {/* ── FAVORITES ────────────────────────────────────────────── */}
+      <div className="border-b border-gray-100 dark:border-gray-700/50">
+        <FavoriteTools />
+      </div>
+
+      {/* ── TOOL OF THE DAY ──────────────────────────────────────── */}
+      <ToolOfTheDay />
 
       {/* ── FEATURES STRIP ───────────────────────────────────────── */}
       <section className="border-b border-gray-100 dark:border-gray-700">

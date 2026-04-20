@@ -15,6 +15,7 @@ import {
 import { getToolBySlug, getCategoryById, getToolsByCategory, tools } from "@/lib/tools-data";
 import { toolDescriptions } from "@/lib/tool-descriptions";
 import ToolCard from "@/components/ToolCard";
+import FeedbackWidget from "@/components/FeedbackWidget";
 import ToolRunner from "./ToolRunner";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -181,8 +182,11 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
+      {/* Feedback */}
+      <FeedbackWidget slug={slug} />
+
       {/* Back link */}
-      <Link href="/tools" className="inline-flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-10">
+      <Link href="/tools" className="inline-flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mt-8 mb-10">
         <ArrowLeft className="w-4 h-4" />
         Back to all tools
       </Link>

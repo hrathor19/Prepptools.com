@@ -6,11 +6,39 @@
 :root {
   --background: #ffffff;
   --foreground: #111827;
+
+  /* Prose color tokens */
+  --prose-heading:     #111827;
+  --prose-subheading:  #1f2937;
+  --prose-body:        #374151;
+  --prose-muted:       #4b5563;
+  --prose-strong:      #111827;
+  --prose-code-bg:     #f1f5f9;
+  --prose-code-color:  #1e40af;
+  --prose-border:      #e2e8f0;
+  --prose-th-bg:       #f8fafc;
+  --prose-even-bg:     #f8fafc;
+  --prose-link:        #2563eb;
+  --prose-blockquote:  #4b5563;
 }
 
 .dark {
   --background: #111827;
   --foreground: #f9fafb;
+
+  /* Prose dark overrides */
+  --prose-heading:     #f1f5f9;
+  --prose-subheading:  #e2e8f0;
+  --prose-body:        #cbd5e1;
+  --prose-muted:       #94a3b8;
+  --prose-strong:      #f1f5f9;
+  --prose-code-bg:     #1e293b;
+  --prose-code-color:  #93c5fd;
+  --prose-border:      #374151;
+  --prose-th-bg:       #1e293b;
+  --prose-even-bg:     #1f2937;
+  --prose-link:        #60a5fa;
+  --prose-blockquote:  #94a3b8;
 }
 
 body {
@@ -33,27 +61,19 @@ html {
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Prose styles for blog content */
+/* ── Prose styles (use CSS variables so dark mode just works) ── */
+
 .prose h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #111827;
+  color: var(--prose-heading);
 }
 
 .prose h3 {
@@ -61,16 +81,17 @@ html {
   font-weight: 600;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
-  color: #1f2937;
+  color: var(--prose-subheading);
 }
 
 .prose p {
   margin-bottom: 1rem;
   line-height: 1.75;
-  color: #374151;
+  color: var(--prose-body);
 }
 
-.prose ul, .prose ol {
+.prose ul,
+.prose ol {
   margin-bottom: 1rem;
   padding-left: 1.5rem;
 }
@@ -81,20 +102,20 @@ html {
 .prose li {
   margin-bottom: 0.25rem;
   line-height: 1.75;
-  color: #374151;
+  color: var(--prose-body);
 }
 
 .prose strong {
   font-weight: 600;
-  color: #111827;
+  color: var(--prose-strong);
 }
 
 .prose code {
-  background: #f1f5f9;
+  background: var(--prose-code-bg);
   padding: 0.15rem 0.4rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
-  color: #1e40af;
+  color: var(--prose-code-color);
   font-family: "Fira Code", "Courier New", monospace;
 }
 
@@ -118,7 +139,7 @@ html {
   border-left: 4px solid #3b82f6;
   padding-left: 1rem;
   margin: 1.5rem 0;
-  color: #4b5563;
+  color: var(--prose-blockquote);
   font-style: italic;
 }
 
@@ -129,25 +150,30 @@ html {
 }
 
 .prose th {
-  background: #f8fafc;
+  background: var(--prose-th-bg);
   padding: 0.625rem 1rem;
   text-align: left;
   font-weight: 600;
-  color: #374151;
-  border: 1px solid #e2e8f0;
+  color: var(--prose-body);
+  border: 1px solid var(--prose-border);
 }
 
 .prose td {
   padding: 0.625rem 1rem;
-  border: 1px solid #e2e8f0;
-  color: #374151;
+  border: 1px solid var(--prose-border);
+  color: var(--prose-body);
 }
 
 .prose tr:nth-child(even) td {
-  background: #f8fafc;
+  background: var(--prose-even-bg);
 }
 
 .prose a {
-  color: #2563eb;
+  color: var(--prose-link);
   text-decoration: underline;
+}
+
+.prose hr {
+  border-color: var(--prose-border);
+  margin: 2rem 0;
 }
