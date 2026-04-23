@@ -9,6 +9,8 @@ import ThemeToggle from "./ThemeToggle";
 import ToolsDropdown from "./ToolsDropdown";
 
 const navLinks = [
+  { href: "/interview-prep", label: "Interview Prep" },
+  { href: "/freelancer", label: "Freelancer Hub" },
   { href: "/blog", label: "Blog" },
   { href: "/qa", label: "Q&A" },
   { href: "/about", label: "About Us" },

@@ -122,6 +122,12 @@ export const faqData: Record<string, FAQ[]> = {
     { q: "Can I use this for home loans and personal loans?", a: "Yes, the formula applies to both. Home loans typically have lower rates and longer tenures, resulting in higher eligibility." },
     { q: "Is this free?", a: "Yes, completely free with no sign-up required." },
   ],
+  "cover-letter-generator": [
+    { q: "Does this cover letter generator use AI?", a: "It uses smart templates that adapt to your inputs — your name, role, company, skills, and achievement — to generate a personalised letter instantly, with no AI API costs or delays." },
+    { q: "How do I personalise the cover letter further?", a: "After generating, add a specific line about why you want to work at that particular company — mention a product, mission, or recent news. This is the single biggest differentiator." },
+    { q: "Which tone should I choose?", a: "Professional works for corporate roles (finance, law, consulting). Enthusiastic suits startups and creative companies. Confident is great for senior roles. Concise is best for tech companies that value brevity." },
+    { q: "Is this free?", a: "Yes, completely free with no sign-up, no watermark, and no limit on how many letters you generate." },
+  ],
   "notice-period-calculator": [
     { q: "How do I calculate my last working day?", a: "Add your notice period (in days) to your resignation date. The result is your last working day. This tool does that calculation instantly." },
     { q: "Are weekends counted in the notice period?", a: "In most cases yes — notice periods are in calendar days, not working days. Check your contract or HR policy to confirm." },

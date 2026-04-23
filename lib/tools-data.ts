@@ -1048,6 +1048,15 @@ export const tools: Tool[] = [
     featured: true,
     tags: ["notice period calculator", "last working day", "resignation", "notice buyout", "notice period"],
   },
+  {
+    slug: "cover-letter-generator",
+    name: "Cover Letter Generator",
+    description: "Generate a professional, personalised cover letter in seconds. Choose your tone and copy it instantly.",
+    category: "productivity",
+    icon: "FileText",
+    featured: true,
+    tags: ["cover letter generator", "cover letter", "job application", "cover letter template", "free cover letter"],
+  },
 ];
 
 export function getCategoryById(id: string): Category | undefined {

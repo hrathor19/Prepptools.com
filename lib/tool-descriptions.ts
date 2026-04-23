@@ -621,6 +621,12 @@ export const toolDescriptions: Record<string, { howItWorks: string; whyUse: stri
     whyUse:
       "Knowing your loan eligibility before visiting a bank saves time and prevents surprises. This free home loan and personal loan eligibility calculator gives you an instant estimate based on the same criteria banks use — income, expenses, rate, and tenure.",
   },
+  "cover-letter-generator": {
+    howItWorks:
+      "Enter your name, the role you're applying for, company name, years of experience, key skills, and an optional top achievement. Select your preferred tone (Professional, Enthusiastic, Confident, or Concise) and click Generate. The tool produces a structured, personalised cover letter you can copy and paste instantly.",
+    whyUse:
+      "A tailored cover letter increases your chances of getting an interview by up to 50%. This free cover letter generator creates a professional, personalised letter in under 60 seconds — no sign-up, no generic templates, and no AI subscription required.",
+  },
   "notice-period-calculator": {
     howItWorks:
       "Select your resignation date, choose your notice period (15 days, 1 month, 2 months, 3 months, or custom), and the tool instantly shows your last working day and how many days remain. Optionally enter your monthly salary to compute the notice buyout cost.",

@@ -107,6 +107,7 @@ export const toolComponents: Record<string, React.ComponentType> = {
   "cgpa-calculator":          dynamic(() => import("./CGPACalculator")),
   "loan-eligibility":         dynamic(() => import("./LoanEligibility")),
   "notice-period-calculator": dynamic(() => import("./NoticePeriodCalculator")),
+  "cover-letter-generator":   dynamic(() => import("./CoverLetterGenerator")),
   // PDF Extended Tools
   "sign-pdf": dynamic(() => import("./SignPDF")),
   "unlock-pdf": dynamic(() => import("./UnlockPDF")),

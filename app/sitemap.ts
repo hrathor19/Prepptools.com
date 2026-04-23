@@ -18,6 +18,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/glossary`,                lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/formulas`,                lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/resume-templates`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/interview-prep`,           lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE_URL}/freelancer`,               lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/qa`,                      lastModified: new Date(), changeFrequency: "weekly",  priority: 0.7 },
     { url: `${BASE_URL}/about`,                   lastModified: new Date(), changeFrequency: "yearly",  priority: 0.5 },
     { url: `${BASE_URL}/privacy-policy`,          lastModified: new Date(), changeFrequency: "yearly",  priority: 0.4 },
