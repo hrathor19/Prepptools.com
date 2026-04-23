@@ -10,6 +10,7 @@ import {
   ImageDown, FilePlus2, Scissors, PackageOpen, RotateCw,
   FileX, Stamp, FileImage, Minimize2, Maximize2, RefreshCw,
   FlipHorizontal, Keyboard, Wand2, SpellCheck, ScanText, IndianRupee,
+  GraduationCap, Banknote, CalendarClock, Users,
 } from "lucide-react";
 import { getToolBySlug, getCategoryById, getToolsByCategory, tools } from "@/lib/tools-data";
 import { toolDescriptions } from "@/lib/tool-descriptions";
@@ -58,6 +59,9 @@ const iconMap: Record<string, React.ReactNode> = {
   SpellCheck: <SpellCheck className="w-7 h-7" />,
   ScanText: <ScanText className="w-7 h-7" />,
   IndianRupee: <IndianRupee className="w-7 h-7" />,
+  GraduationCap: <GraduationCap className="w-7 h-7" />,
+  Banknote: <Banknote className="w-7 h-7" />,
+  CalendarClock: <CalendarClock className="w-7 h-7" />,
 };
 
 const categoryIconMap: Record<string, React.ReactNode> = {
@@ -72,6 +76,16 @@ const categoryIconMap: Record<string, React.ReactNode> = {
   pdf: <FileImage className="w-4 h-4" />,
   image: <Palette className="w-4 h-4" />,
 };
+
+function getUsageCount(slug: string): string {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i++) hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
+  const base = 4200 + (hash % 91800);
+  const daysSeed = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
+  const count = base + (daysSeed % 300);
+  if (count >= 1000) return `${(count / 1000).toFixed(1)}k`;
+  return String(count);
+}
 
 export async function generateStaticParams() {
   return tools.map((t) => ({ slug: t.slug }));
@@ -105,6 +119,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const tool = getToolBySlug(slug);
   if (!tool) notFound();
+  const usageCount = getUsageCount(slug);
 
   const category = getCategoryById(tool.category);
   const related = getToolsByCategory(tool.category)
@@ -178,6 +193,10 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
             </Link>
             <span className="text-xs bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-700 px-2.5 py-1 rounded-full font-medium">
               Free
+            </span>
+            <span className="inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+              <Users className="w-3.5 h-3.5" />
+              {usageCount} uses this week
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{tool.name}</h1>

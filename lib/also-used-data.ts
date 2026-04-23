@@ -96,4 +96,8 @@ export const alsoUsed: Record<string, string[]> = {
   "length-converter":      ["weight-converter", "temperature-converter", "fuel-cost-calculator"],
   "temperature-converter": ["length-converter", "weight-converter", "calorie-calculator"],
   "weight-converter":      ["length-converter", "temperature-converter", "bmi-calculator"],
+
+  "cgpa-calculator":          ["percentage-calculator", "gst-calculator", "age-calculator"],
+  "loan-eligibility":         ["loan-calculator", "sip-calculator", "compound-interest"],
+  "notice-period-calculator": ["date-calculator", "salary-calculator", "age-calculator"],
 };

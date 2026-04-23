@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "PreppTools" },
+  formatDetection: { telephone: false },
   title: {
     default: "PreppTools — Free Online Tools for Everyone",
     template: "%s | PreppTools",
@@ -65,6 +68,8 @@ export default function RootLayout({
             __html: `try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}`,
           }}
         />
+        {/* Impact.com affiliate verification */}
+        <meta name="impact-site-verification" value="3cb63e15-8f79-4ffa-8b7d-68e2667f6dbf" />
         {/* Google AdSense */}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650947460011910" crossOrigin="anonymous" />
         {/* Microsoft Clarity */}

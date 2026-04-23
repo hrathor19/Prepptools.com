@@ -1021,6 +1021,33 @@ export const tools: Tool[] = [
     featured: true,
     tags: ["tax regime calculator", "old vs new tax regime", "income tax calculator india", "tax calculator 2025-26", "new tax regime", "tax saving"],
   },
+  {
+    slug: "cgpa-calculator",
+    name: "CGPA to Percentage Calculator",
+    description: "Convert CGPA to percentage using multiple university formulas including Anna University × 9.5 scale.",
+    category: "math",
+    icon: "GraduationCap",
+    featured: true,
+    tags: ["cgpa to percentage", "cgpa calculator", "anna university", "grade conversion", "cgpa percentage"],
+  },
+  {
+    slug: "loan-eligibility",
+    name: "Loan Eligibility Calculator",
+    description: "Find out how much home loan or personal loan you are eligible for based on your income and expenses.",
+    category: "finance",
+    icon: "Banknote",
+    featured: true,
+    tags: ["loan eligibility", "home loan eligibility", "personal loan", "loan amount calculator", "bank loan"],
+  },
+  {
+    slug: "notice-period-calculator",
+    name: "Notice Period Calculator",
+    description: "Calculate your last working day and notice period buyout cost based on your resignation date.",
+    category: "productivity",
+    icon: "CalendarClock",
+    featured: true,
+    tags: ["notice period calculator", "last working day", "resignation", "notice buyout", "notice period"],
+  },
 ];
 
 export function getCategoryById(id: string): Category | undefined {

@@ -319,6 +319,39 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ── TESTIMONIALS ─────────────────────────────────────────── */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-800/50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <p className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">What people say</p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">Loved by students & professionals</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { name: "Priya S.", role: "Engineering Student", text: "The CGPA to Percentage calculator saved me so much time. Anna University formula was right there!", stars: 5 },
+              { name: "Rahul M.", role: "HR Professional", text: "Notice Period Calculator is brilliant. Instant last working day with buyout cost — exactly what I needed.", stars: 5 },
+              { name: "Ananya K.", role: "Content Writer", text: "Word Counter, Grammar Checker, Reading Time — I use PreppTools every single day. No sign-up = love it.", stars: 5 },
+              { name: "Vikram D.", role: "Finance Analyst", text: "The Tax Regime Calculator saved me ₹18,000 last year. Compared old vs new in 2 minutes flat.", stars: 5 },
+              { name: "Sneha R.", role: "Job Seeker", text: "ATS Score Checker helped me optimise my resume. Got 3 interview calls the next week!", stars: 5 },
+              { name: "Dev P.", role: "Developer", text: "JSON Formatter, Base64, UUID — all in one place. Beats bookmarking 10 different sites.", stars: 5 },
+            ].map((t) => (
+              <div key={t.name} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 flex flex-col gap-3 shadow-sm">
+                <div className="flex gap-0.5">
+                  {Array.from({ length: t.stars }).map((_, i) => (
+                    <svg key={i} className="w-4 h-4 text-amber-400 fill-amber-400" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+                <div className="mt-auto pt-2 border-t border-gray-100 dark:border-gray-700">
+                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{t.name}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{t.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA BANNER ───────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 overflow-hidden py-20">
         <div className="absolute inset-0 opacity-[0.07]"

@@ -108,4 +108,25 @@ export const faqData: Record<string, FAQ[]> = {
     { q: "Can I save invoices for later?", a: "You can download each invoice as a PDF. For recurring invoices, save your template details and re-fill as needed." },
     { q: "Is this free?", a: "Yes, completely free. No watermark on the downloaded PDF and no subscription required." },
   ],
+  "cgpa-calculator": [
+    { q: "Which formula should I use?", a: "Most Indian universities follow the × 9.5 formula (Anna University, VTU, etc.). Check your university's handbook if unsure." },
+    { q: "Is CGPA × 9.5 the standard in India?", a: "Yes, × 9.5 is the most common formula used across Indian universities on a 10-point CGPA scale. Some universities use × 10 or × 9." },
+    { q: "How accurate is this calculator?", a: "The calculator uses the exact multiplier formula specified. Accuracy depends on which formula your university officially follows." },
+    { q: "What do Distinction, First Class, etc. mean?", a: "Distinction is ≥ 75%, First Class is ≥ 60%, Second Class is ≥ 50%, and Pass is below that. These are standard Indian university grade classifications." },
+    { q: "Is this free?", a: "Yes, 100% free with no sign-up required." },
+  ],
+  "loan-eligibility": [
+    { q: "How is loan eligibility calculated?", a: "Banks generally allow an EMI of up to 50% of your net monthly income (called FOIR — Fixed Obligation to Income Ratio). This calculator uses that standard rule." },
+    { q: "Does my credit score affect eligibility?", a: "Yes. A higher CIBIL score (750+) can get you better rates and higher eligibility. This calculator estimates based on income alone." },
+    { q: "What is FOIR?", a: "FOIR (Fixed Obligation to Income Ratio) is the share of your income that goes to EMIs. Most banks cap this at 40–50% of gross monthly income." },
+    { q: "Can I use this for home loans and personal loans?", a: "Yes, the formula applies to both. Home loans typically have lower rates and longer tenures, resulting in higher eligibility." },
+    { q: "Is this free?", a: "Yes, completely free with no sign-up required." },
+  ],
+  "notice-period-calculator": [
+    { q: "How do I calculate my last working day?", a: "Add your notice period (in days) to your resignation date. The result is your last working day. This tool does that calculation instantly." },
+    { q: "Are weekends counted in the notice period?", a: "In most cases yes — notice periods are in calendar days, not working days. Check your contract or HR policy to confirm." },
+    { q: "What is notice buyout?", a: "Notice buyout means you pay your employer the equivalent of your salary for the unserved notice days. The cost is usually calculated as (Monthly Salary ÷ 30) × remaining days." },
+    { q: "Can I negotiate a shorter notice period?", a: "Yes, if your employer agrees. This is common when you have a joining deadline at your new company. Get it in writing." },
+    { q: "Is this free?", a: "Yes, free to use with no sign-up required." },
+  ],
 };

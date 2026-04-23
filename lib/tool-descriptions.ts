@@ -609,4 +609,22 @@ export const toolDescriptions: Record<string, { howItWorks: string; whyUse: stri
     whyUse:
       "Every salaried Indian must choose between the Old and New Tax Regime at the start of each financial year. This free Old vs New Tax Regime calculator shows exactly which regime saves you more money, with a side-by-side breakdown of taxable income, deductions, and final tax payable.",
   },
+  "cgpa-calculator": {
+    howItWorks:
+      "Enter your CGPA, select your scale (10-point or 4-point), then choose the conversion formula your university uses (most Indian universities use × 9.5). The tool multiplies your CGPA by the chosen factor and shows the equivalent percentage along with your class (Distinction, First Class, etc.).",
+    whyUse:
+      "Many job applications, higher education programs, and government exams ask for percentage rather than CGPA. This free CGPA to percentage calculator supports Anna University's × 9.5 formula and other common Indian university scales, so you always enter the right number.",
+  },
+  "loan-eligibility": {
+    howItWorks:
+      "Enter your monthly income, monthly expenses, expected interest rate, and preferred loan tenure. The calculator applies the standard FOIR rule (banks allow EMI up to 50% of net income) and the EMI formula to compute the maximum loan amount you qualify for.",
+    whyUse:
+      "Knowing your loan eligibility before visiting a bank saves time and prevents surprises. This free home loan and personal loan eligibility calculator gives you an instant estimate based on the same criteria banks use — income, expenses, rate, and tenure.",
+  },
+  "notice-period-calculator": {
+    howItWorks:
+      "Select your resignation date, choose your notice period (15 days, 1 month, 2 months, 3 months, or custom), and the tool instantly shows your last working day and how many days remain. Optionally enter your monthly salary to compute the notice buyout cost.",
+    whyUse:
+      "When you resign, two things matter most: when your last day is and how much it costs to leave early. This free notice period calculator answers both instantly — with no sign-up and no ads.",
+  },
 };

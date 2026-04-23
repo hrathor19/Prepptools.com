@@ -103,6 +103,10 @@ export const toolComponents: Record<string, React.ComponentType> = {
   "grammar-checker":       dynamic(() => import("./GrammarChecker")),
   "plagiarism-checker":    dynamic(() => import("./PlagiarismChecker")),
   "tax-regime-calculator": dynamic(() => import("./TaxRegimeCalculator")),
+  // Education & Career
+  "cgpa-calculator":          dynamic(() => import("./CGPACalculator")),
+  "loan-eligibility":         dynamic(() => import("./LoanEligibility")),
+  "notice-period-calculator": dynamic(() => import("./NoticePeriodCalculator")),
   // PDF Extended Tools
   "sign-pdf": dynamic(() => import("./SignPDF")),
   "unlock-pdf": dynamic(() => import("./UnlockPDF")),
