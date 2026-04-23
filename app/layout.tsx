@@ -69,7 +69,8 @@ export default function RootLayout({
           }}
         />
         {/* Impact.com affiliate verification */}
-        <meta name="impact-site-verification" value="3cb63e15-8f79-4ffa-8b7d-68e2667f6dbf" />
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <meta name="impact-site-verification" {...{ value: "3cb63e15-8f79-4ffa-8b7d-68e2667f6dbf" } as any} />
         {/* Google AdSense */}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650947460011910" crossOrigin="anonymous" />
         {/* Microsoft Clarity */}
