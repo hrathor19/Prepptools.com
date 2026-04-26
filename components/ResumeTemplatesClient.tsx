@@ -313,173 +313,161 @@ const atsRules = [
   "Don't put contact info in the document header — ATS often skips it",
 ];
 
-async function generateResumePDF(template: Template) {
-  const { default: jsPDF } = await import("jspdf");
-  const doc = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+async function generateResumeDocx(template: Template) {
+  const {
+    Document, Paragraph, TextRun, Packer,
+    AlignmentType, BorderStyle, TabStopType,
+  } = await import("docx");
 
-  const lm = 20, rm = 20, tm = 18;
-  const pageW = 210, contentW = pageW - lm - rm;
-  let y = tm;
+  const { content } = template;
+  const INDENT = 360;
+  const RIGHT_TAB = 10080;
 
-  function checkPageBreak(needed = 10) {
-    if (y + needed > 277) { doc.addPage(); y = tm; }
-  }
-
-  function hline(yy: number, gray = false) {
-    doc.setDrawColor(gray ? 200 : 60, gray ? 200 : 60, gray ? 200 : 60);
-    doc.setLineWidth(0.3);
-    doc.line(lm, yy, pageW - rm, yy);
+  function divider() {
+    return new Paragraph({
+      border: { bottom: { color: "CCCCCC", space: 1, style: BorderStyle.SINGLE, size: 4 } },
+      spacing: { after: 120 },
+      children: [],
+    });
   }
 
   function sectionHeader(title: string) {
-    checkPageBreak(12);
-    y += 5;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10.5);
-    doc.setTextColor(30, 30, 30);
-    doc.text(title.toUpperCase(), lm, y);
-    y += 1.5;
-    hline(y);
-    y += 4;
+    return [
+      new Paragraph({
+        border: { bottom: { color: "404040", space: 1, style: BorderStyle.SINGLE, size: 4 } },
+        spacing: { before: 220, after: 80 },
+        children: [new TextRun({ text: title.toUpperCase(), bold: true, size: 22, color: "1E1E1E" })],
+      }),
+    ];
   }
 
-  function wrappedText(text: string, x: number, startY: number, maxW: number, size = 9.5, style = "normal", color: [number,number,number] = [60,60,60]): number {
-    doc.setFont("helvetica", style);
-    doc.setFontSize(size);
-    doc.setTextColor(...color);
-    const lines = doc.splitTextToSize(text, maxW);
-    for (const line of lines) {
-      checkPageBreak(5);
-      doc.text(line, x, startY);
-      startY += 5;
-    }
-    return startY;
-  }
+  const children: InstanceType<typeof Paragraph>[] = [];
 
-  // ── NAME ──
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(20);
-  doc.setTextColor(20, 20, 20);
-  doc.text(template.content.name, pageW / 2, y, { align: "center" });
-  y += 7;
+  // Name
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 60 },
+    children: [new TextRun({ text: content.name, bold: true, size: 40, color: "141414" })],
+  }));
 
-  // ── CONTACT ──
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(8.5);
-  doc.setTextColor(80, 80, 80);
-  const contactLines = doc.splitTextToSize(template.content.contact, contentW);
-  for (const cl of contactLines) { doc.text(cl, pageW / 2, y, { align: "center" }); y += 4.5; }
-  y += 2;
-  hline(y, true);
-  y += 5;
+  // Contact
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 80 },
+    children: [new TextRun({ text: content.contact, size: 17, color: "555555" })],
+  }));
 
-  // ── SUMMARY ──
-  sectionHeader("Professional Summary");
-  y = wrappedText(template.content.summary, lm, y, contentW);
-  y += 2;
+  children.push(divider());
 
-  // ── EXPERIENCE ──
-  sectionHeader("Work Experience");
-  for (const exp of template.content.experience) {
-    checkPageBreak(14);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.setTextColor(20, 20, 20);
-    doc.text(exp.title, lm, y);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.setTextColor(80, 80, 80);
-    doc.text(exp.period, pageW - rm, y, { align: "right" });
-    y += 4.5;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.5);
-    doc.setTextColor(40, 40, 40);
-    doc.text(`${exp.company}  |  ${exp.location}`, lm, y);
-    y += 5;
+  // Summary
+  children.push(...sectionHeader("Professional Summary"));
+  children.push(new Paragraph({
+    spacing: { after: 60 },
+    children: [new TextRun({ text: content.summary, size: 19, color: "404040" })],
+  }));
+
+  // Experience
+  children.push(...sectionHeader("Work Experience"));
+  for (const exp of content.experience) {
+    children.push(new Paragraph({
+      tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
+      spacing: { after: 40 },
+      children: [
+        new TextRun({ text: exp.title, bold: true, size: 21, color: "141414" }),
+        new TextRun({ text: "\t" }),
+        new TextRun({ text: exp.period, size: 18, color: "777777" }),
+      ],
+    }));
+    children.push(new Paragraph({
+      spacing: { after: 60 },
+      children: [new TextRun({ text: `${exp.company}  |  ${exp.location}`, size: 19, color: "333333" })],
+    }));
     for (const bullet of exp.bullets) {
-      checkPageBreak(6);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9.5);
-      doc.setTextColor(60, 60, 60);
-      const bLines = doc.splitTextToSize(`•  ${bullet}`, contentW - 4);
-      for (const bl of bLines) { doc.text(bl, lm + 2, y); y += 4.8; }
+      children.push(new Paragraph({
+        indent: { left: INDENT },
+        spacing: { after: 40 },
+        children: [new TextRun({ text: `•  ${bullet}`, size: 19, color: "444444" })],
+      }));
     }
-    y += 3;
+    children.push(new Paragraph({ spacing: { after: 60 }, children: [] }));
   }
 
-  // ── EDUCATION ──
-  sectionHeader("Education");
-  for (const edu of template.content.education) {
-    checkPageBreak(10);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.setTextColor(20, 20, 20);
-    doc.text(edu.degree, lm, y);
-    y += 4.5;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.5);
-    doc.setTextColor(60, 60, 60);
+  // Education
+  children.push(...sectionHeader("Education"));
+  for (const edu of content.education) {
+    children.push(new Paragraph({
+      spacing: { after: 40 },
+      children: [new TextRun({ text: edu.degree, bold: true, size: 21, color: "141414" })],
+    }));
     let eduLine = `${edu.university}  |  ${edu.year}`;
     if (edu.gpa) eduLine += `  |  GPA: ${edu.gpa}`;
-    doc.text(eduLine, lm, y);
-    y += 7;
+    children.push(new Paragraph({
+      spacing: { after: 80 },
+      children: [new TextRun({ text: eduLine, size: 19, color: "444444" })],
+    }));
   }
 
-  // ── PROJECTS (if any) ──
-  if (template.content.projects?.length) {
-    sectionHeader("Projects");
-    for (const proj of template.content.projects) {
-      checkPageBreak(10);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(10);
-      doc.setTextColor(20, 20, 20);
-      doc.text(proj.name, lm, y);
-      y += 5;
+  // Projects
+  if (content.projects?.length) {
+    children.push(...sectionHeader("Projects"));
+    for (const proj of content.projects) {
+      children.push(new Paragraph({
+        spacing: { after: 40 },
+        children: [new TextRun({ text: proj.name, bold: true, size: 21, color: "141414" })],
+      }));
       for (const b of proj.bullets) {
-        checkPageBreak(6);
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(9.5);
-        doc.setTextColor(60, 60, 60);
-        const bls = doc.splitTextToSize(`•  ${b}`, contentW - 4);
-        for (const bl of bls) { doc.text(bl, lm + 2, y); y += 4.8; }
+        children.push(new Paragraph({
+          indent: { left: INDENT },
+          spacing: { after: 40 },
+          children: [new TextRun({ text: `•  ${b}`, size: 19, color: "444444" })],
+        }));
       }
-      y += 3;
+      children.push(new Paragraph({ spacing: { after: 60 }, children: [] }));
     }
   }
 
-  // ── SKILLS ──
-  sectionHeader("Skills");
-  for (const s of template.content.skills) {
-    checkPageBreak(8);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(9.5);
-    doc.setTextColor(30, 30, 30);
-    doc.text(`${s.category}: `, lm, y);
-    const labelW = doc.getTextWidth(`${s.category}: `);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.5);
-    doc.setTextColor(60, 60, 60);
-    const skillLines = doc.splitTextToSize(s.items, contentW - labelW - 2);
-    doc.text(skillLines[0], lm + labelW, y);
-    y += 4.8;
-    for (let i = 1; i < skillLines.length; i++) { doc.text(skillLines[i], lm + labelW, y); y += 4.8; }
+  // Skills
+  children.push(...sectionHeader("Skills"));
+  for (const s of content.skills) {
+    children.push(new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({ text: `${s.category}: `, bold: true, size: 19, color: "222222" }),
+        new TextRun({ text: s.items, size: 19, color: "444444" }),
+      ],
+    }));
   }
-  y += 2;
 
-  // ── CERTIFICATIONS ──
-  if (template.content.certifications?.length) {
-    sectionHeader("Certifications");
-    for (const cert of template.content.certifications) {
-      checkPageBreak(6);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9.5);
-      doc.setTextColor(60, 60, 60);
-      doc.text(`•  ${cert}`, lm + 2, y);
-      y += 5;
+  // Certifications
+  if (content.certifications?.length) {
+    children.push(...sectionHeader("Certifications"));
+    for (const cert of content.certifications) {
+      children.push(new Paragraph({
+        indent: { left: INDENT },
+        spacing: { after: 60 },
+        children: [new TextRun({ text: `•  ${cert}`, size: 19, color: "444444" })],
+      }));
     }
   }
 
-  doc.save(`${template.id}-resume-template.pdf`);
+  const doc = new Document({
+    sections: [{
+      properties: {
+        page: { margin: { top: 1080, right: 1080, bottom: 1080, left: 1080 } },
+      },
+      children,
+    }],
+  });
+
+  const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${template.id}-resume-template.docx`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 export default function ResumeTemplatesClient() {
@@ -488,7 +476,7 @@ export default function ResumeTemplatesClient() {
   async function handleDownload(template: Template) {
     setDownloading(template.id);
     try {
-      await generateResumePDF(template);
+      await generateResumeDocx(template);
     } catch (e) {
       console.error(e);
     } finally {
@@ -603,7 +591,7 @@ function TemplateCard({ t, downloading, onDownload }: { t: Template; downloading
         className={`inline-flex items-center gap-2 bg-white dark:bg-gray-800 border ${t.border} ${t.color} font-semibold text-sm px-4 py-2 rounded-xl hover:shadow-sm transition-all disabled:opacity-60`}
       >
         {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-        {isLoading ? "Generating…" : "Download PDF"}
+        {isLoading ? "Generating…" : "Download .docx"}
       </button>
     </div>
   );
