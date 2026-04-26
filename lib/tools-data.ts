@@ -435,7 +435,7 @@ export const tools: Tool[] = [
   },
   {
     slug: "edit-pdf",
-    name: "Edit PDF",
+    name: "PDF Editor",
     description: "Add text, notes, or annotations on top of any page in your PDF.",
     category: "pdf",
     icon: "FilePen",
