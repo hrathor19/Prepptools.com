@@ -103,6 +103,23 @@ function firstCat(cats: string[]): string {
   return cats?.[0] ?? "top";
 }
 
+function normalizeTitle(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+}
+
+function dedupeArticles(existing: Article[], incoming: Article[]): Article[] {
+  const seen = new Set(existing.map(a => normalizeTitle(a.title)));
+  const result = [...existing];
+  for (const article of incoming) {
+    const key = normalizeTitle(article.title);
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(article);
+    }
+  }
+  return result;
+}
+
 // ── Sub-components ─────────────────────────────────────────────────────────────
 function CategoryBadge({ cat }: { cat: string }) {
   const cls = CAT_COLORS[cat] ?? CAT_COLORS.top;
@@ -256,7 +273,8 @@ export default function NewsClient() {
       const data: ApiResponse = await res.json();
 
       if (data.status === "success") {
-        setArticles(prev => reset ? (data.results ?? []) : [...prev, ...(data.results ?? [])]);
+        const incoming = data.results ?? [];
+        setArticles(prev => reset ? dedupeArticles([], incoming) : dedupeArticles(prev, incoming));
         setNextPage(data.nextPage ?? null);
       } else {
         setError(data.message ?? "Failed to load news. You may have hit the daily limit (200 requests/day).");
