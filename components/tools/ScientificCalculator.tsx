@@ -59,10 +59,7 @@ const ROWS: Btn[][] = [
   ],
 ];
 
-// Tokens that should be deleted as a whole unit on backspace
 const MULTI_CHAR_TOKENS = ["sin(", "cos(", "tan(", "log(", "ln(", "√("];
-
-// Values that replace the leading "0" rather than appending to it
 const STARTS_EXPR = new Set(["sin(", "cos(", "tan(", "√(", "log(", "ln(", "(", "π", "ℯ"]);
 
 function btnStyle(type: BtnType): string {
@@ -79,28 +76,51 @@ function btnStyle(type: BtnType): string {
   }
 }
 
-function evaluate(display: string): string {
-  try {
-    const expr = display
-      .replace(/×/g, "*")
-      .replace(/÷/g, "/")
-      .replace(/−/g, "-")
-      .replace(/π/g, `(${Math.PI})`)
-      .replace(/ℯ/g, `(${Math.E})`)
-      .replace(/sin\(/g, "Math.sin(")
-      .replace(/cos\(/g, "Math.cos(")
-      .replace(/tan\(/g, "Math.tan(")
-      .replace(/√\(/g, "Math.sqrt(")
-      .replace(/log\(/g, "Math.log10(")
-      .replace(/ln\(/g, "Math.log(")
-      .replace(/\^/g, "**");
-    // eslint-disable-next-line no-new-func
-    const result = Function('"use strict"; return (' + expr + ")")();
-    if (!isFinite(result)) return "Error";
-    return parseFloat(result.toFixed(10)).toString();
-  } catch {
-    return "Error";
-  }
+// Each trig function receives the value the user typed (degrees or radians),
+// so the d2r wrapper is applied to the entire argument — no string-prefix tricks
+// that would break on compound args like sin(30+45).
+function buildEvaluator(isDeg: boolean) {
+  const d2r = isDeg
+    ? (x: number) => x * (Math.PI / 180)
+    : (x: number) => x;
+
+  return function evalExpr(display: string): string {
+    try {
+      const sinFn  = (x: number) => Math.sin(d2r(x));
+      const cosFn  = (x: number) => Math.cos(d2r(x));
+      const tanFn  = (x: number) => Math.tan(d2r(x));
+      const sqrtFn = Math.sqrt;
+      const logFn  = Math.log10;
+      const lnFn   = Math.log;
+
+      const expr = display
+        .replace(/×/g, "*")
+        .replace(/÷/g, "/")
+        .replace(/−/g, "-")
+        .replace(/π/g, `(${Math.PI})`)
+        .replace(/ℯ/g, `(${Math.E})`)
+        .replace(/sin\(/g,   "sinFn(")
+        .replace(/cos\(/g,   "cosFn(")
+        .replace(/tan\(/g,   "tanFn(")
+        .replace(/√\(/g, "sqrtFn(")
+        .replace(/log\(/g,   "logFn(")
+        .replace(/ln\(/g,    "lnFn(")
+        .replace(/\^/g, "**");
+
+      // eslint-disable-next-line no-new-func
+      const result = new Function(
+        "sinFn", "cosFn", "tanFn", "sqrtFn", "logFn", "lnFn",
+        `"use strict"; return (${expr})`
+      )(sinFn, cosFn, tanFn, sqrtFn, logFn, lnFn);
+
+      if (!isFinite(result)) return "Error";
+      // Round to avoid floating-point noise (e.g. cos(90) = 6.12e-17 → 0)
+      const rounded = parseFloat(result.toFixed(10));
+      return rounded.toString();
+    } catch {
+      return "Error";
+    }
+  };
 }
 
 function smartBackspace(prev: string): string {
@@ -111,14 +131,14 @@ function smartBackspace(prev: string): string {
       return next || "0";
     }
   }
-  const next = prev.slice(0, -1);
-  return next || "0";
+  return prev.slice(0, -1) || "0";
 }
 
 export default function ScientificCalculator() {
   const [display, setDisplay]             = useState("0");
   const [expression, setExpression]       = useState("");
   const [justEvaluated, setJustEvaluated] = useState(false);
+  const [isDeg, setIsDeg]                 = useState(true);
 
   const handleButton = useCallback((val: string) => {
     if (val === "C") {
@@ -140,17 +160,17 @@ export default function ScientificCalculator() {
     }
 
     if (val === "=") {
-      const result = evaluate(display);
+      const evalExpr = buildEvaluator(isDeg);
+      const result   = evalExpr(display);
       setExpression(display + " =");
       setDisplay(result);
       setJustEvaluated(true);
       return;
     }
 
-    const isDigit = val.length === 1 && val >= "0" && val <= "9";
+    const isDigit   = val.length === 1 && val >= "0" && val <= "9";
     const isDecimal = val === ".";
 
-    // After evaluation: digit or decimal starts fresh; operator/function continues from result
     if (justEvaluated) {
       setJustEvaluated(false);
       if (isDigit) {
@@ -163,33 +183,33 @@ export default function ScientificCalculator() {
         setExpression("");
         return;
       }
-      // operator or function continues chaining from result — fall through
     }
 
     setDisplay((prev) => {
-      // Replace leading "0" for digits (but keep for "0.")
       if (prev === "0" && isDigit) return val;
-      // Replace leading "0" for expressions that start fresh (sin(, π, etc.)
       if (prev === "0" && STARTS_EXPR.has(val)) return val;
-      // Prevent double decimal in the current number segment
       if (isDecimal) {
         const lastOp = Math.max(
-          prev.lastIndexOf("+"), prev.lastIndexOf("−"),
-          prev.lastIndexOf("×"), prev.lastIndexOf("÷"),
-          prev.lastIndexOf("("), prev.lastIndexOf("^"),
+          prev.lastIndexOf("+"),
+          prev.lastIndexOf("−"),
+          prev.lastIndexOf("×"),
+          prev.lastIndexOf("÷"),
+          prev.lastIndexOf("("),
+          prev.lastIndexOf("^"),
         );
-        const currentSegment = prev.slice(lastOp + 1);
-        if (currentSegment.includes(".")) return prev;
+        if (prev.slice(lastOp + 1).includes(".")) return prev;
       }
       return prev + val;
     });
-  }, [display, justEvaluated]);
+  }, [display, isDeg, justEvaluated]);
 
   // Keyboard support
   useEffect(() => {
     const MAP: Record<string, string> = {
-      "0":"0","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9",
-      ".":".", "+":"+", "-":"−", "*":"×", "/":"÷", "^":"^",
+      "0":"0","1":"1","2":"2","3":"3","4":"4",
+      "5":"5","6":"6","7":"7","8":"8","9":"9",
+      ".":".", "+":"+",
+      "-":"−", "*":"×", "/":"÷", "^":"^",
       "(":"(", ")":")",
       "Enter":"=", "=":"=",
       "Backspace":"⌫", "Escape":"C",
@@ -203,7 +223,6 @@ export default function ScientificCalculator() {
     return () => window.removeEventListener("keydown", onKey);
   }, [handleButton]);
 
-  // Auto-shrink font based on display length
   const fontSize =
     display.length > 18 ? "1.2rem" :
     display.length > 12 ? "1.7rem" :
@@ -215,20 +234,33 @@ export default function ScientificCalculator() {
         className="w-full max-w-[340px] rounded-3xl overflow-hidden shadow-2xl select-none"
         style={{ background: "#1c1c1e" }}
       >
-        {/* ── Display ── */}
-        <div className="px-5 pt-6 pb-3 text-right min-h-[120px] flex flex-col justify-end gap-1">
-          <p className="text-gray-500 text-sm min-h-[20px] truncate">
-            {expression || " "}
-          </p>
-          <p
-            className="text-white font-light break-all leading-tight"
-            style={{ fontSize, lineHeight: 1.15 }}
-          >
-            {display}
-          </p>
+        {/* Display */}
+        <div className="px-5 pt-5 pb-3 min-h-[130px] flex flex-col justify-between">
+          {/* DEG / RAD toggle */}
+          <div>
+            <button
+              onClick={() => setIsDeg((d) => !d)}
+              className="text-xs font-bold px-3 py-1 rounded-full transition-colors"
+              style={{ background: isDeg ? "#ff9f0a" : "#4a4a4a", color: "#fff" }}
+            >
+              {isDeg ? "DEG" : "RAD"}
+            </button>
+          </div>
+          {/* Expression + result */}
+          <div className="text-right">
+            <p className="text-gray-500 text-sm min-h-[20px] truncate mb-0.5">
+              {expression || " "}
+            </p>
+            <p
+              className="text-white font-light break-all leading-tight"
+              style={{ fontSize, lineHeight: 1.15 }}
+            >
+              {display}
+            </p>
+          </div>
         </div>
 
-        {/* ── Buttons ── */}
+        {/* Buttons */}
         <div className="px-3 pb-5 space-y-[10px]">
           {ROWS.map((row, ri) => (
             <div key={ri} className="grid grid-cols-4 gap-[10px]">
