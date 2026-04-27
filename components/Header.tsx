@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/interview-prep", label: "Interview Prep" },
   { href: "/resume-builder", label: "Resume Builder" },
   { href: "/freelancer", label: "Freelancer Hub" },
+  { href: "/news", label: "News" },
   { href: "/blog", label: "Blog" },
   { href: "/qa", label: "Q&A" },
   { href: "/about", label: "About Us" },
