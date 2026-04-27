@@ -1040,6 +1040,15 @@ export const tools: Tool[] = [
     tags: ["loan eligibility", "home loan eligibility", "personal loan", "loan amount calculator", "bank loan"],
   },
   {
+    slug: "freelancer-hub",
+    name: "Freelancer Hub",
+    description: "Calculate your ideal hourly rate and compare platform fees across Upwork, Fiverr, Toptal, and Freelancer.com.",
+    category: "finance",
+    icon: "Briefcase",
+    featured: true,
+    tags: ["freelancer rate calculator", "upwork fee calculator", "fiverr fee calculator", "freelance income", "hourly rate", "platform fee comparison"],
+  },
+  {
     slug: "notice-period-calculator",
     name: "Notice Period Calculator",
     description: "Calculate your last working day and notice period buyout cost based on your resignation date.",

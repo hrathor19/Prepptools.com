@@ -10,7 +10,7 @@ import {
   ImageDown, FilePlus2, Scissors, PackageOpen, RotateCw,
   FileX, Stamp, FileImage, Minimize2, Maximize2, RefreshCw,
   FlipHorizontal, Keyboard, Wand2, SpellCheck, ScanText, IndianRupee,
-  GraduationCap, Banknote, CalendarClock, Users,
+  GraduationCap, Banknote, CalendarClock, Users, Briefcase,
 } from "lucide-react";
 import { getToolBySlug, getCategoryById, getToolsByCategory, tools } from "@/lib/tools-data";
 import { toolDescriptions } from "@/lib/tool-descriptions";
@@ -62,6 +62,7 @@ const iconMap: Record<string, React.ReactNode> = {
   GraduationCap: <GraduationCap className="w-7 h-7" />,
   Banknote: <Banknote className="w-7 h-7" />,
   CalendarClock: <CalendarClock className="w-7 h-7" />,
+  Briefcase: <Briefcase className="w-7 h-7" />,
 };
 
 const categoryIconMap: Record<string, React.ReactNode> = {

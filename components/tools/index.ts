@@ -56,6 +56,7 @@ export const toolComponents: Record<string, React.ComponentType> = {
   "fuel-cost-calculator": dynamic(() => import("./FuelCostCalculator")),
   "roman-numeral":     dynamic(() => import("./RomanNumeral")),
   // Finance — new
+  "freelancer-hub":    dynamic(() => import("./FreelancerHub")),
   "sip-calculator":    dynamic(() => import("./SIPCalculator")),
   "currency-converter": dynamic(() => import("./CurrencyConverter")),
   "salary-calculator": dynamic(() => import("./SalaryCalculator")),
