@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
+async function isAuthenticated() {
+  const cookieStore = await cookies();
+  return !!cookieStore.get("admin_token")?.value;
+}
+
 export async function POST(request: NextRequest) {
+  if (!(await isAuthenticated())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await request.json();
   const admin = getAdminClient();
 
