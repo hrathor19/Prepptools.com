@@ -45,7 +45,7 @@ export default function InterviewPrepPage() {
         <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-white/15 text-white/90 border border-white/20 px-4 py-1.5 rounded-full text-sm font-medium mb-5 backdrop-blur-sm">
-            <Briefcase className="w-3.5 h-3.5" /> Free · No sign-up · 6 roles covered
+            <Briefcase className="w-3.5 h-3.5" /> Free · No sign-up · 10+ roles covered
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
             Interview Prep Hub
