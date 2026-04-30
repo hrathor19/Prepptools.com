@@ -633,4 +633,40 @@ export const toolDescriptions: Record<string, { howItWorks: string; whyUse: stri
     whyUse:
       "When you resign, two things matter most: when your last day is and how much it costs to leave early. This free notice period calculator answers both instantly — with no sign-up and no ads.",
   },
+  "freelancer-hub": {
+    howItWorks:
+      "The Freelancer Hub has two calculators in one place. The Rate Calculator takes your target annual income, billable hours per week, weeks off per year, business expenses, and desired profit margin — then computes the minimum hourly rate you must charge to hit your goal. The Platform Fee Calculator lets you enter a project value and instantly see how much Upwork, Fiverr, Toptal, Freelancer.com, and other platforms deduct in commission, so you know your true take-home before accepting any gig.",
+    whyUse:
+      "Most freelancers undercharge because they never run the numbers. This free tool helps you set a rate that actually covers your taxes, expenses, and time off — not just your rent. The platform comparison prevents fee surprises: the same project on different platforms can leave very different amounts in your pocket once commissions are deducted.",
+  },
+  "ai-logo-maker": {
+    howItWorks:
+      "Enter your brand name and optional tagline, then choose a layout (horizontal, stacked, icon-only, or text-only), an icon shape from 11 options, a font style, and your colours. The tool generates a fully scalable SVG logo in real time — no waiting, no server processing. Apply a preset theme in one click or customise every detail including gradient direction, background style, corner radius, and drop shadow. Download as SVG for infinite scalability or PNG at 3× resolution for social media and print.",
+    whyUse:
+      "Professional logo design costs thousands of rupees and takes days. This free AI logo maker generates a clean, customisable SVG logo in seconds — directly in your browser, with no account required. SVG logos never pixelate, making them perfect for websites, business cards, and app icons at any size.",
+  },
+  "ai-ad-copy-generator": {
+    howItWorks:
+      "Enter your product or service name, describe your target audience, and state the key benefit you offer. Select your advertising platform (Google Ads, Facebook, Instagram, or LinkedIn) and choose a tone (Professional, Casual, Urgent, Inspiring, or Humorous). Click Generate and instantly receive a platform-optimised ad with a headline, body copy, and call-to-action — ready to paste into your ad manager.",
+    whyUse:
+      "Writing ad copy that converts is hard. Each platform has its own format, character limits, and audience expectations. This free AI ad copy generator handles that complexity for you — producing tailored copy for Google, Facebook, Instagram, and LinkedIn in seconds, so you can test more variations and find what works faster.",
+  },
+  "ai-hashtag-generator": {
+    howItWorks:
+      "Type your topic or niche (e.g. fitness, travel photography, startup marketing), select your platform, and choose how many hashtags you need (10, 20, or 30). The generator produces a curated mix of high-volume, mid-tier, and niche-specific hashtags optimised for your chosen platform — ready to copy and paste directly into your post.",
+    whyUse:
+      "Using the right hashtags can dramatically increase your organic reach on Instagram, Twitter, TikTok, LinkedIn, and YouTube. But researching them manually takes time. This free hashtag generator gives you a ready-to-use set in seconds, mixing broad discovery tags with niche-specific ones for maximum visibility without shadowban risk.",
+  },
+  "ai-bio-generator": {
+    howItWorks:
+      "Enter your name (optional), profession or role, and 2–3 key skills or interests. Select the platform you're writing for (Instagram, Twitter/X, LinkedIn, GitHub, or YouTube) and choose a tone (Professional, Witty, Inspiring, Casual, or Bold). The generator produces a platform-appropriate bio in the right length and style — ready to copy and paste.",
+    whyUse:
+      "Your bio is the first thing people read when they decide whether to follow or connect with you. A generic bio loses potential followers; a platform-optimised one converts them. This free bio generator creates tailored bios for every platform in seconds — no writer's block, no generic templates.",
+  },
+  "ai-email-subject-generator": {
+    howItWorks:
+      "Enter your email topic or product name and optionally your target audience. Select the email purpose (Newsletter, Cold Outreach, Sales/Promo, Re-engagement, Product Launch, or Event Invite) and a tone (Urgent, Curious, Professional, Friendly, or Bold). Click Generate and receive 3 subject line options — each can be copied individually with one click.",
+    whyUse:
+      "Email subject lines determine whether your email gets opened or ignored. A good subject line can double your open rate. This free email subject line generator produces 3 ready-to-test options for any campaign type in seconds — helping you A/B test without spending hours brainstorming.",
+  },
 };
