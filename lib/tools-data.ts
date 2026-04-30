@@ -136,6 +136,15 @@ export const categories: Category[] = [
     bgColor: "bg-slate-50",
     borderColor: "border-slate-200",
   },
+  {
+    id: "ai-tools",
+    name: "AI Tools",
+    description: "AI-powered generators for content, branding, and marketing",
+    icon: "Sparkles",
+    color: "text-fuchsia-600",
+    bgColor: "bg-fuchsia-50",
+    borderColor: "border-fuchsia-200",
+  },
 ];
 
 export const tools: Tool[] = [
@@ -1065,6 +1074,52 @@ export const tools: Tool[] = [
     icon: "FileText",
     featured: true,
     tags: ["cover letter generator", "cover letter", "job application", "cover letter template", "free cover letter"],
+  },
+  // AI Tools
+  {
+    slug: "ai-logo-maker",
+    name: "AI Logo Maker",
+    description: "Generate a professional SVG logo for your brand in seconds. Pick a style and download instantly — no design skills needed.",
+    category: "ai-tools",
+    icon: "Sparkles",
+    featured: true,
+    tags: ["ai logo maker", "logo generator", "free logo", "brand logo", "logo design", "svg logo"],
+  },
+  {
+    slug: "ai-ad-copy-generator",
+    name: "AI Ad Copy Generator",
+    description: "Generate compelling ad copy for Google, Facebook, Instagram, and LinkedIn in seconds. Pick a platform and tone.",
+    category: "ai-tools",
+    icon: "Megaphone",
+    featured: true,
+    tags: ["ad copy generator", "google ads copy", "facebook ad copy", "instagram ads", "linkedin ads", "ai copywriting"],
+  },
+  {
+    slug: "ai-hashtag-generator",
+    name: "AI Hashtag Generator",
+    description: "Generate trending and niche hashtags for Instagram, Twitter, LinkedIn, TikTok, and YouTube based on your topic.",
+    category: "ai-tools",
+    icon: "Hash",
+    featured: true,
+    tags: ["hashtag generator", "instagram hashtags", "twitter hashtags", "tiktok hashtags", "hashtag ideas", "social media hashtags"],
+  },
+  {
+    slug: "ai-bio-generator",
+    name: "AI Bio Generator",
+    description: "Create a punchy, professional bio for Instagram, Twitter, LinkedIn, or GitHub. Customise tone in one click.",
+    category: "ai-tools",
+    icon: "UserCircle2",
+    featured: true,
+    tags: ["bio generator", "instagram bio", "twitter bio", "linkedin bio", "github bio", "social media bio"],
+  },
+  {
+    slug: "ai-email-subject-generator",
+    name: "AI Email Subject Line Generator",
+    description: "Generate high-converting email subject lines for newsletters, sales, and cold outreach. Get 5 options with one click.",
+    category: "ai-tools",
+    icon: "Mail",
+    featured: true,
+    tags: ["email subject line generator", "email subject lines", "newsletter subject", "cold email subject", "email marketing"],
   },
 ];
 

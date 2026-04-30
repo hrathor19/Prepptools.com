@@ -119,6 +119,12 @@ export const toolComponents: Record<string, React.ComponentType> = {
   "header-footer-pdf": dynamic(() => import("./HeaderFooterPDF")),
   "flatten-pdf": dynamic(() => import("./FlattenPDF")),
   "grayscale-pdf": dynamic(() => import("./GrayscalePDF")),
+  // AI Tools
+  "ai-logo-maker":              dynamic(() => import("./AILogoMaker")),
+  "ai-ad-copy-generator":       dynamic(() => import("./AIAdCopyGenerator")),
+  "ai-hashtag-generator":       dynamic(() => import("./AIHashtagGenerator")),
+  "ai-bio-generator":           dynamic(() => import("./AIBioGenerator")),
+  "ai-email-subject-generator": dynamic(() => import("./AIEmailSubjectGenerator")),
   // Office Tools
   "word-to-pdf": dynamic(() => import("./WordToPDF")),
   "word-to-text": dynamic(() => import("./WordToText")),
