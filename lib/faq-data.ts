@@ -633,4 +633,11 @@ export const faqData: Record<string, FAQ[]> = {
     { q: "Does the timer track how many pomodoros I've completed?", a: "Yes. Each completed session increments the pomodoro counter. After 4 sessions, the tool prompts you to take a long break." },
     { q: "Is this free?", a: "Yes, completely free and works in any modern browser without installation." },
   ],
+  "freelancer-hub": [
+    { q: "How is the recommended hourly rate calculated?", a: "The calculator takes your target annual income, divides it by your available billable hours (after deducting weeks off and non-billable time), then adds your business expenses and desired profit margin. The result is the minimum hourly rate you need to charge to meet your income goal." },
+    { q: "Which freelance platforms does the fee calculator cover?", a: "The platform fee calculator covers Upwork, Fiverr, Toptal, Freelancer.com, and PeoplePerHour. It shows the platform commission deducted and your actual take-home for any project value you enter." },
+    { q: "Does Upwork's fee structure change based on earnings?", a: "Yes. Upwork uses a sliding fee: 20% on the first $500 earned with a client, 10% from $500.01 to $10,000, and 5% above $10,000. The calculator reflects these tiers based on the project value you enter." },
+    { q: "Should my hourly rate include taxes?", a: "Yes — and this is where many freelancers go wrong. As a freelancer you pay both employer and employee portions of taxes. A good rule of thumb is to set aside 25–35% of income for taxes depending on your country, and factor that into your rate target before using the calculator." },
+    { q: "Is this tool free to use?", a: "Yes, completely free with no sign-up required. Both calculators run entirely in your browser." },
+  ],
 };

@@ -633,4 +633,10 @@ export const toolDescriptions: Record<string, { howItWorks: string; whyUse: stri
     whyUse:
       "When you resign, two things matter most: when your last day is and how much it costs to leave early. This free notice period calculator answers both instantly — with no sign-up and no ads.",
   },
+  "freelancer-hub": {
+    howItWorks:
+      "The Freelancer Hub has two calculators in one place. The Rate Calculator takes your target annual income, billable hours per week, weeks off per year, business expenses, and desired profit margin — then computes the minimum hourly rate you must charge to hit your goal. The Platform Fee Calculator lets you enter a project value and instantly see how much Upwork, Fiverr, Toptal, Freelancer.com, and other platforms deduct in commission, so you know your true take-home before accepting any gig.",
+    whyUse:
+      "Most freelancers undercharge because they never run the numbers. This free tool helps you set a rate that actually covers your taxes, expenses, and time off — not just your rent. The platform comparison prevents fee surprises: the same $2,000 project on different platforms can leave very different amounts in your pocket once commissions are deducted.",
+  },
 };
