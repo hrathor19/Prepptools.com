@@ -11,7 +11,6 @@ import {
   FileX, Stamp, FileImage, Minimize2, Maximize2, RefreshCw,
   FlipHorizontal, Keyboard, Wand2, SpellCheck, ScanText, IndianRupee,
   GraduationCap, Banknote, CalendarClock, Users, Briefcase,
-  Sparkles, Megaphone, Hash, UserCircle2, Mail,
 } from "lucide-react";
 import { getToolBySlug, getCategoryById, getToolsByCategory, tools } from "@/lib/tools-data";
 import { toolDescriptions } from "@/lib/tool-descriptions";
@@ -64,11 +63,6 @@ const iconMap: Record<string, React.ReactNode> = {
   Banknote: <Banknote className="w-7 h-7" />,
   CalendarClock: <CalendarClock className="w-7 h-7" />,
   Briefcase: <Briefcase className="w-7 h-7" />,
-  Sparkles: <Sparkles className="w-7 h-7" />,
-  Megaphone: <Megaphone className="w-7 h-7" />,
-  Hash: <Hash className="w-7 h-7" />,
-  UserCircle2: <UserCircle2 className="w-7 h-7" />,
-  Mail: <Mail className="w-7 h-7" />,
 };
 
 const categoryIconMap: Record<string, React.ReactNode> = {
@@ -82,7 +76,6 @@ const categoryIconMap: Record<string, React.ReactNode> = {
   datetime: <Clock className="w-4 h-4" />,
   pdf: <FileImage className="w-4 h-4" />,
   image: <Palette className="w-4 h-4" />,
-  "ai-tools": <Sparkles className="w-4 h-4" />,
 };
 
 function getUsageCount(slug: string): string {
