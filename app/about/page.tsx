@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Wrench, Zap, Clock, Send, CheckCircle, Lightbulb, Users, Layers } from "lucide-react";
+import { Wrench, Zap, Clock, Send, CheckCircle, Lightbulb, Users, Layers, BookOpen, Download, IndianRupee, ShieldCheck, GraduationCap, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", tool: "", description: "" });
@@ -88,6 +89,108 @@ export default function AboutPage() {
           <p>
             We are a small team of developers passionate about productivity and simplicity. We ship new tools regularly and take every user suggestion seriously. If a tool makes daily life easier, it will find a home on PreppTools.
           </p>
+        </div>
+      </div>
+
+      {/* PDF Courses Section */}
+      <div className="mb-16">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30">
+            <GraduationCap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">PDF Courses &amp; Study Material</h2>
+        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 leading-relaxed max-w-3xl">
+          Beyond free tools, PreppTools now offers affordable, high-quality PDF courses designed for students, professionals, and self-learners across India and globally.
+        </p>
+
+        {/* Main description */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 mb-6">
+          <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p>
+              Our <strong className="text-gray-800 dark:text-gray-200">PDF course library</strong> is built for people who want to learn practical, job-ready skills at their own pace — without paying thousands of rupees for lengthy video courses that waste your time. Every course is a carefully crafted, structured <strong className="text-gray-800 dark:text-gray-200">PDF study guide</strong> covering everything from beginner fundamentals to advanced concepts.
+            </p>
+            <p>
+              Whether you are a <strong className="text-gray-800 dark:text-gray-200">college student</strong> preparing for placements, a <strong className="text-gray-800 dark:text-gray-200">working professional</strong> upskilling for a promotion, or a self-taught developer trying to fill knowledge gaps — our courses are designed to give you a dense, structured learning resource you can read, revisit, and reference anytime. Once you purchase, you get <strong className="text-gray-800 dark:text-gray-200">lifetime access</strong> with an instant PDF download — no subscriptions, no expiry.
+            </p>
+            <p>
+              Topics covered include <strong className="text-gray-800 dark:text-gray-200">SQL &amp; NoSQL databases</strong>, programming fundamentals, system design, data structures, digital marketing, finance, and more — with new courses added regularly. All courses are priced affordably, starting as low as ₹21, making quality education accessible to everyone regardless of budget.
+            </p>
+          </div>
+        </div>
+
+        {/* Feature grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          {[
+            {
+              icon: <Download className="w-5 h-5 text-emerald-600" />,
+              bg: "bg-emerald-50 dark:bg-emerald-900/20",
+              title: "Instant PDF Download",
+              desc: "Get immediate access to your course the moment you purchase. Download once, keep forever — read on any device, offline, anytime.",
+            },
+            {
+              icon: <IndianRupee className="w-5 h-5 text-amber-600" />,
+              bg: "bg-amber-50 dark:bg-amber-900/20",
+              title: "Affordable Pricing",
+              desc: "Premium study material starting from ₹21. One-time payment with no hidden fees, no subscriptions, and no recurring charges — ever.",
+            },
+            {
+              icon: <ShieldCheck className="w-5 h-5 text-blue-600" />,
+              bg: "bg-blue-50 dark:bg-blue-900/20",
+              title: "Structured & Expert-Crafted",
+              desc: "Every course is organized from beginner to advanced — covering theory, real-world examples, and practical use cases in a single, dense PDF.",
+            },
+            {
+              icon: <BookOpen className="w-5 h-5 text-purple-600" />,
+              bg: "bg-purple-50 dark:bg-purple-900/20",
+              title: "Learn at Your Own Pace",
+              desc: "No deadlines, no live sessions, no FOMO. Study when you want, skip what you know, and deep-dive into what matters most to you.",
+            },
+          ].map(({ icon, bg, title, desc }) => (
+            <div key={title} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 flex items-start gap-4">
+              <div className={`shrink-0 w-10 h-10 rounded-xl ${bg} flex items-center justify-center`}>
+                {icon}
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">{title}</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Who is it for */}
+        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200 dark:border-emerald-700 rounded-2xl p-7 mb-6">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4">Who are these courses for?</h3>
+          <ul className="space-y-2.5">
+            {[
+              "College students preparing for campus placements and technical interviews",
+              "Fresh graduates looking to build job-ready skills in programming, databases, and more",
+              "Working professionals who want to upskill quickly without long video courses",
+              "Developers and engineers filling knowledge gaps with structured reference material",
+              "Competitive exam aspirants looking for concise, high-density study notes",
+              "Anyone who prefers reading and self-paced learning over watching hours of videos",
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+                <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* CTA */}
+        <div className="flex items-center gap-4 flex-wrap">
+          <Link
+            href="/courses"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-colors"
+            style={{ backgroundColor: "#38525a" }}
+          >
+            <BookOpen className="w-4 h-4" />
+            Browse All Courses
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <p className="text-xs text-gray-400 dark:text-gray-500">Free courses available · No account needed to browse</p>
         </div>
       </div>
 
