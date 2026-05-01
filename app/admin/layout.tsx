@@ -1,13 +1,10 @@
-import AdminNav from "@/components/admin/AdminNav";
-
 export const metadata = {
-  title: { default: "Blog CMS", template: "%s | Blog CMS" },
+  title: { default: "Admin", template: "%s | Admin" },
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50">
-      <AdminNav />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>

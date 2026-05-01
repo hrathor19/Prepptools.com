@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, Download, Loader2, ChevronLeft, ChevronRight, Eye, Edit3 } from "lucide-react";
+import { Plus, Trash2, Download, Loader2, ChevronLeft, ChevronRight, Eye, Edit3, FileText } from "lucide-react";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type Exp   = { id: string; title: string; company: string; location: string; period: string; bullets: string };
@@ -48,7 +48,8 @@ export default function ResumeBuilderClient() {
   const [step, setStep]       = useState(0);
   const [data, setData]       = useState<ResumeData>(INIT);
   const [mTab, setMTab]       = useState<"edit"|"preview">("edit");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]       = useState(false);
+  const [loadingPdf, setLoadingPdf] = useState(false);
 
   function str(k: StrKey) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -82,6 +83,11 @@ export default function ResumeBuilderClient() {
     try { await generateDocx(data, contactStr); } catch (e) { console.error(e); } finally { setLoading(false); }
   }
 
+  async function downloadPdf() {
+    setLoadingPdf(true);
+    try { await generatePdf(data, contactStr); } catch (e) { console.error(e); } finally { setLoadingPdf(false); }
+  }
+
   return (
     <div className="flex flex-col" style={{ height: "calc(100dvh - 64px)" }}>
       {/* Header bar */}
@@ -90,15 +96,26 @@ export default function ResumeBuilderClient() {
           <h1 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">Resume Builder</h1>
           <p className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">Fill in each section · live preview updates as you type</p>
         </div>
-        <button
-          onClick={download}
-          disabled={loading || !data.name.trim()}
-          className="shrink-0 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-colors"
-        >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-          <span className="hidden sm:inline">{loading ? "Generating…" : "Download .docx"}</span>
-          <span className="sm:hidden">{loading ? "…" : ".docx"}</span>
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={downloadPdf}
+            disabled={loadingPdf || !data.name.trim()}
+            className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-colors"
+          >
+            {loadingPdf ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+            <span className="hidden sm:inline">{loadingPdf ? "Preparing…" : "Download PDF"}</span>
+            <span className="sm:hidden">PDF</span>
+          </button>
+          <button
+            onClick={download}
+            disabled={loading || !data.name.trim()}
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-colors"
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            <span className="hidden sm:inline">{loading ? "Generating…" : "Download .docx"}</span>
+            <span className="sm:hidden">{loading ? "…" : ".docx"}</span>
+          </button>
+        </div>
       </div>
 
       {/* Mobile tab toggle */}
@@ -460,6 +477,202 @@ function ResumePreview({ data, contactStr }: { data: ResumeData; contactStr: str
       </>}
     </div>
   );
+}
+
+// ── PDF via jsPDF (no browser print dialog — no headers/footers) ───────────────
+async function generatePdf(data: ResumeData, contactStr: string) {
+  const { jsPDF } = await import("jspdf");
+
+  const ML   = 18;   // margin left  (mm)
+  const MR   = 18;   // margin right (mm)
+  const MT   = 15;   // margin top   (mm)
+  const MB   = 15;   // margin bottom(mm)
+  const PW   = 210;  // A4 width     (mm)
+  const PH   = 297;  // A4 height    (mm)
+  const CW   = PW - ML - MR;   // 174 mm content width
+  const MAXY = PH - MB;
+
+  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  let y = MT;
+
+  const newPage = () => { doc.addPage(); y = MT; };
+  const gap = (mm: number) => { y += mm; };
+  const ensure = (mm: number) => { if (y + mm > MAXY) newPage(); };
+
+  // pt → mm line height
+  const lh = (pt: number, factor = 1.45) => pt * 0.3528 * factor;
+
+  // Wrapped text block — returns after last line
+  const wText = (
+    text: string,
+    x: number,
+    size: number,
+    style: "normal" | "bold",
+    rgb: [number, number, number],
+    maxW = CW,
+  ) => {
+    doc.setFontSize(size);
+    doc.setFont("helvetica", style);
+    doc.setTextColor(...rgb);
+    const lines = doc.splitTextToSize(text, maxW);
+    for (const line of lines) {
+      ensure(lh(size));
+      doc.text(line, x, y);
+      y += lh(size);
+    }
+  };
+
+  const sectionHead = (title: string) => {
+    ensure(10);
+    gap(2);
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(26, 26, 26);
+    doc.text(title.toUpperCase(), ML, y);
+    y += 2;
+    doc.setDrawColor(58, 58, 58);
+    doc.setLineWidth(0.5);
+    doc.line(ML, y, PW - MR, y);
+    y += 3.5;
+  };
+
+  // ── Name ──────────────────────────────────────────────────────────────────
+  if (data.name) {
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(20, 20, 20);
+    doc.text(data.name, PW / 2, y, { align: "center" });
+    y += lh(22);
+  }
+
+  // ── Contact line ──────────────────────────────────────────────────────────
+  if (contactStr) {
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100, 100, 100);
+    const clines = doc.splitTextToSize(contactStr, CW);
+    for (const line of clines) {
+      doc.text(line, PW / 2, y, { align: "center" });
+      y += lh(9);
+    }
+  }
+
+  // ── Divider ───────────────────────────────────────────────────────────────
+  gap(1);
+  doc.setDrawColor(190, 190, 190);
+  doc.setLineWidth(0.3);
+  doc.line(ML, y, PW - MR, y);
+  gap(3);
+
+  // ── Summary ───────────────────────────────────────────────────────────────
+  if (data.summary.trim()) {
+    sectionHead("Professional Summary");
+    wText(data.summary, ML, 10, "normal", [68, 68, 68]);
+    gap(1);
+  }
+
+  // ── Experience ────────────────────────────────────────────────────────────
+  const exps = data.experience.filter(e => e.title || e.company);
+  if (exps.length) {
+    sectionHead("Work Experience");
+    for (const e of exps) {
+      ensure(7);
+      // Title + period
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(20, 20, 20);
+      doc.text(e.title || "", ML, y);
+      if (e.period) {
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(120, 120, 120);
+        doc.text(e.period, PW - MR, y, { align: "right" });
+      }
+      y += lh(11);
+
+      if (e.company || e.location) {
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(68, 68, 68);
+        doc.text([e.company, e.location].filter(Boolean).join("  |  "), ML, y);
+        y += lh(10);
+      }
+
+      for (const b of e.bullets.split("\n").filter(Boolean))
+        wText("•  " + b.replace(/^[-•*]\s*/, ""), ML + 3, 10, "normal", [80, 80, 80], CW - 3);
+
+      gap(2);
+    }
+  }
+
+  // ── Education ─────────────────────────────────────────────────────────────
+  const edus = data.education.filter(e => e.degree || e.university);
+  if (edus.length) {
+    sectionHead("Education");
+    for (const e of edus) {
+      ensure(6);
+      wText(e.degree || "", ML, 11, "bold", [20, 20, 20]);
+      const sub = [e.university, e.year, e.gpa ? `GPA: ${e.gpa}` : ""].filter(Boolean).join("  |  ");
+      if (sub) wText(sub, ML, 10, "normal", [68, 68, 68]);
+      gap(2);
+    }
+  }
+
+  // ── Projects ──────────────────────────────────────────────────────────────
+  const projs = data.projects.filter(p => p.name);
+  if (projs.length) {
+    sectionHead("Projects");
+    for (const p of projs) {
+      ensure(6);
+      wText(p.name, ML, 11, "bold", [20, 20, 20]);
+      for (const b of p.bullets.split("\n").filter(Boolean))
+        wText("•  " + b.replace(/^[-•*]\s*/, ""), ML + 3, 10, "normal", [80, 80, 80], CW - 3);
+      gap(2);
+    }
+  }
+
+  // ── Skills ────────────────────────────────────────────────────────────────
+  const skls = data.skills.filter(s => s.items);
+  if (skls.length) {
+    sectionHead("Skills");
+    for (const s of skls) {
+      ensure(5);
+      if (s.category) {
+        const label = s.category + ": ";
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(40, 40, 40);
+        doc.text(label, ML, y);
+        const lw = doc.getTextWidth(label);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(68, 68, 68);
+        const wrapped = doc.splitTextToSize(s.items, CW - lw);
+        doc.text(wrapped[0] ?? "", ML + lw, y);
+        y += lh(10);
+        for (let i = 1; i < wrapped.length; i++) {
+          ensure(lh(10));
+          doc.text(wrapped[i], ML, y);
+          y += lh(10);
+        }
+      } else {
+        wText(s.items, ML, 10, "normal", [68, 68, 68]);
+      }
+      gap(1);
+    }
+  }
+
+  // ── Certifications ────────────────────────────────────────────────────────
+  const certs = data.certifications.split("\n").filter(Boolean);
+  if (certs.length) {
+    sectionHead("Certifications");
+    for (const c of certs)
+      wText("•  " + c.replace(/^[-•*]\s*/, ""), ML + 3, 10, "normal", [80, 80, 80], CW - 3);
+  }
+
+  const filename = data.name
+    ? `${data.name.toLowerCase().replace(/\s+/g, "-")}-resume.pdf`
+    : "my-resume.pdf";
+  doc.save(filename);
 }
 
 // ── DOCX generation ────────────────────────────────────────────────────────────

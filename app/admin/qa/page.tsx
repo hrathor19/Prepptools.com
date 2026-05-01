@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { MessageCircle, CheckCircle, Trash2, Send, Clock, Mail } from "lucide-react";
+import Link from "next/link";
+import { MessageCircle, CheckCircle, Trash2, Send, Clock, Mail, ArrowLeft } from "lucide-react";
 
 type Question = {
   id: number;
@@ -67,6 +68,9 @@ export default function AdminQAPage() {
 
   return (
     <div className="space-y-6">
+      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 transition-colors">
+        <ArrowLeft className="w-4 h-4" /> Dashboard
+      </Link>
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-extrabold text-gray-900">Q&amp;A</h1>

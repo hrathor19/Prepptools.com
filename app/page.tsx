@@ -200,6 +200,126 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── INTERVIEW PREP + RESUME BUILDER SPOTLIGHT ───────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-slate-900 to-gray-950 py-20 px-4">
+        {/* Background texture */}
+        <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto">
+          {/* Section label */}
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-gray-400 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-yellow-400" /> Featured
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3 leading-tight">
+              Land Your Dream Job,{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-300">Faster</span>
+            </h2>
+            <p className="text-gray-400 text-base max-w-xl mx-auto">
+              Two powerful tools built for job seekers — completely free, no account needed.
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {/* Interview Prep */}
+            <Link href="/interview-prep"
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-teal-950/60 to-slate-900/80 p-8 hover:border-teal-500/40 transition-all duration-300 hover:shadow-[0_0_40px_rgba(20,184,166,0.12)]">
+              {/* Glow */}
+              <div className="absolute top-0 right-0 w-56 h-56 bg-teal-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-teal-500/20 transition-all duration-500" />
+
+              <div className="relative">
+                {/* Icon */}
+                <div className="w-14 h-14 rounded-2xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center mb-6 group-hover:bg-teal-500/25 transition-colors">
+                  <GraduationCap className="w-7 h-7 text-teal-400" />
+                </div>
+
+                <div className="inline-flex items-center gap-1.5 bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+                  <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse" /> Free to use
+                </div>
+
+                <h3 className="text-2xl font-extrabold text-white mb-3 leading-snug group-hover:text-teal-100 transition-colors">
+                  Interview Prep
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                  Practice real interview questions, get instant AI feedback, and walk into every interview with confidence.
+                </p>
+
+                <ul className="space-y-2.5 mb-8">
+                  {[
+                    "Curated questions by role & domain",
+                    "Behavioral + technical prep",
+                    "Tips from industry professionals",
+                    "Track your readiness score",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-gray-300">
+                      <span className="mt-0.5 w-4 h-4 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center shrink-0">
+                        <span className="w-1.5 h-1.5 bg-teal-400 rounded-full" />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <span className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors group-hover:gap-3 duration-200">
+                  Start Preparing <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+            </Link>
+
+            {/* Resume Builder */}
+            <Link href="/resume-builder"
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-blue-950/60 to-slate-900/80 p-8 hover:border-blue-500/40 transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.12)]">
+              {/* Glow */}
+              <div className="absolute top-0 right-0 w-56 h-56 bg-blue-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-500/20 transition-all duration-500" />
+
+              <div className="relative">
+                {/* Icon */}
+                <div className="w-14 h-14 rounded-2xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center mb-6 group-hover:bg-blue-500/25 transition-colors">
+                  <Briefcase className="w-7 h-7 text-blue-400" />
+                </div>
+
+                <div className="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" /> Free to use
+                </div>
+
+                <h3 className="text-2xl font-extrabold text-white mb-3 leading-snug group-hover:text-blue-100 transition-colors">
+                  Resume Builder
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                  Build a job-winning resume in minutes with clean, ATS-friendly templates that recruiters love.
+                </p>
+
+                <ul className="space-y-2.5 mb-8">
+                  {[
+                    "Professional ATS-optimised templates",
+                    "Easy drag-and-drop sections",
+                    "Export as PDF instantly",
+                    "Tailored for Indian & global markets",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-gray-300">
+                      <span className="mt-0.5 w-4 h-4 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0">
+                        <span className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <span className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors group-hover:gap-3 duration-200">
+                  Build My Resume <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+            </Link>
+
+          </div>
+        </div>
+      </section>
+
       {/* ── CATEGORIES ───────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-center justify-between mb-8">

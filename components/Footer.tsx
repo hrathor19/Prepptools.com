@@ -65,15 +65,12 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {[
-                { href: "/tools", label: "All Tools" },
                 { href: "/toolkits", label: "Tool Kits" },
                 { href: "/compare", label: "Comparisons" },
                 { href: "/glossary", label: "Glossary" },
                 { href: "/formulas", label: "Formula Sheets" },
                 { href: "/resume-templates", label: "Resume Templates" },
-                { href: "/blog", label: "Blog" },
                 { href: "/qa", label: "Q&A" },
-                { href: "/about", label: "About Us" },
                 { href: "/privacy-policy", label: "Privacy Policy" },
               ].map(({ href, label }) => (
                 <li key={href}>

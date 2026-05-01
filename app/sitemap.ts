@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { tools } from "@/lib/tools-data";
 import { getAllBlogPosts } from "@/lib/blog-data";
+import { getAdminClient } from "@/lib/supabase";
 
 const BASE_URL = "https://www.prepptools.com";
 
@@ -9,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE_URL,                              lastModified: new Date(), changeFrequency: "weekly",  priority: 1.0 },
     { url: `${BASE_URL}/tools`,                   lastModified: new Date(), changeFrequency: "weekly",  priority: 0.9 },
     { url: `${BASE_URL}/blog`,                    lastModified: new Date(), changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${BASE_URL}/courses`,                 lastModified: new Date(), changeFrequency: "weekly",  priority: 0.9 },
     { url: `${BASE_URL}/toolkits`,                lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/compare`,                 lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/compare/prepptools-vs-smallpdf`,          lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
@@ -52,5 +54,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Supabase unavailable during build — skip blog pages
   }
 
-  return [...staticPages, ...toolPages, ...blogPages];
+  let coursePages: MetadataRoute.Sitemap = [];
+  try {
+    const admin = getAdminClient();
+    const { data: courses } = await admin
+      .from("cheatsheets")
+      .select("slug, updated_at")
+      .eq("is_published", true);
+    coursePages = (courses ?? []).map((c) => ({
+      url: `${BASE_URL}/courses/${c.slug}`,
+      lastModified: c.updated_at ? new Date(c.updated_at) : new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }));
+  } catch {
+    // Supabase unavailable during build — skip course pages
+  }
+
+  return [...staticPages, ...toolPages, ...blogPages, ...coursePages];
 }

@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         hostname: "*.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
   async redirects() {
@@ -16,7 +20,17 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         has: [{ type: "host", value: "prepptools.com" }],
         destination: "https://www.prepptools.com/:path*",
-        permanent: true, // 301 — tells Google this is the canonical domain
+        permanent: true,
+      },
+      {
+        source: "/cheatsheets",
+        destination: "/courses",
+        permanent: true,
+      },
+      {
+        source: "/cheatsheets/:path*",
+        destination: "/courses/:path*",
+        permanent: true,
       },
     ];
   },

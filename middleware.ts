@@ -3,10 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Let the login page through always
-  if (pathname === "/admin/login") return NextResponse.next();
+  // Allow login page and OAuth callback through
+  if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/auth")) {
+    return NextResponse.next();
+  }
 
-  // Protect all /admin/* routes
+  // Protect all other /admin/* routes
   const token = request.cookies.get("admin_token")?.value;
   if (!token || token !== process.env.ADMIN_SECRET) {
     const loginUrl = new URL("/admin/login", request.url);

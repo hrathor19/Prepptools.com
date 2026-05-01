@@ -54,6 +54,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Theme toggle animations ── */
+@keyframes rise {
+  from { transform: translateY(120%) rotate(-30deg); opacity: 0; }
+  to   { transform: translateY(0)    rotate(0deg);   opacity: 1; }
+}
+@keyframes set {
+  from { transform: translateY(0)     rotate(0deg);  opacity: 1; }
+  to   { transform: translateY(-120%) rotate(30deg); opacity: 0; }
+}
+@keyframes theme-pulse {
+  0%   { box-shadow: 0 0 0 0   var(--pulse-color); }
+  60%  { box-shadow: 0 0 0 14px transparent; }
+  100% { box-shadow: 0 0 0 0   transparent; }
+}
+
 /* Focus styles */
 *:focus-visible {
   outline: 2px solid #3b82f6;

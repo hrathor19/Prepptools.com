@@ -4,6 +4,7 @@ import { ChevronRight, BookOpen, Clock, User, ArrowLeft } from "lucide-react";
 import { getBlogPostBySlug, getRecentPosts, getAllSlugs } from "@/lib/blog-data";
 import LikeButton from "@/components/blog/LikeButton";
 import ShareButton from "@/components/blog/ShareButton";
+import SaveBlogButton from "@/components/blog/SaveBlogButton";
 import BlogContent from "@/components/blog/BlogContent";
 
 export async function generateStaticParams() {
@@ -95,10 +96,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <BlogContent content={post.content} />
       </article>
 
-      {/* Like / Share */}
-      <div className="flex items-center gap-3 mt-10 pt-8 border-t border-gray-100 dark:border-gray-700">
+      {/* Like / Save / Share */}
+      <div className="flex items-center gap-3 mt-10 pt-8 border-t border-gray-100 dark:border-gray-700 flex-wrap">
         <span className="text-sm text-gray-500 dark:text-gray-400 mr-1">Found this helpful?</span>
         <LikeButton slug={post.slug} initialLikes={post.likes} />
+        <SaveBlogButton slug={post.slug} />
         <ShareButton title={post.title} slug={post.slug} />
       </div>
 

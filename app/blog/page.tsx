@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Calendar, Clock, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getAllBlogPosts } from "@/lib/blog-data";
+import BlogCardSaveButton from "@/components/blog/BlogCardSaveButton";
 
 export const dynamic = "force-dynamic";
 
@@ -76,6 +77,9 @@ export default async function BlogPage({
                 <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                   Featured
                 </span>
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <BlogCardSaveButton slug={featuredPost.slug} />
+                </div>
               </div>
 
               {/* Content */}
@@ -144,10 +148,13 @@ export default async function BlogPage({
                     </div>
                   )}
                   {post.tags[0] && (
-                    <span className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-gray-700 dark:text-gray-200 text-xs font-semibold px-2.5 py-1 rounded-full">
+                    <span className="absolute top-3 left-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-gray-700 dark:text-gray-200 text-xs font-semibold px-2.5 py-1 rounded-full">
                       {post.tags[0]}
                     </span>
                   )}
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <BlogCardSaveButton slug={post.slug} />
+                  </div>
                 </div>
 
                 {/* Content */}

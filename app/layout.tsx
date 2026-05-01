@@ -3,6 +3,9 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
+import { AuthProvider } from "@/components/AuthProvider";
+import ThemeToggle from "@/components/ThemeToggle";
+import TopLoadingBar from "@/components/TopLoadingBar";
 
 const BASE_URL = "https://www.prepptools.com";
 
@@ -61,38 +64,45 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      <head suppressHydrationWarning>
         {/* Inline script runs before paint — prevents flash of wrong theme */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}`,
           }}
         />
         {/* Impact.com affiliate verification */}
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <meta name="impact-site-verification" {...{ value: "3cb63e15-8f79-4ffa-8b7d-68e2667f6dbf" } as any} />
+        <meta suppressHydrationWarning name="impact-site-verification" {...{ value: "3cb63e15-8f79-4ffa-8b7d-68e2667f6dbf" } as any} />
         {/* Google AdSense */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650947460011910" crossOrigin="anonymous" />
+        <script suppressHydrationWarning async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650947460011910" crossOrigin="anonymous" />
         {/* Microsoft Clarity */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wd07x3k632");`,
           }}
         />
         {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC16LZSHH1" />
+        <script suppressHydrationWarning async src="https://www.googletagmanager.com/gtag/js?id=G-GC16LZSHH1" />
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GC16LZSHH1');`,
           }}
         />
       </head>
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-900 antialiased" suppressHydrationWarning>
-        <ThemeProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <TopLoadingBar />
+        <AuthProvider>
+          <ThemeProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <ThemeToggle />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

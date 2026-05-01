@@ -20,6 +20,7 @@ import { alsoUsed } from "@/lib/also-used-data";
 import ToolCard from "@/components/ToolCard";
 import FeedbackWidget from "@/components/FeedbackWidget";
 import ToolRating from "@/components/ToolRating";
+import FavouriteToolButton from "@/components/tools/FavouriteToolButton";
 import ToolRunner from "./ToolRunner";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -207,8 +208,13 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
               {usageCount} uses this week
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{tool.name}</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">{tool.description}</p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{tool.name}</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">{tool.description}</p>
+            </div>
+            <FavouriteToolButton slug={slug} />
+          </div>
         </div>
       </div>
 
