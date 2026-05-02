@@ -74,16 +74,16 @@ export default function CheatsheetCard({
         className="group flex flex-col bg-white border border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:border-gray-300 transition-all duration-200 overflow-hidden w-full"
       >
         {/* Thumbnail */}
-        <div className="relative w-full aspect-video bg-gray-100 overflow-hidden">
+        <div className="relative w-full overflow-hidden">
           {previewImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={previewImageUrl}
               alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-auto block"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+            <div className="w-full aspect-video bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
               <FileText className="w-10 h-10 text-slate-400" />
             </div>
           )}

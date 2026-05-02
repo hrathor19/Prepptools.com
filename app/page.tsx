@@ -49,7 +49,7 @@ const heroTools = [
 const stats = [
   { value: "100+", label: "Free Tools" },
   { value: "13",   label: "Categories" },
-  { value: "No",   label: "Sign-ups Needed" },
+  { value: "5+",   label: "PDF Courses" },
   { value: "100%", label: "Browser-based" },
 ];
 
@@ -141,7 +141,7 @@ export default async function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 bg-white/10 text-blue-200 border border-white/10 px-4 py-1.5 rounded-full text-sm font-medium mb-7 backdrop-blur-sm">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                100% Free · No Sign-up Required
+                100% Free Tools · PDF Courses Available
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-white mb-6 leading-[1.12]">
@@ -153,7 +153,7 @@ export default async function HomePage() {
               </h1>
 
               <p className="text-blue-100/80 text-lg mb-8 max-w-lg leading-relaxed">
-                100+ tools for PDF, text, math, health, finance, and code — all free, all private, all running right in your browser.
+                100+ free tools for PDF, text, math, finance, and code — plus affordable PDF courses to level up your skills. All private. All in your browser.
               </p>
 
               <div className="max-w-lg relative z-20">
@@ -254,17 +254,16 @@ export default async function HomePage() {
                   href={`/courses/${course.slug}`}
                   className="group flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:border-purple-300 dark:hover:border-purple-500 hover:shadow-lg transition-all duration-200"
                 >
-                  <div className="relative h-40 bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
+                  <div className="relative overflow-hidden">
                     {course.previewImageUrl ? (
-                      <Image
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
                         src={course.previewImageUrl}
                         alt={course.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="w-full h-auto block"
                       />
                     ) : (
-                      <div className="flex items-center justify-center h-full">
+                      <div className="h-40 bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
                         <FileText className="w-12 h-12 text-purple-300 dark:text-purple-500" />
                       </div>
                     )}
@@ -273,7 +272,7 @@ export default async function HomePage() {
                         Free
                       </span>
                     ) : (
-                      <span className="absolute top-3 left-3 text-xs font-bold text-white px-2 py-0.5 rounded" style={{ backgroundColor: "#03adc5" }}>
+                      <span className="absolute top-3 right-3 text-xs font-bold text-white px-2 py-0.5 rounded" style={{ backgroundColor: "#03adc5" }}>
                         Premium
                       </span>
                     )}

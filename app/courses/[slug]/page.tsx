@@ -151,20 +151,18 @@ export default async function CheatsheetDetailPage({
 
             {/* Mobile purchase card */}
             <div className="lg:hidden mb-8 bg-white border border-gray-200 shadow-lg overflow-hidden">
-              <div className="relative w-full aspect-video bg-gray-100">
-                {sheet.preview_image_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={sheet.preview_image_url}
-                    alt={sheet.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
-                    <FileText className="w-14 h-14 text-slate-400" />
-                  </div>
-                )}
-              </div>
+              {sheet.preview_image_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={sheet.preview_image_url}
+                  alt={sheet.title}
+                  className="w-full h-auto block"
+                />
+              ) : (
+                <div className="w-full aspect-video bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+                  <FileText className="w-14 h-14 text-slate-400" />
+                </div>
+              )}
               <div className="p-5 bg-white">
                 <div className="flex items-baseline gap-2 mb-0.5">
                   <p className="text-3xl font-bold text-gray-900">
@@ -209,20 +207,18 @@ export default async function CheatsheetDetailPage({
               <div className="bg-white border border-gray-200 shadow-2xl overflow-hidden">
 
                 {/* Preview image */}
-                <div className="relative w-full aspect-video bg-gray-100">
-                  {sheet.preview_image_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={sheet.preview_image_url}
-                      alt={sheet.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
-                      <FileText className="w-14 h-14 text-slate-400" />
-                    </div>
-                  )}
-                </div>
+                {sheet.preview_image_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={sheet.preview_image_url}
+                    alt={sheet.title}
+                    className="w-full h-auto block"
+                  />
+                ) : (
+                  <div className="w-full aspect-video bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+                    <FileText className="w-14 h-14 text-slate-400" />
+                  </div>
+                )}
 
                 {/* Price + CTA */}
                 <div className="p-5">

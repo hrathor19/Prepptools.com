@@ -15,8 +15,8 @@ export default function Footer() {
               <Image src="/logo.png" alt="PreppTools" width={150} height={0} className="w-[150px] h-auto" />
             </Link>
             <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-              Free, fast, and privacy-friendly tools for everyday tasks.
-              No sign-up. No ads. Just tools that work.
+              Free, fast tools for everyday tasks — plus affordable PDF courses to sharpen your skills.
+              No ads. Just tools and learning that work.
             </p>
           </div>
 
@@ -65,7 +65,8 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {[
-                { href: "/toolkits", label: "Tool Kits" },
+                { href: "/courses", label: "PDF Courses" },
+              { href: "/toolkits", label: "Tool Kits" },
                 { href: "/compare", label: "Comparisons" },
                 { href: "/glossary", label: "Glossary" },
                 { href: "/formulas", label: "Formula Sheets" },
@@ -95,7 +96,7 @@ export default function Footer() {
               Privacy Policy
             </Link>
             <span className="text-gray-300 dark:text-gray-600">·</span>
-            <p className="text-sm text-gray-400 dark:text-gray-500">Free forever · No sign-up required</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Free tools forever · Courses from ₹21</p>
           </div>
         </div>
       </div>

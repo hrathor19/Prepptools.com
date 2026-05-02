@@ -66,18 +66,28 @@ export default function BuyButton({ cheatsheetId, slug, title, price, isFree }: 
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
         body: JSON.stringify({ cheatsheetId }),
       });
-      const order = await orderRes.json();
+      let order: { error?: string; orderId?: string; amount?: number; currency?: string };
+      try {
+        order = await orderRes.json();
+      } catch {
+        setError("Something went wrong. Please try again.");
+        setLoading(false);
+        return;
+      }
       if (!orderRes.ok) { setError(order.error ?? "Failed to create order"); setLoading(false); return; }
 
-      if (!window.Razorpay) {
-        await new Promise<void>((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src = "https://checkout.razorpay.com/v1/checkout.js";
-          script.onload = () => resolve();
-          script.onerror = () => reject(new Error("Failed to load Razorpay"));
-          document.body.appendChild(script);
-        });
-      }
+      // Always load a fresh Razorpay script to avoid stale instance issues
+      await new Promise<void>((resolve, reject) => {
+        const existing = document.querySelector('script[src*="checkout.razorpay"]');
+        if (existing) existing.remove();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete (window as any).Razorpay;
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Failed to load Razorpay SDK"));
+        document.body.appendChild(script);
+      });
 
       const rzp = new window.Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -87,30 +97,47 @@ export default function BuyButton({ cheatsheetId, slug, title, price, isFree }: 
         description: title,
         order_id: order.orderId,
         prefill: { email: user.email },
-        theme: { color: "#10b981" },
+        theme: { color: "#38525a" },
         handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
-          const verifyRes = await fetch("/api/razorpay/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              cheatsheetId,
-              userId: user.id,
-              amount: order.amount,
-            }),
-          });
-          const verify = await verifyRes.json();
-          if (verify.success) {
-            router.push(`/courses/${slug}/view`);
-            router.refresh();
-          } else {
-            setError("Payment verification failed. Contact support.");
+          try {
+            const verifyRes = await fetch("/api/razorpay/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                cheatsheetId,
+                userId: user.id,
+                amount: order.amount,
+              }),
+            });
+            const verify = await verifyRes.json().catch(() => ({}));
+            if (verify.success) {
+              router.push(`/courses/${slug}/view`);
+              router.refresh();
+            } else {
+              setError(verify.error ?? "Payment verification failed. Please contact support.");
+              setLoading(false);
+            }
+          } catch {
+            setError("Could not verify payment. Please contact support.");
             setLoading(false);
           }
         },
-        modal: { ondismiss: () => setLoading(false) },
+        modal: {
+          ondismiss: () => setLoading(false),
+          // Suppress Razorpay's native alert and handle failure in-page
+          escape: true,
+        },
+      });
+
+      // Handle payment failure event to show in-page error instead of alert
+      rzp.on("payment.failed", (response: { error: { description?: string; reason?: string } }) => {
+        const msg = response?.error?.description ?? response?.error?.reason ?? "Payment failed. Please try again.";
+        setError(msg);
+        setLoading(false);
+        rzp.close();
       });
 
       rzp.open();

@@ -67,7 +67,7 @@ export default function PurchasesPage() {
           <div className="text-center py-20">
             <FileText className="w-12 h-12 text-gray-600 mx-auto mb-3" />
             <p className="text-gray-400 mb-2">No purchases yet</p>
-            <Link href="/cheatsheets"
+            <Link href="/courses"
               className="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg hover:bg-emerald-700 transition-colors">
               Browse Courses
             </Link>
@@ -105,7 +105,7 @@ export default function PurchasesPage() {
                   </div>
 
                   {/* View button */}
-                  <Link href={`/cheatsheets/${sheet.slug}/view`}
+                  <Link href={`/courses/${sheet.slug}/view`}
                     className="flex items-center gap-1.5 px-3 py-2 bg-emerald-700/30 hover:bg-emerald-700/50 text-emerald-400 text-xs font-medium rounded-lg transition-colors shrink-0">
                     <Eye className="w-3.5 h-3.5" />
                     View

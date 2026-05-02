@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
   }
 
   const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
+    key_id: process.env.RAZORPAY_KEY_ID.trim(),
+    key_secret: process.env.RAZORPAY_KEY_SECRET.trim(),
   });
   const authHeader = request.headers.get("authorization");
   const token = authHeader?.replace("Bearer ", "");
@@ -23,7 +23,12 @@ export async function POST(request: NextRequest) {
   const { data: { user }, error: authError } = await userClient.auth.getUser(token);
   if (authError || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { cheatsheetId } = await request.json();
+  let cheatsheetId: string;
+  try {
+    ({ cheatsheetId } = await request.json());
+  } catch {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
   if (!cheatsheetId) return NextResponse.json({ error: "Missing cheatsheetId" }, { status: 400 });
 
   const admin = getAdminClient();
@@ -35,8 +40,13 @@ export async function POST(request: NextRequest) {
     .eq("is_published", true)
     .single();
 
-  if (error || !sheet) return NextResponse.json({ error: "Cheatsheet not found" }, { status: 404 });
-  if (sheet.is_free) return NextResponse.json({ error: "This cheatsheet is free" }, { status: 400 });
+  if (error || !sheet) return NextResponse.json({ error: "Course not found" }, { status: 404 });
+  if (sheet.is_free) return NextResponse.json({ error: "This course is free" }, { status: 400 });
+
+  const amount = Number(sheet.price);
+  if (!amount || amount < 100) {
+    return NextResponse.json({ error: "Invalid course price" }, { status: 400 });
+  }
 
   const { data: existing } = await admin
     .from("purchases")
@@ -47,12 +57,27 @@ export async function POST(request: NextRequest) {
 
   if (existing) return NextResponse.json({ error: "Already purchased" }, { status: 400 });
 
-  const order = await razorpay.orders.create({
-    amount: sheet.price,
-    currency: "INR",
-    receipt: `cs_${cheatsheetId.slice(0, 8)}_${Date.now()}`,
-    notes: { cheatsheetId, userId: user.id, title: sheet.title },
-  });
+  let order;
+  try {
+    order = await razorpay.orders.create({
+      amount,
+      currency: "INR",
+      receipt: `cs_${Date.now()}`,
+      notes: {
+        cheatsheetId: String(cheatsheetId),
+        userId: String(user.id),
+        title: String(sheet.title ?? ""),
+      },
+    });
+  } catch (err: unknown) {
+    const rzpErr = err as { statusCode?: number; error?: { description?: string } };
+    const detail = rzpErr?.error?.description ?? (err instanceof Error ? err.message : String(err));
+    console.error("Razorpay order creation failed:", detail, err);
+    return NextResponse.json(
+      { error: `Payment gateway error: ${detail}` },
+      { status: 502 }
+    );
+  }
 
-  return NextResponse.json({ orderId: order.id, amount: sheet.price, currency: "INR", name: sheet.title });
+  return NextResponse.json({ orderId: order.id, amount, currency: "INR", name: sheet.title });
 }
