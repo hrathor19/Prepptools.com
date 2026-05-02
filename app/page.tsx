@@ -88,6 +88,8 @@ const audiences = [
   { icon: <TrendingUp className="w-4 h-4" />,    label: "Finance Pros" },
 ];
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   const popularTools = getPopularTools();
   const recentPosts = await getRecentPosts(3);
