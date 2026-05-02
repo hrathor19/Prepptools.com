@@ -7,7 +7,7 @@ import {
   Shield, Sparkles, MousePointerClick,
   FilePlus2, PackageOpen, QrCode, DollarSign,
   SpellCheck, Wand2, IndianRupee, FileSearch,
-  Users, GraduationCap, Briefcase, Laptop,
+  Users, GraduationCap, Briefcase, Laptop, FileText,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
 import ToolCard from "@/components/ToolCard";
@@ -17,6 +17,7 @@ import ToolOfTheDay from "@/components/ToolOfTheDay";
 import TipOfTheDay from "@/components/TipOfTheDay";
 import { categories, getPopularTools } from "@/lib/tools-data";
 import { getRecentPosts } from "@/lib/blog-data";
+import { getAdminClient } from "@/lib/supabase";
 
 const categoryIconMap: Record<string, React.ReactNode> = {
   Type: <Type className="w-5 h-5" />,
@@ -90,6 +91,35 @@ const audiences = [
 export default async function HomePage() {
   const popularTools = getPopularTools();
   const recentPosts = await getRecentPosts(3);
+
+  let featuredCourses: {
+    id: string; slug: string; title: string; description: string;
+    price: number; originalPrice: number | null; isFree: boolean;
+    category: string; pages: number; previewImageUrl: string | null;
+  }[] = [];
+  try {
+    const admin = getAdminClient();
+    const { data } = await admin
+      .from("cheatsheets")
+      .select("id, slug, title, description, price, original_price, is_free, category, pages, preview_image_url")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .limit(6);
+    featuredCourses = (data ?? []).map((c) => ({
+      id: c.id,
+      slug: c.slug,
+      title: c.title,
+      description: c.description ?? "",
+      price: c.price ?? 0,
+      originalPrice: c.original_price ?? null,
+      isFree: c.is_free ?? true,
+      category: c.category ?? "General",
+      pages: c.pages ?? 0,
+      previewImageUrl: c.preview_image_url ?? null,
+    }));
+  } catch {
+    // Supabase unavailable — skip courses section
+  }
 
   return (
     <div>
@@ -196,6 +226,103 @@ export default async function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PDF COURSES ──────────────────────────────────────────── */}
+      <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <span className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">PDF Courses</span>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-1">Learn Something New Today</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                Instant PDF download · Lifetime access · Starts from free
+              </p>
+            </div>
+            <Link href="/courses" className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 flex items-center gap-1 shrink-0">
+              View all <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {featuredCourses.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {featuredCourses.map((course) => (
+                <Link
+                  key={course.id}
+                  href={`/courses/${course.slug}`}
+                  className="group flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:border-purple-300 dark:hover:border-purple-500 hover:shadow-lg transition-all duration-200"
+                >
+                  <div className="relative h-40 bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
+                    {course.previewImageUrl ? (
+                      <Image
+                        src={course.previewImageUrl}
+                        alt={course.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full">
+                        <FileText className="w-12 h-12 text-purple-300 dark:text-purple-500" />
+                      </div>
+                    )}
+                    {course.isFree ? (
+                      <span className="absolute top-3 left-3 text-xs font-bold bg-emerald-500 text-white px-2 py-0.5 rounded">
+                        Free
+                      </span>
+                    ) : (
+                      <span className="absolute top-3 left-3 text-xs font-bold text-white px-2 py-0.5 rounded" style={{ backgroundColor: "#03adc5" }}>
+                        Premium
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="p-4 flex flex-col flex-1">
+                    <span className="text-xs text-purple-600 dark:text-purple-400 font-medium mb-1">{course.category}</span>
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors line-clamp-2 mb-2">
+                      {course.title}
+                    </h3>
+                    {course.description && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 flex-1">{course.description}</p>
+                    )}
+                    <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100 dark:border-gray-700">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-base font-bold text-gray-900 dark:text-white">
+                          {course.isFree
+                            ? "Free"
+                            : `₹${(course.price / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`}
+                        </span>
+                        {!course.isFree && course.originalPrice && course.originalPrice > course.price && (
+                          <span className="text-xs text-gray-400 line-through">
+                            ₹{(course.originalPrice / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })}
+                          </span>
+                        )}
+                      </div>
+                      {course.pages > 0 && (
+                        <span className="text-xs text-gray-400 dark:text-gray-500">{course.pages} pages</span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl">
+              <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+              <p className="text-gray-500 dark:text-gray-400 font-medium">Courses coming soon!</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">New PDF guides and cheatsheets on the way.</p>
+            </div>
+          )}
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/courses"
+              className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+            >
+              <BookOpen className="w-4 h-4" /> Browse All Courses
+            </Link>
           </div>
         </div>
       </section>

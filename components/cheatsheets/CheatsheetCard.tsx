@@ -212,12 +212,12 @@ export default function CheatsheetCard({
           <div className="flex gap-2">
             <Link
               href={`/courses/${slug}`}
-              className="flex-1 text-center text-xs font-bold py-2.5 px-3 transition-colors text-white"
+              className="flex-1 h-[38px] flex items-center justify-center text-xs font-bold px-3 transition-colors text-white"
               style={{ backgroundColor: isFree || isPurchased ? "#1f2937" : "#38525a" }}
             >
               {isPurchased ? "Access Now" : isFree ? "View Free" : `Buy Now · ₹${priceDisplay}`}
             </Link>
-            <WishlistButton cheatsheetId={id} className="w-10 py-2.5" />
+            <WishlistButton cheatsheetId={id} className="w-10 h-[38px]" />
           </div>
         </div>,
         document.body

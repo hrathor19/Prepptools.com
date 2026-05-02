@@ -239,7 +239,7 @@ export default async function CheatsheetDetailPage({
                       One-time purchase · Lifetime access
                     </p>
                   )}
-                  <div className={`flex gap-2 ${sheet.is_free ? "mb-4" : ""}`}>
+                  <div className={`flex gap-2 items-start ${sheet.is_free ? "mb-4" : ""}`}>
                     <div className="flex-1">
                       <BuyButton
                         cheatsheetId={sheet.id}

@@ -12,7 +12,7 @@ async function getToken(): Promise<string | null> {
 
 export default function WishlistButton({
   cheatsheetId,
-  className = "w-12 py-3.5",
+  className = "w-12 h-[52px]",
 }: {
   cheatsheetId: string;
   className?: string;

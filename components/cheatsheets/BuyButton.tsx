@@ -122,14 +122,14 @@ export default function BuyButton({ cheatsheetId, slug, title, price, isFree }: 
   };
 
   if (authLoading || checkingPurchase) {
-    return <div className="h-12 bg-gray-100 animate-pulse" />;
+    return <div className="h-[52px] bg-gray-100 animate-pulse" />;
   }
 
   if (isFree || isPurchased) {
     return (
       <button
         onClick={handleView}
-        className="w-full flex items-center justify-center gap-2 px-6 py-3.5 text-white font-bold transition-colors"
+        className="w-full h-[52px] flex items-center justify-center gap-2 px-6 text-white font-bold transition-colors"
         style={{ backgroundColor: "#38525a" }}>
         <Eye className="w-5 h-5" />
         {isPurchased ? "Go to course" : "View Free PDF"}
@@ -143,7 +143,7 @@ export default function BuyButton({ cheatsheetId, slug, title, price, isFree }: 
       <button
         onClick={handleBuy}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 px-6 py-3.5 text-white font-bold transition-colors disabled:opacity-60"
+        className="w-full h-[52px] flex items-center justify-center gap-2 px-6 text-white font-bold transition-colors disabled:opacity-60"
         style={{ backgroundColor: "#38525a" }}>
         {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingCart className="w-5 h-5" />}
         {loading ? "Processing…" : `Buy now · ₹${(price / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`}
