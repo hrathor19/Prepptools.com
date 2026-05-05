@@ -54,6 +54,29 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Hero tool card scrolling columns ── */
+@keyframes scroll-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes scroll-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0%); }
+}
+.animate-scroll-up   { animation: scroll-up   22s linear infinite; }
+.animate-scroll-down { animation: scroll-down 17s linear infinite; }
+
+.scroll-column:hover .animate-scroll-up,
+.scroll-column:hover .animate-scroll-down {
+  animation-play-state: paused;
+}
+
+/* Fade top & bottom of scroll columns */
+.hero-scroll-mask {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+  mask-image:         linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+}
+
 /* ── Theme toggle animations ── */
 @keyframes rise {
   from { transform: translateY(120%) rotate(-30deg); opacity: 0; }

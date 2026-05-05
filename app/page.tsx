@@ -36,15 +36,17 @@ const categoryIconMap: Record<string, React.ReactNode> = {
   Wrench: <Wrench className="w-5 h-5" />,
 };
 
-const heroTools = [
-  { name: "ATS Resume Scorer", icon: FileSearch,    bg: "bg-violet-100", color: "text-violet-600", slug: "ats-score" },
-  { name: "Merge PDF",          icon: FilePlus2,     bg: "bg-orange-100", color: "text-orange-600", slug: "merge-pdf" },
-  { name: "Grammar Checker",    icon: SpellCheck,    bg: "bg-green-100",  color: "text-green-600",  slug: "grammar-checker" },
-  { name: "AI Prompt Generator",icon: Wand2,         bg: "bg-purple-100", color: "text-purple-600", slug: "ai-prompt-generator" },
-  { name: "Compress PDF",       icon: PackageOpen,   bg: "bg-red-100",    color: "text-red-600",    slug: "compress-pdf" },
-  { name: "Currency Converter", icon: DollarSign,    bg: "bg-amber-100",  color: "text-amber-600",  slug: "currency-converter" },
-  { name: "QR Code Generator",  icon: QrCode,        bg: "bg-emerald-100",color: "text-emerald-600",slug: "qr-code-generator" },
-  { name: "Tax Calculator",     icon: IndianRupee,   bg: "bg-blue-100",   color: "text-blue-600",   slug: "tax-regime-calculator" },
+const heroToolsLeft = [
+  { name: "ATS Resume Scorer",   icon: FileSearch,  bg: "bg-violet-100",  color: "text-violet-600",  slug: "ats-score" },
+  { name: "Grammar Checker",     icon: SpellCheck,  bg: "bg-green-100",   color: "text-green-600",   slug: "grammar-checker" },
+  { name: "Compress PDF",        icon: PackageOpen, bg: "bg-red-100",     color: "text-red-600",     slug: "compress-pdf" },
+  { name: "QR Code Generator",   icon: QrCode,      bg: "bg-emerald-100", color: "text-emerald-600", slug: "qr-code-generator" },
+];
+const heroToolsRight = [
+  { name: "Merge PDF",           icon: FilePlus2,   bg: "bg-orange-100",  color: "text-orange-600",  slug: "merge-pdf" },
+  { name: "AI Prompt Generator", icon: Wand2,       bg: "bg-purple-100",  color: "text-purple-600",  slug: "ai-prompt-generator" },
+  { name: "Currency Converter",  icon: DollarSign,  bg: "bg-amber-100",   color: "text-amber-600",   slug: "currency-converter" },
+  { name: "Tax Calculator",      icon: IndianRupee, bg: "bg-blue-100",    color: "text-blue-600",    slug: "tax-regime-calculator" },
 ];
 
 const stats = [
@@ -174,26 +176,55 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Right — floating tool cards */}
-            <div className="hidden lg:grid grid-cols-2 gap-3">
-              {heroTools.map((tool, i) => {
-                const Icon = tool.icon;
-                return (
-                  <Link
-                    key={tool.slug}
-                    href={`/tools/${tool.slug}`}
-                    style={{ transform: i % 2 === 0 ? "translateY(0)" : "translateY(20px)" }}
-                    className="group flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 hover:border-white/25 rounded-2xl px-4 py-3.5 transition-all duration-200"
-                  >
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${tool.bg}`}>
-                      <Icon className={`w-4.5 h-4.5 ${tool.color}`} />
-                    </div>
-                    <span className="text-sm font-medium text-white/90 group-hover:text-white leading-tight">
-                      {tool.name}
-                    </span>
-                  </Link>
-                );
-              })}
+            {/* Right — animated scrolling tool columns */}
+            <div className="hidden lg:flex gap-3 h-[320px] overflow-hidden hero-scroll-mask">
+
+              {/* Left column — scrolls up */}
+              <div className="scroll-column flex-1 overflow-hidden">
+                <div className="animate-scroll-up flex flex-col gap-3">
+                  {[...heroToolsLeft, ...heroToolsLeft].map((tool, i) => {
+                    const Icon = tool.icon;
+                    return (
+                      <Link
+                        key={i}
+                        href={`/tools/${tool.slug}`}
+                        className="group flex items-center gap-3 bg-white/10 hover:bg-white/[0.18] backdrop-blur-md border border-white/10 hover:border-white/30 rounded-2xl px-4 py-3.5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20"
+                      >
+                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${tool.bg} group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className={`w-4 h-4 ${tool.color}`} />
+                        </div>
+                        <span className="text-sm font-medium text-white/85 group-hover:text-white leading-tight">
+                          {tool.name}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Right column — scrolls down */}
+              <div className="scroll-column flex-1 overflow-hidden">
+                <div className="animate-scroll-down flex flex-col gap-3">
+                  {[...heroToolsRight, ...heroToolsRight].map((tool, i) => {
+                    const Icon = tool.icon;
+                    return (
+                      <Link
+                        key={i}
+                        href={`/tools/${tool.slug}`}
+                        className="group flex items-center gap-3 bg-white/10 hover:bg-white/[0.18] backdrop-blur-md border border-white/10 hover:border-white/30 rounded-2xl px-4 py-3.5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20"
+                      >
+                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${tool.bg} group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className={`w-4 h-4 ${tool.color}`} />
+                        </div>
+                        <span className="text-sm font-medium text-white/85 group-hover:text-white leading-tight">
+                          {tool.name}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
