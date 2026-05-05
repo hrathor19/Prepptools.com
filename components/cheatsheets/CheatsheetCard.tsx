@@ -105,35 +105,31 @@ export default function CheatsheetCard({
           </div>
 
           <div className="mt-auto flex items-baseline gap-1.5 flex-wrap">
-            {isFree ? (
-              <span className="text-sm font-bold text-emerald-600">Free</span>
-            ) : (
-              <>
-                <span className="text-sm font-bold text-gray-900">₹{priceDisplay}</span>
-                {originalPriceDisplay && (
-                  <span className="text-xs text-gray-400 line-through">₹{originalPriceDisplay}</span>
-                )}
-              </>
+            <span className="text-sm font-bold text-gray-900">
+              {isFree ? "₹0" : `₹${priceDisplay}`}
+            </span>
+            {originalPriceDisplay && (
+              <span className="text-xs text-gray-400 line-through">₹{originalPriceDisplay}</span>
             )}
           </div>
 
-          {(isPaid || isPurchased) && (
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {isPurchased ? (
-                <span className="text-[10px] font-bold bg-blue-600 text-white px-1.5 py-0.5 rounded-sm">Owned</span>
-              ) : (
-                <>
-                  <span className="text-[10px] font-bold border border-yellow-400 text-yellow-700 bg-yellow-50 px-1.5 py-0.5">
-                    Bestseller
-                  </span>
-                  <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-white px-1.5 py-0.5 rounded-sm" style={{ backgroundColor: "#03adc5" }}>
-                    <BadgeCheck className="w-3 h-3" />
-                    Premium
-                  </span>
-                </>
-              )}
-            </div>
-          )}
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {isPurchased ? (
+              <span className="text-[10px] font-bold bg-blue-600 text-white px-1.5 py-0.5 rounded-sm">Owned</span>
+            ) : isFree ? (
+              <span className="text-[10px] font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded-sm">Free</span>
+            ) : (
+              <>
+                <span className="text-[10px] font-bold border border-yellow-400 text-yellow-700 bg-yellow-50 px-1.5 py-0.5">
+                  Bestseller
+                </span>
+                <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-white px-1.5 py-0.5 rounded-sm" style={{ backgroundColor: "#03adc5" }}>
+                  <BadgeCheck className="w-3 h-3" />
+                  Premium
+                </span>
+              </>
+            )}
+          </div>
         </div>
       </Link>
 

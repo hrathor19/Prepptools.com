@@ -63,7 +63,7 @@ export default async function CheatsheetDetailPage({
   const priceDisplay = sheet.price
     ? (sheet.price / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })
     : "0";
-  const originalPriceDisplay = sheet.original_price && sheet.original_price > sheet.price
+  const originalPriceDisplay = sheet.original_price
     ? (sheet.original_price / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })
     : null;
 
@@ -166,9 +166,9 @@ export default async function CheatsheetDetailPage({
               <div className="p-5 bg-white">
                 <div className="flex items-baseline gap-2 mb-0.5">
                   <p className="text-3xl font-bold text-gray-900">
-                    {sheet.is_free ? "Free" : `₹${priceDisplay}`}
+                    {sheet.is_free ? "₹0" : `₹${priceDisplay}`}
                   </p>
-                  {!sheet.is_free && originalPriceDisplay && (
+                  {originalPriceDisplay && (
                     <p className="text-lg text-gray-400 line-through">₹{originalPriceDisplay}</p>
                   )}
                 </div>
@@ -224,9 +224,9 @@ export default async function CheatsheetDetailPage({
                 <div className="p-5">
                   <div className="flex items-baseline gap-2 mb-0.5">
                     <p className="text-3xl font-bold text-gray-900">
-                      {sheet.is_free ? "Free" : `₹${priceDisplay}`}
+                      {sheet.is_free ? "₹0" : `₹${priceDisplay}`}
                     </p>
-                    {!sheet.is_free && originalPriceDisplay && (
+                    {originalPriceDisplay && (
                       <p className="text-lg text-gray-400 line-through">₹{originalPriceDisplay}</p>
                     )}
                   </div>

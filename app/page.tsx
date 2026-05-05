@@ -105,8 +105,7 @@ export default async function HomePage() {
       .from("cheatsheets")
       .select("id, slug, title, description, price, original_price, is_free, category, pages, preview_image_url")
       .eq("is_published", true)
-      .order("created_at", { ascending: false })
-      .limit(6);
+      .order("created_at", { ascending: false });
     featuredCourses = (data ?? []).map((c) => ({
       id: c.id,
       slug: c.slug,
@@ -159,7 +158,7 @@ export default async function HomePage() {
               </p>
 
               <div className="max-w-lg relative z-20">
-                <SearchBar large />
+                <SearchBar large courses={featuredCourses} />
               </div>
 
               <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
@@ -250,7 +249,7 @@ export default async function HomePage() {
 
           {featuredCourses.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {featuredCourses.map((course) => (
+              {featuredCourses.slice(0, 6).map((course) => (
                 <Link
                   key={course.id}
                   href={`/courses/${course.slug}`}
@@ -270,7 +269,7 @@ export default async function HomePage() {
                       </div>
                     )}
                     {course.isFree ? (
-                      <span className="absolute top-3 left-3 text-xs font-bold bg-emerald-500 text-white px-2 py-0.5 rounded">
+                      <span className="absolute top-3 right-3 text-xs font-bold bg-emerald-500 text-white px-2 py-0.5 rounded">
                         Free
                       </span>
                     ) : (

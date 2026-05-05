@@ -1,6 +1,6 @@
 import { getAdminClient } from "@/lib/supabase";
 import CoursesWelcome from "@/components/cheatsheets/CoursesWelcome";
-import CourseRow from "@/components/cheatsheets/CourseRow";
+import CoursesPageClient from "@/components/cheatsheets/CoursesPageClient";
 import { FileText } from "lucide-react";
 
 export const metadata = { title: "Courses | PreppTools" };
@@ -16,19 +16,18 @@ export default async function CheatsheetListPage() {
     .order("created_at", { ascending: false });
 
   const all = (sheets ?? []).map((s) => ({
-    id:             s.id,
-    slug:           s.slug,
-    title:          s.title,
-    description:    s.description ?? "",
-    price:          s.price ?? 0,
-    originalPrice:  s.original_price ?? null,
-    isFree:         s.is_free ?? true,
-    category:       s.category ?? "General",
-    pages:          s.pages ?? 0,
+    id:              s.id,
+    slug:            s.slug,
+    title:           s.title,
+    description:     s.description ?? "",
+    price:           s.price ?? 0,
+    originalPrice:   s.original_price ?? null,
+    isFree:          s.is_free ?? true,
+    category:        s.category ?? "General",
+    pages:           s.pages ?? 0,
     previewImageUrl: s.preview_image_url ?? null,
   }));
 
-  // Group by category (preserving insertion order)
   const grouped = all.reduce<Record<string, typeof all>>((acc, c) => {
     (acc[c.category] ??= []).push(c);
     return acc;
@@ -39,7 +38,6 @@ export default async function CheatsheetListPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Welcome header — client component reads auth */}
         <CoursesWelcome />
 
         {all.length === 0 ? (
@@ -49,29 +47,7 @@ export default async function CheatsheetListPage() {
             <p className="text-sm text-gray-400 mt-1">Check back soon — new content is on the way.</p>
           </div>
         ) : (
-          <div>
-            <div className="pt-8 pb-1">
-              <h2 className="text-2xl font-bold text-gray-900">What to learn next</h2>
-            </div>
-
-            {/* All courses — first row */}
-            <CourseRow
-              title="Recommended for you"
-              subtitle={`${all.length} course${all.length !== 1 ? "s" : ""} available`}
-              courses={all}
-            />
-
-            {/* Per-category rows */}
-            {categories.map((cat) =>
-              grouped[cat].length >= 2 ? (
-                <CourseRow
-                  key={cat}
-                  title={cat}
-                  courses={grouped[cat]}
-                />
-              ) : null
-            )}
-          </div>
+          <CoursesPageClient courses={all} categories={categories} grouped={grouped} />
         )}
       </div>
     </div>

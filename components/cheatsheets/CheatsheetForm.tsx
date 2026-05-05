@@ -206,8 +206,8 @@ export default function CheatsheetForm({
             <span className="text-sm text-gray-300">Free course</span>
           </label>
         </div>
-        {!form.isFree && (
-          <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
+          {!form.isFree && (
             <div>
               <label className="block text-xs text-gray-400 mb-1">Selling Price *</label>
               <div className="relative">
@@ -217,17 +217,19 @@ export default function CheatsheetForm({
                   placeholder="99" />
               </div>
             </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1">Original Price / MRP <span className="text-gray-600">(shown as strikethrough)</span></label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">₹</span>
-                <input type="number" value={form.originalPrice} onChange={(e) => set("originalPrice", e.target.value)} min="1"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-7 pr-3 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500"
-                  placeholder="499" />
-              </div>
+          )}
+          <div className={form.isFree ? "col-span-2" : ""}>
+            <label className="block text-xs text-gray-400 mb-1">
+              Original Price / MRP <span className="text-gray-600">(shown as strikethrough)</span>
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">₹</span>
+              <input type="number" value={form.originalPrice} onChange={(e) => set("originalPrice", e.target.value)} min="1"
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-7 pr-3 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500"
+                placeholder="499" />
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* PDF Upload */}

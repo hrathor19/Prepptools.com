@@ -24,6 +24,17 @@ import { searchTools, categories } from "@/lib/tools-data";
 import type { Tool } from "@/lib/tools-data";
 import Link from "next/link";
 
+type CourseResult = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  isFree: boolean;
+  price: number;
+  previewImageUrl?: string | null;
+};
+
 const iconMap: Record<string, React.ReactNode> = {
   AlignLeft: <AlignLeft className="w-4 h-4" />,
   CaseSensitive: <CaseSensitive className="w-4 h-4" />,
@@ -127,9 +138,16 @@ function ToolIcon({ tool }: { tool: Tool }) {
   );
 }
 
-export default function SearchBar({ large = false }: { large?: boolean }) {
+export default function SearchBar({
+  large = false,
+  courses = [],
+}: {
+  large?: boolean;
+  courses?: CourseResult[];
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Tool[]>([]);
+  const [courseResults, setCourseResults] = useState<CourseResult[]>([]);
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -137,13 +155,28 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
   useEffect(() => {
     if (query.trim().length < 2) {
       setResults([]);
+      setCourseResults([]);
       setOpen(false);
       return;
     }
     const found = searchTools(query.trim());
-    setResults(found.slice(0, 6));
+    setResults(found.slice(0, 5));
+
+    if (courses.length > 0) {
+      const q = query.trim().toLowerCase();
+      const foundCourses = courses
+        .filter(
+          (c) =>
+            c.title.toLowerCase().includes(q) ||
+            c.description.toLowerCase().includes(q) ||
+            c.category.toLowerCase().includes(q)
+        )
+        .slice(0, 3);
+      setCourseResults(foundCourses);
+    }
+
     setOpen(true);
-  }, [query]);
+  }, [query, courses]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -193,46 +226,86 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
       </form>
 
       {/* Dropdown */}
-      {open && results.length > 0 && (
+      {open && (results.length > 0 || courseResults.length > 0) && (
         <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50 overflow-hidden">
-          <div className="px-3 pt-2.5 pb-1">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 px-1">
-              Tools
-            </p>
-          </div>
-          {results.map((tool, i) => {
-            const category = categories.find((c) => c.id === tool.category);
-            return (
-              <Link
-                key={tool.slug}
-                href={`/tools/${tool.slug}`}
-                onClick={() => { setOpen(false); setQuery(""); }}
-                className={`flex items-center gap-3 px-3 py-2.5 hover:bg-blue-50 dark:hover:bg-gray-700/60 transition-colors group ${
-                  i < results.length - 1 ? "" : ""
-                }`}
-              >
-                {/* Tool icon with category color */}
-                <ToolIcon tool={tool} />
+          {/* Tools section */}
+          {results.length > 0 && (
+            <>
+              <div className="px-3 pt-2.5 pb-1">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 px-1">
+                  Tools
+                </p>
+              </div>
+              {results.map((tool) => {
+                const category = categories.find((c) => c.id === tool.category);
+                return (
+                  <Link
+                    key={tool.slug}
+                    href={`/tools/${tool.slug}`}
+                    onClick={() => { setOpen(false); setQuery(""); }}
+                    className="flex items-center gap-3 px-3 py-2.5 hover:bg-blue-50 dark:hover:bg-gray-700/60 transition-colors group"
+                  >
+                    <ToolIcon tool={tool} />
+                    <div className="flex-1 min-w-0 text-left">
+                      <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 truncate">
+                        {tool.name}
+                      </p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 truncate mt-0.5">
+                        {tool.description}
+                      </p>
+                    </div>
+                    <span className={`hidden sm:inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full shrink-0 ${category?.bgColor ?? "bg-gray-100"} ${category?.color ?? "text-gray-500"}`}>
+                      {category?.name}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 shrink-0 transition-colors" />
+                  </Link>
+                );
+              })}
+            </>
+          )}
 
-                {/* Name + description */}
-                <div className="flex-1 min-w-0 text-left">
-                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 truncate">
-                    {tool.name}
-                  </p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 truncate mt-0.5">
-                    {tool.description}
-                  </p>
-                </div>
-
-                {/* Category badge */}
-                <span className={`hidden sm:inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full shrink-0 ${category?.bgColor ?? "bg-gray-100"} ${category?.color ?? "text-gray-500"}`}>
-                  {category?.name}
-                </span>
-
-                <ArrowRight className="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 shrink-0 transition-colors" />
-              </Link>
-            );
-          })}
+          {/* Courses section */}
+          {courseResults.length > 0 && (
+            <>
+              <div className={`px-3 pb-1 ${results.length > 0 ? "border-t border-gray-100 dark:border-gray-700 pt-2.5 mt-1" : "pt-2.5"}`}>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 px-1">
+                  Courses
+                </p>
+              </div>
+              {courseResults.map((course) => (
+                <Link
+                  key={course.id}
+                  href={`/courses/${course.slug}`}
+                  onClick={() => { setOpen(false); setQuery(""); }}
+                  className="flex items-center gap-4 px-3 py-3 hover:bg-purple-50 dark:hover:bg-gray-700/60 transition-colors group"
+                >
+                  <div className="flex-shrink-0 w-[100px] h-[62px] rounded-lg overflow-hidden bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center">
+                    {course.previewImageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={course.previewImageUrl} alt={course.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <BookOpen className="w-6 h-6 text-purple-300" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0 text-left">
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 group-hover:text-purple-700 dark:group-hover:text-purple-400 leading-snug mb-0.5">
+                      {course.title}
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                      {course.category} ·{" "}
+                      {course.isFree
+                        ? "Free"
+                        : `₹${(course.price / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`}
+                    </p>
+                  </div>
+                  <span className="hidden sm:inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full shrink-0 bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+                    Course
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 group-hover:text-purple-400 shrink-0 transition-colors" />
+                </Link>
+              ))}
+            </>
+          )}
 
           {/* Footer */}
           <div className="border-t border-gray-100 dark:border-gray-700 mx-3 my-1" />
@@ -243,7 +316,7 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
               className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700/60 font-medium transition-colors"
             >
               <Search className="w-4 h-4" />
-              See all results for &quot;{query}&quot;
+              See all tool results for &quot;{query}&quot;
               <ArrowRight className="w-3.5 h-3.5 ml-auto" />
             </Link>
           </div>
@@ -251,10 +324,10 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
       )}
 
       {/* No results */}
-      {open && results.length === 0 && query.trim().length >= 2 && (
+      {open && results.length === 0 && courseResults.length === 0 && query.trim().length >= 2 && (
         <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50 px-4 py-6 text-center">
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            No tools found for &quot;{query}&quot;
+            No results for &quot;{query}&quot;
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
             Try a different keyword
