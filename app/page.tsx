@@ -5,8 +5,6 @@ import {
   Heart, Code2, Palette, Clock, ArrowRight, BookOpen,
   FileImage, ImageIcon, FileBox, Zap, Wrench,
   Shield, Sparkles, MousePointerClick,
-  FilePlus2, PackageOpen, QrCode, DollarSign,
-  SpellCheck, Wand2, IndianRupee, FileSearch,
   Users, GraduationCap, Briefcase, Laptop, FileText,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
@@ -36,17 +34,17 @@ const categoryIconMap: Record<string, React.ReactNode> = {
   Wrench: <Wrench className="w-5 h-5" />,
 };
 
-const heroToolsLeft = [
-  { name: "ATS Resume Scorer",   icon: FileSearch,  bg: "bg-violet-100",  color: "text-violet-600",  slug: "ats-score" },
-  { name: "Grammar Checker",     icon: SpellCheck,  bg: "bg-green-100",   color: "text-green-600",   slug: "grammar-checker" },
-  { name: "Compress PDF",        icon: PackageOpen, bg: "bg-red-100",     color: "text-red-600",     slug: "compress-pdf" },
-  { name: "QR Code Generator",   icon: QrCode,      bg: "bg-emerald-100", color: "text-emerald-600", slug: "qr-code-generator" },
+const heroCatsLeft = [
+  { id: "text",      name: "Text Tools",       icon: Type,       color: "text-blue-400",    bg: "bg-blue-400/20",    desc: "Word count, case convert & more" },
+  { id: "finance",   name: "Finance Tools",    icon: TrendingUp, color: "text-amber-400",   bg: "bg-amber-400/20",   desc: "Tax, EMI, currency calculators" },
+  { id: "health",    name: "Health & Fitness", icon: Heart,      color: "text-rose-400",    bg: "bg-rose-400/20",    desc: "BMI, calories, water intake" },
+  { id: "developer", name: "Developer Tools",  icon: Code2,      color: "text-indigo-400",  bg: "bg-indigo-400/20",  desc: "JSON, Base64, regex & more" },
 ];
-const heroToolsRight = [
-  { name: "Merge PDF",           icon: FilePlus2,   bg: "bg-orange-100",  color: "text-orange-600",  slug: "merge-pdf" },
-  { name: "AI Prompt Generator", icon: Wand2,       bg: "bg-purple-100",  color: "text-purple-600",  slug: "ai-prompt-generator" },
-  { name: "Currency Converter",  icon: DollarSign,  bg: "bg-amber-100",   color: "text-amber-600",   slug: "currency-converter" },
-  { name: "Tax Calculator",      icon: IndianRupee, bg: "bg-blue-100",    color: "text-blue-600",    slug: "tax-regime-calculator" },
+const heroCatsRight = [
+  { id: "pdf",      name: "PDF Tools",    icon: FileImage, color: "text-orange-400",  bg: "bg-orange-400/20",  desc: "Merge, compress, convert PDFs" },
+  { id: "image",    name: "Image Tools",  icon: ImageIcon, color: "text-violet-400",  bg: "bg-violet-400/20",  desc: "Resize, compress, convert images" },
+  { id: "office",   name: "Office Tools", icon: FileBox,   color: "text-sky-400",     bg: "bg-sky-400/20",     desc: "Excel, Word, and doc utilities" },
+  { id: "ai-tools", name: "AI Tools",     icon: Sparkles,  color: "text-fuchsia-400", bg: "bg-fuchsia-400/20", desc: "AI-powered productivity tools" },
 ];
 
 const stats = [
@@ -182,20 +180,21 @@ export default async function HomePage() {
               {/* Left column — scrolls up */}
               <div className="scroll-column flex-1 overflow-hidden">
                 <div className="animate-scroll-up flex flex-col gap-3">
-                  {[...heroToolsLeft, ...heroToolsLeft].map((tool, i) => {
-                    const Icon = tool.icon;
+                  {[...heroCatsLeft, ...heroCatsLeft].map((cat, i) => {
+                    const Icon = cat.icon;
                     return (
                       <Link
                         key={i}
-                        href={`/tools/${tool.slug}`}
-                        className="group flex items-center gap-3 bg-white/10 hover:bg-white/[0.18] backdrop-blur-md border border-white/10 hover:border-white/30 rounded-2xl px-4 py-3.5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20"
+                        href={`/tools?category=${cat.id}`}
+                        className="group flex items-center gap-3.5 bg-white/10 hover:bg-white/[0.18] backdrop-blur-md border border-white/10 hover:border-white/30 rounded-2xl px-4 py-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20"
                       >
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${tool.bg} group-hover:scale-110 transition-transform duration-300`}>
-                          <Icon className={`w-4 h-4 ${tool.color}`} />
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${cat.bg} group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className={`w-5 h-5 ${cat.color}`} />
                         </div>
-                        <span className="text-sm font-medium text-white/85 group-hover:text-white leading-tight">
-                          {tool.name}
-                        </span>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-white/90 group-hover:text-white leading-tight">{cat.name}</p>
+                          <p className="text-xs text-white/50 group-hover:text-white/70 mt-0.5 leading-tight">{cat.desc}</p>
+                        </div>
                       </Link>
                     );
                   })}
@@ -205,20 +204,21 @@ export default async function HomePage() {
               {/* Right column — scrolls down */}
               <div className="scroll-column flex-1 overflow-hidden">
                 <div className="animate-scroll-down flex flex-col gap-3">
-                  {[...heroToolsRight, ...heroToolsRight].map((tool, i) => {
-                    const Icon = tool.icon;
+                  {[...heroCatsRight, ...heroCatsRight].map((cat, i) => {
+                    const Icon = cat.icon;
                     return (
                       <Link
                         key={i}
-                        href={`/tools/${tool.slug}`}
-                        className="group flex items-center gap-3 bg-white/10 hover:bg-white/[0.18] backdrop-blur-md border border-white/10 hover:border-white/30 rounded-2xl px-4 py-3.5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20"
+                        href={`/tools?category=${cat.id}`}
+                        className="group flex items-center gap-3.5 bg-white/10 hover:bg-white/[0.18] backdrop-blur-md border border-white/10 hover:border-white/30 rounded-2xl px-4 py-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20"
                       >
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${tool.bg} group-hover:scale-110 transition-transform duration-300`}>
-                          <Icon className={`w-4 h-4 ${tool.color}`} />
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${cat.bg} group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className={`w-5 h-5 ${cat.color}`} />
                         </div>
-                        <span className="text-sm font-medium text-white/85 group-hover:text-white leading-tight">
-                          {tool.name}
-                        </span>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-white/90 group-hover:text-white leading-tight">{cat.name}</p>
+                          <p className="text-xs text-white/50 group-hover:text-white/70 mt-0.5 leading-tight">{cat.desc}</p>
+                        </div>
                       </Link>
                     );
                   })}
