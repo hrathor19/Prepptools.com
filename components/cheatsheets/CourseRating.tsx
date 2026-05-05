@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { Star } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
-import StarRating from "./StarRating";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,8 +16,6 @@ export default function CourseRating({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const starsRef = useRef<HTMLDivElement>(null);
-  const hoverRef = useRef(0);
 
   useEffect(() => {
     async function check() {
@@ -38,17 +36,7 @@ export default function CourseRating({ slug }: { slug: string }) {
     check();
   }, [slug]);
 
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (!starsRef.current) return;
-    const rect = starsRef.current.getBoundingClientRect();
-    const x = Math.max(0, e.clientX - rect.left);
-    const raw = (x / rect.width) * 5;
-    const val = Math.max(0.1, Math.min(5, Math.round(raw * 10) / 10));
-    hoverRef.current = val;
-    setHover(val);
-  }
-
-  async function handleRate(rating: number) {
+  async function handleRate(star: number) {
     setSubmitting(true);
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { setSubmitting(false); return; }
@@ -59,11 +47,11 @@ export default function CourseRating({ slug }: { slug: string }) {
         Authorization: `Bearer ${session.access_token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ rating }),
+      body: JSON.stringify({ rating: star }),
     });
 
     if (res.ok) {
-      setCurrentRating(rating);
+      setCurrentRating(star);
       setDone(true);
     }
     setSubmitting(false);
@@ -79,39 +67,40 @@ export default function CourseRating({ slug }: { slug: string }) {
 
       {done ? (
         <div className="flex items-center gap-2.5">
-          <StarRating rating={currentRating!} size="lg" />
-          <span className="text-sm font-semibold text-gray-700">{currentRating!.toFixed(1)}</span>
+          <div className="flex gap-0.5">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Star
+                key={star}
+                className={`w-5 h-5 ${star <= (currentRating ?? 0) ? "text-yellow-400" : "text-gray-200"}`}
+                fill="currentColor"
+              />
+            ))}
+          </div>
           <button
             onClick={() => setDone(false)}
-            className="text-xs text-gray-400 hover:text-gray-600 underline-offset-2 hover:underline ml-1"
+            className="text-xs text-gray-400 hover:text-gray-600 underline-offset-2 hover:underline"
           >
             Change
           </button>
         </div>
       ) : (
-        <div className="space-y-2">
-          {/* Interactive star area */}
-          <div className="flex items-center gap-3">
-            <div
-              ref={starsRef}
-              className={`inline-flex cursor-pointer select-none ${submitting ? "opacity-50 pointer-events-none" : ""}`}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={() => { setHover(0); hoverRef.current = 0; }}
-              onClick={() => hoverRef.current > 0 && handleRate(hoverRef.current)}
+        <div className="flex gap-0.5">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              disabled={submitting}
+              onMouseEnter={() => setHover(star)}
+              onMouseLeave={() => setHover(0)}
+              onClick={() => handleRate(star)}
+              className="p-0.5 transition-transform hover:scale-110 disabled:opacity-50 cursor-pointer"
+              aria-label={`Rate ${star} out of 5`}
             >
-              <StarRating rating={hover} size="lg" />
-            </div>
-
-            {hover > 0 && (
-              <span className="text-sm font-bold text-yellow-500 w-8 tabular-nums">
-                {hover.toFixed(1)}
-              </span>
-            )}
-          </div>
-
-          <p className="text-xs text-gray-400">
-            Hover over the stars to set your rating, then click to submit.
-          </p>
+              <Star
+                className={`w-6 h-6 transition-colors ${star <= hover ? "text-yellow-400" : "text-gray-200"}`}
+                fill="currentColor"
+              />
+            </button>
+          ))}
         </div>
       )}
 
