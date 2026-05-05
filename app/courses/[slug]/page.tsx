@@ -4,6 +4,9 @@ import Link from "next/link";
 import BuyButton from "@/components/cheatsheets/BuyButton";
 import WishlistButton from "@/components/cheatsheets/WishlistButton";
 import CourseRow from "@/components/cheatsheets/CourseRow";
+import StarRating from "@/components/cheatsheets/StarRating";
+import CourseRating from "@/components/cheatsheets/CourseRating";
+import { getAvgRatings } from "@/lib/ratings";
 import {
   ChevronRight, FileText, Tag, Download, BookOpen, Globe, BadgeCheck,
   FileEdit, MessageSquare, ArrowRight,
@@ -47,7 +50,12 @@ export default async function CheatsheetDetailPage({
     .neq("slug", slug)
     .limit(12);
 
-  const relatedCourses = (relatedRaw ?? []).map((c) => ({
+  const relatedRaw2 = relatedRaw ?? [];
+  const allIds = [sheet.id, ...relatedRaw2.map((c) => c.id)];
+  const ratingMap = await getAvgRatings(admin, allIds);
+  const avgRating = ratingMap[sheet.id] ?? null;
+
+  const relatedCourses = relatedRaw2.map((c) => ({
     id: c.id,
     slug: c.slug,
     title: c.title,
@@ -58,6 +66,7 @@ export default async function CheatsheetDetailPage({
     category: c.category,
     pages: c.pages ?? 0,
     previewImageUrl: c.preview_image_url ?? null,
+    avgRating: ratingMap[c.id] ?? null,
   }));
 
   const priceDisplay = sheet.price
@@ -115,6 +124,14 @@ export default async function CheatsheetDetailPage({
                 </>
               )}
             </div>
+
+            {/* Rating */}
+            {avgRating != null && (
+              <div className="flex items-center gap-2 mb-5">
+                <StarRating rating={avgRating} size="md" />
+                <span className="text-sm text-yellow-300 font-semibold">{avgRating.toFixed(1)}</span>
+              </div>
+            )}
 
             {/* Meta row */}
             <div className="flex flex-wrap items-center gap-5 text-xs text-gray-400">
@@ -270,6 +287,8 @@ export default async function CheatsheetDetailPage({
                       ))}
                     </ul>
                   </div>
+
+                  <CourseRating slug={sheet.slug} />
                 </div>
               </div>
             </div>

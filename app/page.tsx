@@ -18,6 +18,7 @@ import TipOfTheDay from "@/components/TipOfTheDay";
 import { categories, getPopularTools } from "@/lib/tools-data";
 import { getRecentPosts } from "@/lib/blog-data";
 import { getAdminClient } from "@/lib/supabase";
+import { getAvgRatings } from "@/lib/ratings";
 
 const categoryIconMap: Record<string, React.ReactNode> = {
   Type: <Type className="w-5 h-5" />,
@@ -106,7 +107,7 @@ export default async function HomePage() {
       .select("id, slug, title, description, price, original_price, is_free, category, pages, preview_image_url")
       .eq("is_published", true)
       .order("created_at", { ascending: false });
-    featuredCourses = (data ?? []).map((c) => ({
+    const rawCourses = (data ?? []).map((c) => ({
       id: c.id,
       slug: c.slug,
       title: c.title,
@@ -118,6 +119,8 @@ export default async function HomePage() {
       pages: c.pages ?? 0,
       previewImageUrl: c.preview_image_url ?? null,
     }));
+    const ratingMap = await getAvgRatings(admin, rawCourses.map((c) => c.id));
+    featuredCourses = rawCourses.map((c) => ({ ...c, avgRating: ratingMap[c.id] ?? null }));
   } catch {
     // Supabase unavailable — skip courses section
   }

@@ -15,6 +15,7 @@ type Course = {
   category: string;
   pages: number;
   previewImageUrl: string | null;
+  avgRating?: number | null;
 };
 
 type Props = {
@@ -89,6 +90,7 @@ export default function CourseRow({ title, subtitle, courses }: Props) {
               category={c.category}
               pages={c.pages}
               previewImageUrl={c.previewImageUrl}
+              avgRating={c.avgRating}
             />
           ))}
           {/* Trailing spacer so last card isn't clipped */}

@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Search, X, BookOpen, ChevronDown, Check, SlidersHorizontal } from "lucide-react";
+import StarRating from "./StarRating";
 import Link from "next/link";
 import CheatsheetCard from "./CheatsheetCard";
 import CourseRow from "./CourseRow";
@@ -17,6 +18,7 @@ type Course = {
   category: string;
   pages: number;
   previewImageUrl: string | null;
+  avgRating?: number | null;
 };
 
 type Props = {
@@ -204,9 +206,14 @@ export default function CoursesPageClient({ courses, categories, grouped }: Prop
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-gray-800 group-hover:text-blue-700 leading-snug mb-0.5">
+                          <p className="text-sm font-semibold text-gray-800 group-hover:text-blue-700 leading-snug mb-1">
                             {c.title}
                           </p>
+                          {c.avgRating != null && (
+                            <div className="mb-1">
+                              <StarRating rating={c.avgRating} size="sm" />
+                            </div>
+                          )}
                           <p className="text-xs text-gray-400">
                             {c.category} ·{" "}
                             {c.isFree

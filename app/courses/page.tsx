@@ -1,6 +1,7 @@
 import { getAdminClient } from "@/lib/supabase";
 import CoursesWelcome from "@/components/cheatsheets/CoursesWelcome";
 import CoursesPageClient from "@/components/cheatsheets/CoursesPageClient";
+import { getAvgRatings } from "@/lib/ratings";
 import { FileText } from "lucide-react";
 
 export const metadata = { title: "Courses | PreppTools" };
@@ -15,7 +16,7 @@ export default async function CheatsheetListPage() {
     .eq("is_published", true)
     .order("created_at", { ascending: false });
 
-  const all = (sheets ?? []).map((s) => ({
+  const rawCourses = (sheets ?? []).map((s) => ({
     id:              s.id,
     slug:            s.slug,
     title:           s.title,
@@ -27,6 +28,9 @@ export default async function CheatsheetListPage() {
     pages:           s.pages ?? 0,
     previewImageUrl: s.preview_image_url ?? null,
   }));
+
+  const ratingMap = await getAvgRatings(admin, rawCourses.map((c) => c.id));
+  const all = rawCourses.map((c) => ({ ...c, avgRating: ratingMap[c.id] ?? null }));
 
   const grouped = all.reduce<Record<string, typeof all>>((acc, c) => {
     (acc[c.category] ??= []).push(c);

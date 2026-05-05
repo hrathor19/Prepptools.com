@@ -5,6 +5,7 @@ import Link from "next/link";
 import { createPortal } from "react-dom";
 import { FileText, Check, BadgeCheck } from "lucide-react";
 import WishlistButton from "./WishlistButton";
+import StarRating from "./StarRating";
 
 type Props = {
   id: string;
@@ -18,16 +19,16 @@ type Props = {
   pages: number;
   previewImageUrl?: string | null;
   isPurchased?: boolean;
+  avgRating?: number | null;
 };
 
 export default function CheatsheetCard({
-  id, title, description, slug, price, originalPrice, isFree, category, pages, previewImageUrl, isPurchased,
+  id, title, description, slug, price, originalPrice, isFree, category, pages, previewImageUrl, isPurchased, avgRating,
 }: Props) {
   const priceDisplay = (price / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 });
   const originalPriceDisplay = originalPrice && originalPrice > price
     ? (originalPrice / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 })
     : null;
-  const isPaid = !isFree;
 
   const [showPopup, setShowPopup] = useState(false);
   const [popupPos, setPopupPos] = useState<{ top: number; left: number; side: "left" | "right" }>({
@@ -47,13 +48,9 @@ export default function CheatsheetCard({
     const gap = 10;
     const side: "left" | "right" = r.right + PW + gap < window.innerWidth ? "right" : "left";
     const left = side === "right" ? r.right + gap : r.left - PW - gap;
-    const top  = Math.max(8, Math.min(r.top, window.innerHeight - 440));
+    const top  = Math.max(8, Math.min(r.top, window.innerHeight - 460));
     setPopupPos({ top, left, side });
     setShowPopup(true);
-  };
-
-  const handleLeave = () => {
-    startHide();
   };
 
   const highlights = [
@@ -67,7 +64,7 @@ export default function CheatsheetCard({
       ref={cardRef}
       className="relative shrink-0 w-[230px]"
       onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      onMouseLeave={startHide}
     >
       <Link
         href={`/courses/${slug}`}
@@ -77,11 +74,7 @@ export default function CheatsheetCard({
         <div className="relative w-full overflow-hidden">
           {previewImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={previewImageUrl}
-              alt={title}
-              className="w-full h-auto block"
-            />
+            <img src={previewImageUrl} alt={title} className="w-full h-auto block" />
           ) : (
             <div className="w-full aspect-video bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
               <FileText className="w-10 h-10 text-slate-400" />
@@ -103,6 +96,12 @@ export default function CheatsheetCard({
             <span className="text-[10px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">{category}</span>
             {pages > 0 && <span className="text-[10px] text-gray-400">{pages} pages</span>}
           </div>
+
+          {avgRating != null && (
+            <div className="mb-2">
+              <StarRating rating={avgRating} size="sm" />
+            </div>
+          )}
 
           <div className="mt-auto flex items-baseline gap-1.5 flex-wrap">
             <span className="text-sm font-bold text-gray-900">
@@ -133,7 +132,7 @@ export default function CheatsheetCard({
         </div>
       </Link>
 
-      {/* Hover popup — rendered via portal to escape overflow:hidden on scroll row */}
+      {/* Hover popup */}
       {showPopup && typeof document !== "undefined" && createPortal(
         <div
           className="fixed z-[9999] w-[308px] bg-white border border-gray-200 shadow-2xl p-4 pointer-events-auto"
@@ -141,7 +140,6 @@ export default function CheatsheetCard({
           onMouseEnter={cancelHide}
           onMouseLeave={startHide}
         >
-          {/* Arrow pointing toward card */}
           <div
             className={`absolute top-9 w-3.5 h-3.5 bg-white rotate-45 ${
               popupPos.side === "right"
@@ -150,11 +148,9 @@ export default function CheatsheetCard({
             }`}
           />
 
-          {/* Title */}
           <h3 className="text-[13px] font-bold text-gray-900 leading-snug mb-2">{title}</h3>
 
-          {/* Badges */}
-          <div className="flex flex-wrap gap-1.5 mb-2">
+          <div className="flex flex-wrap items-center gap-2 mb-2">
             {isPurchased ? (
               <span className="text-[10px] font-bold bg-blue-600 text-white px-1.5 py-0.5 rounded-sm">Owned</span>
             ) : isFree ? (
@@ -170,21 +166,19 @@ export default function CheatsheetCard({
                 </span>
               </>
             )}
+            {avgRating != null && <StarRating rating={avgRating} size="sm" />}
           </div>
 
-          {/* Meta line */}
           <p className="text-[11px] text-gray-500 mb-3">
             {category}
             {pages > 0 ? ` · ${pages} pages` : ""}
             {" · Instant Download"}
           </p>
 
-          {/* Description */}
           {description && (
             <p className="text-xs text-gray-600 leading-relaxed mb-3 line-clamp-3">{description}</p>
           )}
 
-          {/* What you'll get */}
           <ul className="space-y-1.5 mb-3">
             {highlights.map((h, i) => (
               <li key={i} className="flex items-start gap-2 text-xs text-gray-700">
@@ -194,7 +188,6 @@ export default function CheatsheetCard({
             ))}
           </ul>
 
-          {/* Price row */}
           {!isFree && !isPurchased && (
             <div className="flex items-baseline gap-2 mb-3">
               <span className="text-base font-bold text-gray-900">₹{priceDisplay}</span>
@@ -204,7 +197,6 @@ export default function CheatsheetCard({
             </div>
           )}
 
-          {/* Actions */}
           <div className="flex gap-2">
             <Link
               href={`/courses/${slug}`}

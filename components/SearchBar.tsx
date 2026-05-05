@@ -23,6 +23,7 @@ import {
 import { searchTools, categories } from "@/lib/tools-data";
 import type { Tool } from "@/lib/tools-data";
 import Link from "next/link";
+import StarRating from "@/components/cheatsheets/StarRating";
 
 type CourseResult = {
   id: string;
@@ -33,6 +34,7 @@ type CourseResult = {
   isFree: boolean;
   price: number;
   previewImageUrl?: string | null;
+  avgRating?: number | null;
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -288,10 +290,15 @@ export default function SearchBar({
                     )}
                   </div>
                   <div className="flex-1 min-w-0 text-left">
-                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 group-hover:text-purple-700 dark:group-hover:text-purple-400 leading-snug mb-0.5">
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 group-hover:text-purple-700 dark:group-hover:text-purple-400 leading-snug mb-1">
                       {course.title}
                     </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                    {course.avgRating != null && (
+                      <div className="mb-1">
+                        <StarRating rating={course.avgRating} size="sm" />
+                      </div>
+                    )}
+                    <p className="text-xs text-gray-400 dark:text-gray-500">
                       {course.category} ·{" "}
                       {course.isFree
                         ? "Free"
