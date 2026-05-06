@@ -12,11 +12,12 @@ import ToolCard from "@/components/ToolCard";
 import RecentTools from "@/components/RecentTools";
 import FavoriteTools from "@/components/FavoriteTools";
 import ToolOfTheDay from "@/components/ToolOfTheDay";
-import TipOfTheDay from "@/components/TipOfTheDay";
+import MacNotification from "@/components/MacNotification";
 import { categories, getPopularTools } from "@/lib/tools-data";
 import { getRecentPosts } from "@/lib/blog-data";
 import { getAdminClient } from "@/lib/supabase";
 import { getAvgRatings } from "@/lib/ratings";
+import StarRating from "@/components/cheatsheets/StarRating";
 
 const categoryIconMap: Record<string, React.ReactNode> = {
   Type: <Type className="w-5 h-5" />,
@@ -99,6 +100,7 @@ export default async function HomePage() {
     id: string; slug: string; title: string; description: string;
     price: number; originalPrice: number | null; isFree: boolean;
     category: string; pages: number; previewImageUrl: string | null;
+    avgRating?: number | null;
   }[] = [];
   try {
     const admin = getAdminClient();
@@ -243,8 +245,8 @@ export default async function HomePage() {
       {/* ── TOOL OF THE DAY ──────────────────────────────────────── */}
       <ToolOfTheDay />
 
-      {/* ── TIP OF THE DAY ───────────────────────────────────────── */}
-      <TipOfTheDay />
+      {/* ── MAC NOTIFICATION ─────────────────────────────────────── */}
+      <MacNotification />
 
       {/* ── FEATURES STRIP ───────────────────────────────────────── */}
       <section className="border-b border-gray-100 dark:border-gray-700">
@@ -320,6 +322,12 @@ export default async function HomePage() {
                     </h3>
                     {course.description && (
                       <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 flex-1">{course.description}</p>
+                    )}
+                    {course.avgRating != null && (
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <StarRating rating={course.avgRating} size="sm" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">{course.avgRating.toFixed(1)}</span>
+                      </div>
                     )}
                     <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100 dark:border-gray-700">
                       <div className="flex items-baseline gap-1.5">

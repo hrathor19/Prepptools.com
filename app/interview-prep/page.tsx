@@ -11,12 +11,12 @@ import SalaryScript from "@/components/interview/SalaryScript";
 
 export const metadata: Metadata = {
   title: "Interview Prep Hub — Free Interview Questions & STAR Builder",
-  description: "Free interview preparation: 140+ role-specific questions with sample answers, STAR answer builder, and salary negotiation script generator. No sign-up required.",
+  description: "Free interview preparation: 340+ role-specific questions with sample answers, STAR answer builder, and salary negotiation script generator. No sign-up required.",
   keywords: ["interview questions", "interview preparation", "STAR method", "salary negotiation", "software engineer interview", "HR interview questions", "free interview prep"],
   alternates: { canonical: "https://www.prepptools.com/interview-prep" },
   openGraph: {
     title: "Interview Prep Hub — Free Interview Questions & STAR Builder",
-    description: "140+ role-specific interview questions, STAR answer builder, and salary negotiation scripts. Free, no sign-up.",
+    description: "340+ role-specific interview questions, STAR answer builder, and salary negotiation scripts. Free, no sign-up.",
     url: "https://www.prepptools.com/interview-prep",
   },
 };
@@ -31,9 +31,9 @@ const jsonLd = {
 };
 
 const heroStats = [
-  { value: "140+", label: "Questions" },
-  { value: "14",   label: "Job Roles" },
-  { value: "4",    label: "Domains" },
+  { value: "340+", label: "Questions" },
+  { value: "34",   label: "Job Roles" },
+  { value: "7",    label: "Domains" },
   { value: "Free", label: "No sign-up" },
 ];
 

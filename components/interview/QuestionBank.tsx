@@ -6,31 +6,57 @@ import {
   Code2, LayoutDashboard, Megaphone, Users, BarChart2,
   Target, TrendingUp, FlaskConical, Palette, PenTool,
   Workflow, ShieldCheck, ClipboardList, Brain,
+  Globe, Layers, Smartphone, Bug, Cloud, Headphones,
+  Calendar, Gauge, UserCheck, Briefcase, RefreshCw,
+  Wallet, PenLine, Share2, UserPlus, GraduationCap, Truck,
 } from "lucide-react";
 import { roles } from "@/lib/interview-data";
 
 const roleIconMap: Record<string, React.ReactNode> = {
-  "software-engineer":  <Code2          className="w-4 h-4" />,
-  "product-manager":    <LayoutDashboard className="w-4 h-4" />,
-  "marketing":          <Megaphone       className="w-4 h-4" />,
-  "hr":                 <Users           className="w-4 h-4" />,
-  "finance":            <BarChart2       className="w-4 h-4" />,
-  "sales":              <Target          className="w-4 h-4" />,
-  "data-analyst":       <TrendingUp      className="w-4 h-4" />,
-  "data-scientist":     <FlaskConical    className="w-4 h-4" />,
-  "graphic-designer":   <Palette         className="w-4 h-4" />,
-  "ux-designer":        <PenTool         className="w-4 h-4" />,
-  "devops-engineer":    <Workflow        className="w-4 h-4" />,
-  "cybersecurity":      <ShieldCheck     className="w-4 h-4" />,
-  "business-analyst":   <ClipboardList   className="w-4 h-4" />,
-  "ml-engineer":        <Brain           className="w-4 h-4" />,
+  "software-engineer":      <Code2          className="w-4 h-4" />,
+  "product-manager":        <LayoutDashboard className="w-4 h-4" />,
+  "marketing":              <Megaphone       className="w-4 h-4" />,
+  "hr":                     <Users           className="w-4 h-4" />,
+  "finance":                <BarChart2       className="w-4 h-4" />,
+  "sales":                  <Target          className="w-4 h-4" />,
+  "data-analyst":           <TrendingUp      className="w-4 h-4" />,
+  "data-scientist":         <FlaskConical    className="w-4 h-4" />,
+  "graphic-designer":       <Palette         className="w-4 h-4" />,
+  "ux-designer":            <PenTool         className="w-4 h-4" />,
+  "devops-engineer":        <Workflow        className="w-4 h-4" />,
+  "cybersecurity":          <ShieldCheck     className="w-4 h-4" />,
+  "business-analyst":       <ClipboardList   className="w-4 h-4" />,
+  "ml-engineer":            <Brain           className="w-4 h-4" />,
+  "frontend-developer":     <Globe           className="w-4 h-4" />,
+  "full-stack-developer":   <Layers          className="w-4 h-4" />,
+  "mobile-developer":       <Smartphone      className="w-4 h-4" />,
+  "qa-engineer":            <Bug             className="w-4 h-4" />,
+  "cloud-architect":        <Cloud           className="w-4 h-4" />,
+  "it-support":             <Headphones      className="w-4 h-4" />,
+  "project-manager":        <Calendar        className="w-4 h-4" />,
+  "operations-manager":     <Gauge           className="w-4 h-4" />,
+  "customer-success":       <UserCheck       className="w-4 h-4" />,
+  "account-manager":        <Briefcase       className="w-4 h-4" />,
+  "scrum-master":           <RefreshCw       className="w-4 h-4" />,
+  "investment-analyst":     <TrendingUp      className="w-4 h-4" />,
+  "financial-advisor":      <Wallet          className="w-4 h-4" />,
+  "content-writer":         <PenLine         className="w-4 h-4" />,
+  "social-media-manager":   <Share2          className="w-4 h-4" />,
+  "seo-specialist":         <Search          className="w-4 h-4" />,
+  "recruiter":              <UserPlus        className="w-4 h-4" />,
+  "teacher-trainer":        <GraduationCap   className="w-4 h-4" />,
+  "supply-chain":           <Truck           className="w-4 h-4" />,
+  "consultant":             <Lightbulb       className="w-4 h-4" />,
 };
 
 const roleGroups = [
-  { label: "Technology",     ids: ["software-engineer", "devops-engineer", "ml-engineer", "cybersecurity"] },
-  { label: "Business",       ids: ["product-manager", "marketing", "hr", "sales", "business-analyst"] },
-  { label: "Finance & Data", ids: ["finance", "data-analyst", "data-scientist"] },
-  { label: "Design",         ids: ["graphic-designer", "ux-designer"] },
+  { label: "Technology", ids: ["software-engineer", "frontend-developer", "full-stack-developer", "mobile-developer", "devops-engineer", "cloud-architect", "qa-engineer", "ml-engineer", "cybersecurity", "it-support"] },
+  { label: "Business & Management", ids: ["product-manager", "project-manager", "operations-manager", "customer-success", "account-manager", "scrum-master", "supply-chain", "consultant"] },
+  { label: "Marketing & Content", ids: ["marketing", "content-writer", "social-media-manager", "seo-specialist"] },
+  { label: "HR & Talent", ids: ["hr", "recruiter"] },
+  { label: "Finance & Data", ids: ["finance", "investment-analyst", "financial-advisor", "data-analyst", "data-scientist"] },
+  { label: "Design", ids: ["graphic-designer", "ux-designer"] },
+  { label: "Education & Sales", ids: ["teacher-trainer", "sales", "business-analyst"] },
 ];
 
 export default function QuestionBank() {
@@ -64,8 +90,8 @@ export default function QuestionBank() {
 
       {/* ── Sidebar ── */}
       <aside className="lg:w-56 xl:w-64 shrink-0">
-        <div className="lg:sticky lg:top-20">
-          <div className="relative mb-4">
+        <div className="lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:flex lg:flex-col">
+          <div className="relative mb-4 shrink-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
             <input
               type="text"
@@ -80,7 +106,7 @@ export default function QuestionBank() {
             <p className="text-sm text-gray-400 dark:text-gray-500 px-1 py-2">No roles match &quot;{search}&quot;</p>
           )}
 
-          <nav className="space-y-5">
+          <nav className="space-y-5 lg:overflow-y-auto lg:flex-1 lg:pr-1" style={{ scrollbarWidth: "thin" }}>
             {filteredGroups.map((group) => (
               <div key={group.label}>
                 <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5 px-1">

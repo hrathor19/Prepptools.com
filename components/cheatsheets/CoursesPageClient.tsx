@@ -6,6 +6,7 @@ import StarRating from "./StarRating";
 import Link from "next/link";
 import CheatsheetCard from "./CheatsheetCard";
 import CourseRow from "./CourseRow";
+import ContinueLearning from "./ContinueLearning";
 
 type Course = {
   id: string;
@@ -411,12 +412,12 @@ export default function CoursesPageClient({ courses, categories, grouped }: Prop
         </div>
       ) : (
         <div>
+          <ContinueLearning courses={courses} />
           <div className="pt-8 pb-1">
             <h2 className="text-2xl font-bold text-gray-900">What to learn next</h2>
           </div>
           <CourseRow
             title="Recommended for you"
-            subtitle={`${courses.length} course${courses.length !== 1 ? "s" : ""} available`}
             courses={courses}
           />
           {categories.map((cat) =>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import BuyButton from "@/components/cheatsheets/BuyButton";
 import WishlistButton from "@/components/cheatsheets/WishlistButton";
 import CourseRow from "@/components/cheatsheets/CourseRow";
+import TrackCourseView from "@/components/cheatsheets/TrackCourseView";
 import StarRating from "@/components/cheatsheets/StarRating";
 import CourseRating from "@/components/cheatsheets/CourseRating";
 import { getAvgRatings } from "@/lib/ratings";
@@ -78,6 +79,7 @@ export default async function CheatsheetDetailPage({
 
   return (
     <div className="bg-gray-50">
+      <TrackCourseView slug={slug} />
       {/* ─────────── DARK HERO ─────────── */}
       <section className="bg-gray-950 lg:min-h-[300px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
