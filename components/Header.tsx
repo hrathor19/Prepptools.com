@@ -12,7 +12,6 @@ const navLinks = [
   { href: "/interview-prep", label: "Interview Prep" },
   { href: "/resume-builder", label: "Resume Builder" },
   { href: "/courses", label: "Courses" },
-  { href: "/news", label: "News" },
   { href: "/blog", label: "Blog" },
 ];
 
