@@ -127,6 +127,12 @@ const iconMap: Record<string, React.ReactNode> = {
   Keyboard: <Keyboard className="w-4 h-4" />,
 };
 
+// Stable reference so the `courses = []` default below doesn't create a new
+// array (and a new useEffect dependency) on every render — that recreation
+// was causing an infinite render loop when SearchBar is used without a
+// `courses` prop.
+const EMPTY_COURSES: CourseResult[] = [];
+
 function ToolIcon({ tool }: { tool: Tool }) {
   const category = categories.find((c) => c.id === tool.category);
   return (
@@ -142,7 +148,7 @@ function ToolIcon({ tool }: { tool: Tool }) {
 
 export default function SearchBar({
   large = false,
-  courses = [],
+  courses = EMPTY_COURSES,
 }: {
   large?: boolean;
   courses?: CourseResult[];
