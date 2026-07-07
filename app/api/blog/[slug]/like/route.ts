@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase";
+import { rateLimitByIp } from "@/lib/rate-limit";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  if (!rateLimitByIp(request, "blog-like", 20, 60 * 1000)) {
+    return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+  }
+
   const { slug } = await params;
 
   let action: "like" | "unlike";

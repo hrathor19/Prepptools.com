@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createHash } from "crypto";
 import { getAdminClient } from "@/lib/supabase";
 import { requireAdminSecret } from "@/lib/admin-auth";
-
-function sha256(str: string) {
-  return createHash("sha256").update(str).digest("hex");
-}
+import { verifyPassword, hashPassword } from "@/lib/password-hash";
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,9 +23,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    const inputHash = sha256(password);
-    if (inputHash !== data.password_hash) {
+    const { valid, needsRehash } = verifyPassword(password, data.password_hash);
+    if (!valid) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+
+    // Self-healing migration: the first successful login against a legacy
+    // unsalted sha256 hash upgrades it to salted scrypt in place.
+    if (needsRehash) {
+      await supabase
+        .from("admin_credentials")
+        .update({ password_hash: hashPassword(password) })
+        .eq("id", 1);
     }
 
     const secret = requireAdminSecret();

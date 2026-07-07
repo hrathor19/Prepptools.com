@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase";
+import { rateLimitByIp } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  if (!rateLimitByIp(request, "qa-ask", 5, 10 * 60 * 1000)) {
+    return NextResponse.json({ error: "Too many questions submitted. Please try again later." }, { status: 429 });
+  }
+
   try {
     const { name, email, question } = await request.json();
     if (!name?.trim() || !question?.trim()) {

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
   const amount = Number(sheet.price);
   if (!amount || amount < 100) {
-    return NextResponse.json({ error: "Invalid course price" }, { status: 400 });
+    return NextResponse.json({ error: "This course is not available for purchase right now." }, { status: 400 });
   }
 
   const { data: existing } = await admin

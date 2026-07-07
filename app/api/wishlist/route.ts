@@ -78,13 +78,23 @@ export async function POST(request: NextRequest) {
   if (!cheatsheetId) return NextResponse.json({ error: "Missing cheatsheetId" }, { status: 400 });
 
   const admin = getAdminClient();
+
+  const { data: sheet } = await admin
+    .from("cheatsheets")
+    .select("id")
+    .eq("id", cheatsheetId)
+    .eq("is_published", true)
+    .maybeSingle();
+
+  if (!sheet) return NextResponse.json({ error: "Course not found" }, { status: 404 });
+
   const { error } = await admin
     .from("course_wishlists")
     .insert({ user_id: user.id, cheatsheet_id: cheatsheetId });
 
   // 23505 = unique_violation (already in wishlist) — treat as success
   if (error && error.code !== "23505") {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Failed to update wishlist" }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });

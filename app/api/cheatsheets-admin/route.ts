@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { parseCheatsheetInput } from "@/lib/cheatsheet-validation";
 
 export async function GET() {
   if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,25 +16,30 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const body = await request.json();
+  const parsed = parseCheatsheetInput(body);
+  if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: 400 });
+  const input = parsed.data;
+
+  const slug = input.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   const admin = getAdminClient();
-  const slug = body.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   const { data, error } = await admin
     .from("cheatsheets")
     .insert({
       slug,
-      title: body.title,
-      description: body.description,
-      long_description: body.longDescription ?? "",
-      price: Number(body.price) * 100,
-      original_price: body.originalPrice ? Number(body.originalPrice) * 100 : null,
-      category: body.category ?? "General",
-      tags: body.tags ?? [],
-      preview_image_url: body.previewImageUrl ?? null,
-      pdf_path: body.pdfPath,
-      pages: Number(body.pages) || 0,
-      is_published: body.isPublished ?? false,
-      is_free: body.isFree ?? false,
+      title: input.title,
+      description: input.description,
+      long_description: input.longDescription,
+      price: input.price,
+      original_price: input.originalPrice,
+      category: input.category,
+      tags: input.tags,
+      preview_image_url: input.previewImageUrl,
+      pdf_path: input.pdfPath,
+      pages: input.pages,
+      is_published: input.isPublished,
+      is_free: input.isFree,
     })
     .select("id, slug")
     .single();
