@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/supabase";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 
 const BUCKET = "blog-covers";
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
 const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
-async function isAuthenticated() {
-  const cookieStore = await cookies();
-  return !!cookieStore.get("admin_token")?.value;
-}
-
 export async function POST(request: NextRequest) {
-  if (!(await isAuthenticated())) {
+  if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

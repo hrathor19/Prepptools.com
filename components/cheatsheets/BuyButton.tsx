@@ -102,14 +102,14 @@ export default function BuyButton({ cheatsheetId, slug, title, price, isFree }: 
           try {
             const verifyRes = await fetch("/api/razorpay/verify", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${session.access_token}`,
+              },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                cheatsheetId,
-                userId: user.id,
-                amount: order.amount,
               }),
             });
             const verify = await verifyRes.json().catch(() => ({}));

@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/supabase";
-
-async function isAuthenticated() {
-  const cookieStore = await cookies();
-  return !!cookieStore.get("admin_token")?.value;
-}
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 
 export async function GET() {
-  if (!(await isAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const admin = getAdminClient();
   const { data, error } = await admin
     .from("cheatsheets")
@@ -19,7 +14,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await isAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const body = await request.json();
   const admin = getAdminClient();
   const slug = body.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");

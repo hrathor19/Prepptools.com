@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/supabase";
-
-async function isAuthenticated() {
-  const cookieStore = await cookies();
-  return !!cookieStore.get("admin_token")?.value;
-}
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 
 // Public — used by CheatsheetForm to populate the dropdown
 export async function GET() {
@@ -19,7 +14,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await isAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { name } = await request.json();
   if (!name?.trim()) return NextResponse.json({ error: "Name is required" }, { status: 400 });
   const admin = getAdminClient();

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { requireAdminSecret } from "@/lib/admin-auth";
 
 // Add more emails here or set ADMIN_ALLOWED_EMAILS="a@gmail.com,b@gmail.com" in .env
 const ALLOWED_ADMINS = (process.env.ADMIN_ALLOWED_EMAILS ?? "hrathor19@gmail.com")
@@ -22,7 +23,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Not authorized", code: "unauthorized" }, { status: 403 });
   }
 
-  const secret = process.env.ADMIN_SECRET ?? "fallback-secret-change-me";
+  let secret: string;
+  try {
+    secret = requireAdminSecret();
+  } catch {
+    return NextResponse.json({ error: "Server misconfigured: ADMIN_SECRET not set" }, { status: 500 });
+  }
+
   const response = NextResponse.json({ ok: true });
   response.cookies.set("admin_token", secret, {
     httpOnly: true,

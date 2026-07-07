@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
 import { getAdminClient } from "@/lib/supabase";
+import { requireAdminSecret } from "@/lib/admin-auth";
 
 function sha256(str: string) {
   return createHash("sha256").update(str).digest("hex");
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    const secret = process.env.ADMIN_SECRET ?? "fallback-secret-change-me";
+    const secret = requireAdminSecret();
     const response = NextResponse.json({ ok: true });
     response.cookies.set("admin_token", secret, {
       httpOnly: true,
