@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase";
-import { requireAdminSecret } from "@/lib/admin-auth";
+import { issueAdminToken } from "@/lib/admin-auth";
 import { verifyPassword, hashPassword } from "@/lib/password-hash";
+import { rateLimitByIp } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  if (!rateLimitByIp(request, "admin-login", 5, 15 * 60 * 1000)) {
+    return NextResponse.json({ error: "Too many login attempts. Please try again later." }, { status: 429 });
+  }
+
   try {
     const { password } = await request.json();
 
@@ -37,9 +42,9 @@ export async function POST(request: NextRequest) {
         .eq("id", 1);
     }
 
-    const secret = requireAdminSecret();
+    const token = await issueAdminToken();
     const response = NextResponse.json({ ok: true });
-    response.cookies.set("admin_token", secret, {
+    response.cookies.set("admin_token", token, {
       httpOnly: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,

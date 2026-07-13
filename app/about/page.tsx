@@ -5,7 +5,7 @@ import { Wrench, Zap, Clock, Send, CheckCircle, Lightbulb, Users, Layers, BookOp
 import Link from "next/link";
 
 export default function AboutPage() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", tool: "", description: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", tool: "", description: "", website: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
@@ -19,7 +19,7 @@ export default function AboutPage() {
       });
       if (!res.ok) throw new Error();
       setStatus("success");
-      setForm({ name: "", email: "", phone: "", tool: "", description: "" });
+      setForm({ name: "", email: "", phone: "", tool: "", description: "", website: "" });
     } catch {
       setStatus("error");
     }
@@ -218,6 +218,16 @@ export default function AboutPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={(e) => setForm({ ...form, website: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] w-px h-px overflow-hidden"
+            />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>

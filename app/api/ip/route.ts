@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getClientIp, rateLimitByIp } from "@/lib/rate-limit";
 
 function isPrivateIP(ip: string) {
   return (
@@ -21,10 +22,16 @@ function isPrivateIP(ip: string) {
 }
 
 export async function GET(req: NextRequest) {
+  // This route proxies two third-party geo APIs on the caller's behalf, so it
+  // must be rate-limited per-IP to stop it being used as a free bulk lookup
+  // relay against ip-api.com's free-tier quota (45 req/min, shared by our
+  // whole server).
+  if (!rateLimitByIp(req, "ip-lookup", 10, 60 * 1000)) {
+    return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   // Extract real client IP from headers (works on Vercel, Cloudflare, etc.)
-  const forwarded = req.headers.get("x-forwarded-for");
-  const realIp    = req.headers.get("x-real-ip");
-  let ip          = (forwarded ? forwarded.split(",")[0] : realIp)?.trim() ?? "unknown";
+  let ip = getClientIp(req);
 
   // In development the IP is always 127.0.0.1 / ::1.
   // Fall back to fetching the machine's real public IP from ipify.

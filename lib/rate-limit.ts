@@ -13,10 +13,19 @@ function sweep(now: number) {
   }
 }
 
-function getClientIp(request: Request): string {
+// A client can send its own X-Forwarded-For header. Our reverse proxy (Vercel
+// or an equivalent single-hop proxy in front of this app) appends the real
+// connecting IP as the LAST entry rather than overwriting the header, so the
+// first entry is attacker-controlled and must never be trusted — only the
+// last one is guaranteed to have been set by our own infrastructure.
+export function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) {
+    const ips = forwarded.split(",").map((ip) => ip.trim()).filter(Boolean);
+    if (ips.length > 0) return ips[ips.length - 1];
+  }
   const realIp = request.headers.get("x-real-ip");
-  return (forwarded ? forwarded.split(",")[0] : realIp)?.trim() || "unknown";
+  return realIp?.trim() || "unknown";
 }
 
 export function rateLimitByIp(request: Request, routeKey: string, limit: number, windowMs: number): boolean {

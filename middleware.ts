@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifyAdminToken } from "@/lib/admin-token";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow login page and OAuth callback through
@@ -10,7 +11,9 @@ export function middleware(request: NextRequest) {
 
   // Protect all other /admin/* routes
   const token = request.cookies.get("admin_token")?.value;
-  if (!token || token !== process.env.ADMIN_SECRET) {
+  const secret = process.env.ADMIN_SECRET;
+  const valid = secret ? await verifyAdminToken(token, secret) : false;
+  if (!valid) {
     const loginUrl = new URL("/admin/login", request.url);
     loginUrl.searchParams.set("from", pathname);
     return NextResponse.redirect(loginUrl);

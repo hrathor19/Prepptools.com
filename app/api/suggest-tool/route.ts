@@ -8,7 +8,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { name, email, phone, tool, description } = await request.json();
+    const { name, email, phone, tool, description, website } = await request.json();
+
+    // Honeypot: real users never see or fill this field. Pretend to succeed
+    // so bots don't learn to look elsewhere, without writing anything.
+    if (website) return NextResponse.json({ ok: true });
 
     if (!name?.trim() || !tool?.trim()) {
       return NextResponse.json({ error: "Name and tool name are required." }, { status: 400 });

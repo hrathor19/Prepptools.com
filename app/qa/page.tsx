@@ -64,7 +64,7 @@ function FAQItem({ q }: { q: Question }) {
 export default function QAPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [page, setPage] = useState(1);
-  const [form, setForm] = useState({ name: "", email: "", question: "" });
+  const [form, setForm] = useState({ name: "", email: "", question: "", website: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function QAPage() {
       });
       if (!res.ok) throw new Error();
       setStatus("success");
-      setForm({ name: "", email: "", question: "" });
+      setForm({ name: "", email: "", question: "", website: "" });
     } catch {
       setStatus("error");
     }
@@ -185,6 +185,16 @@ export default function QAPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={(e) => setForm({ ...form, website: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] w-px h-px overflow-hidden"
+            />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
