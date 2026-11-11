@@ -75,6 +75,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithGoogle = async () => {
+    // Clear a stale flag from an admin login that was started then abandoned
+    // in this tab — otherwise this ordinary sign-in would get redirected to
+    // /admin/login by the shared /auth/callback handler instead of home.
+    sessionStorage.removeItem("admin_redirect");
     const client = getAuthClient();
     await client.auth.signInWithOAuth({
       provider: "google",

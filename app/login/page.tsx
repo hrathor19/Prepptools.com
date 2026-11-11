@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/components/AuthProvider";
 
-export default function LoginPage() {
+function LoginForm() {
   const { user, loading, signInWithGoogle } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
 
   useEffect(() => {
     if (!loading && user) {
@@ -27,6 +29,12 @@ export default function LoginPage() {
           Access your purchases and saved tools
         </p>
 
+        {error && (
+          <div className="mb-6 text-sm text-red-600 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl px-4 py-3 text-left">
+            Sign-in failed. Please try again.
+          </div>
+        )}
+
         <button
           onClick={signInWithGoogle}
           disabled={loading}
@@ -45,6 +53,10 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+export default function LoginPage() {
+  return <Suspense><LoginForm /></Suspense>;
 }
 
 function GoogleIcon() {
